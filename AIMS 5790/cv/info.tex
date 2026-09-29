@@ -1,0 +1,89 @@
+% ==================== INFORMATION ====================
+\newcommand{\NAME}{WAN YIWEI}
+\newcommand{\StudentID}{1155261963}
+\newcommand{\Major}{MSc in Artificial Intelligence}
+\newcommand{\Phone}{+852 54440378}
+\newcommand{\Email}{\href{mailto:wanyw0227@gmail.com}{wanyw0227@gmail.com}}
+\newcommand{\Github}{\href{https://github.com/dasi0227}{https://github.com/dasi0227}}
+\newcommand{\Blog}{\href{https://dasi.plus}{https://dasi.plus}}
+\newcommand{\Photo}{avatar.jpg}
+
+% ===================== EDUCATION ======================
+\newcommand{\EducationContent}{
+  \cventry{The Chinese University of Hong Kong}{MSc in Artificial Intelligence}{08/2026--01/2028}
+  \cventry{Sun Yat-sen University}{BSc in Computer Science and Technology}{09/2022--07/2026}
+}
+
+% ====================== PROJECT =======================
+\newcommand{\ProjectContent}{
+  \cventry{PPT Agent}{Go, SQLite, React, TypeScript}{07/2026--Present}
+  \cvoverview{A harness project for creating and refining HTML slides through natural-language interaction.}
+  \begin{cvitems}
+    \item Designed a custom agent harness with domain-specific tools, system prompts, and a command system, integrating multiple model providers.
+    \item Implemented HITL approvals and persistent checkpoints for controlled execution and interruption recovery, with project and session isolation to keep task contexts separate.
+    \item Integrated live HTML previews, Playwright screenshots, and DOM-based element selection to provide visual feedback and support targeted slide editing.
+  \end{cvitems}
+
+  \cventry{QA Agent}{LangChain4j, RAG, PostgreSQL}{03/2026--05/2026}
+  \cvoverview{An AI-assisted platform for personalized technical interview preparation and training.}
+  \begin{cvitems}
+    \item Designed LangChain4j workflows with explicit node responsibilities, execution dependencies, and structured I/O contracts; added output repair, retries, and fallbacks to handle invalid responses and execution failures.
+    \item Built a RAG pipeline to chunk, store, and index Markdown documents, combining retrieval and reranking to ground question generation in relevant and traceable source material.
+    \item Implemented exam-style interview practice with immediate evaluation and real-time feedback, retaining answer histories to visualize performance metrics and track progress.
+  \end{cvitems}
+
+  \cventry{Mini Agent}{Spring AI, MCP, Vue}{12/2025--02/2026}
+  \cvoverview{A workspace for creating, sharing, and reusing task-specific agents.}
+  \begin{cvitems}
+    \item Developed an agent execution engine supporting loop, step, and ReAct workflows with multi-role coordination.
+    \item Built pluggable MCP servers for Amap queries, WeCom notifications, and CSDN publishing, with authentication propagation and credential isolation.
+    \item Designed a snapshot mechanism for converting between agent configurations and templates, enabling agent sharing and reuse.
+  \end{cvitems}
+
+  \cventry{Lucky Draw}{Spring Boot, MySQL, Redis, RabbitMQ, ZooKeeper}{10/2025--11/2025}
+  \cvoverview{A configurable lottery system for marketing campaigns.}
+  \begin{cvitems}
+    \item Designed a unique engine using the Chain of Responsibility pattern for eligibility checks, prize allocation and fallback decisions, enabling flexible rule composition.
+    \item Built a dynamic configuration center supporting hot updates to fallback policies, rate limits, circuit-breaker settings, and operational thresholds.
+    \item Implemented concurrent processing with atomic Redis stock reservations, asynchronous RabbitMQ messaging, transactional persistence, table sharding and scheduled retries for eventual consistency.
+  \end{cvitems}
+}
+
+% ===================== INTERNSHIP =====================
+\newcommand{\InternshipContent}{
+
+  \cventry{ByteDance Ltd.}{Backend Developer}{06/2026--09/2026}
+  \cvoverview{Contributed to an AI-assisted platform for live-stream PK matchmaking, connecting Lark, Rena Agent, and Match Plaza.}
+  \begin{cvitems}
+    \item Automated lead capture from group messages, opponent recommendations, and match-intent delivery through interactive cards, increasing Rena adoption from 20\% to 80\% and improving lead creation efficiency by 60\%.
+    \item Authored three agent skills with explicit constraints and HITL checkpoints to guide request parsing, validation, confirmation, execution, and reporting.
+    \item Implemented batch match creation with Saga-style compensation, idempotent operations, and bounded concurrency; isolated per-match failures and used exponential backoff with jitter to handle throttling.
+  \end{cvitems}
+
+  \cventry{Lianyi Technology Co., Ltd.}{Backend Developer}{08/2025--10/2025}
+  \cvoverview{Contributed to a campus messaging platform supporting asynchronous and reliable delivery.}
+  \begin{cvitems}
+    \item Implemented asynchronous message delivery with Kafka, routing messages by channel and department, with support for scheduled delivery, status tracking, dead-letter handling, and real-time alerts via WebSocket.
+    \item Developed a pre-send validation pipeline using custom annotations and AOP to screen sensitive terms, validate recipient details, and check content formats.
+    \item Unified WeCom application messaging APIs for text, card, and image messages, standardizing preprocessing and field mapping for senders, recipients, and message content.
+  \end{cvitems}
+}
+
+% ======================= SKILLS =======================
+\newcommand{\SkillsContent}{
+  \cvskill{English}{IELTS 7.0}
+  \cvskill{Programming Languages}{Go, Java, Python, SQL, JavaScript}
+  \cvskill{Infrastructure \& Middleware}{MySQL, PostgreSQL, SQLite, Redis, RabbitMQ, Kafka, Git, Docker, Linux}
+  \cvskill{Relevant Coursework}{Machine Learning, Artificial Intelligence, Computer Network, Operating System, Data Structures}
+}
+
+% ================= PERSONAL STATEMENT =================
+\newcommand{\PersonalStatementContent}{
+  \cvoverview{
+    I am an enthusiastic developer who values rigorous understanding, knowledge sharing, and practical impact. I enjoy using notes and diagrams to clarify complex concepts and share what I learn. I also have practical experience with AI tools and a solid understanding of the principles behind them. I hold my work to high standards of technical quality, usability, and visual design.
+
+    With a strong academic foundation in computer science and programming, I have spent the past two years expanding my engineering skills through self-directed learning and hands-on development. To date, I have independently built business applications and AI assistant systems, which have drawn me toward agent harness engineering—particularly system design, execution optimization, and trace evaluation.
+
+    My long-term goal is to become a full-stack engineer who combines product judgment with technical depth to build useful, reliable, and well-designed applications.
+  }
+}

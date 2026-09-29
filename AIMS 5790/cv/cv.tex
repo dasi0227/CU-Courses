@@ -1,0 +1,177 @@
+% !TeX program = xelatex
+% 主文件：只负责排版。个人信息和各板块内容统一在 info.tex 中修改。
+% 将两个文件放在同一目录，在该目录运行：xelatex cv.tex
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[left=12.7mm,right=12.7mm,top=14mm,bottom=14mm]{geometry}
+\usepackage{fontspec}
+% 原稿使用 Calibri；没有该字体时使用字形与字宽接近的 Carlito。
+\IfFontExistsTF{Calibri}{
+  \setmainfont[Numbers=Lining]{Calibri}
+}{
+  \usepackage[lf]{carlito}
+  \renewcommand{\familydefault}{\sfdefault}
+}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage{fontawesome5}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{etoolbox}
+\definecolor{CVIcon}{HTML}{656565}
+\definecolor{CVRule}{HTML}{E6E6E6}
+\definecolor{CVPhotoInk}{HTML}{A6A6A6}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\setlength{\emergencystretch}{2em}
+\AtBeginDocument{\fontsize{11}{15.6}\selectfont}
+\raggedbottom
+
+% 板块标题：大写粗体、整行细横线。
+\newcommand{\cvsection}[1]{%
+  \par\addvspace{13pt}%
+  \Needspace{5\baselineskip}%
+  {\fontsize{12}{15}\selectfont\bfseries #1\par}%
+  \nobreak\vspace{2pt}%
+  \hrule height 0.5pt
+  \nobreak\vspace{3pt}%
+}
+
+% 顶部信息项：仅显示图标与内容；长内容可自动换行。
+\newcommand{\cvcontact}[2]{%
+  \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}%
+    \makebox[18pt][l]{\textcolor{CVIcon}{\faIcon{#1}}} & #2
+  \end{tabularx}%
+}
+
+% 右侧照片：info.tex 中的 \Photo 为空时显示占位图。
+\newcommand{\cvphoto}{%
+  \begin{tikzpicture}[x=1pt,y=1pt]
+    \path[use as bounding box] (0,0) rectangle (68,86);
+    \ifdefempty{\Photo}{%
+      \draw[CVPhotoInk,line width=0.8pt] (34,56) circle (8);
+      \draw[CVPhotoInk,line width=0.8pt]
+        (19,28) -- (19,31) .. controls (19,42) and (25,46) .. (34,46)
+        .. controls (43,46) and (49,42) .. (49,31) -- (49,28);
+      \node[text=CVPhotoInk,font=\fontsize{7}{9}\selectfont] at (34,14) {PHOTO};
+    }{%
+      \node[inner sep=0pt] at (34,43)
+        {\includegraphics[width=68pt,height=86pt,keepaspectratio]{\Photo}};
+    }%
+  \end{tikzpicture}%
+}
+
+% 姓名在左上；下方两列依次为 StudentID/Major、Phone/Email、Github/Blog。
+\newcommand{\cvheader}{%
+  \noindent\begin{minipage}[c]{\dimexpr\linewidth-92pt\relax}
+    {\fontsize{22}{27}\selectfont\bfseries\NAME\par}%
+    \vspace{12pt}%
+    \begingroup
+      \fontsize{10}{13}\selectfont
+      \arrayrulecolor{CVRule}%
+      \setlength{\arrayrulewidth}{0.4pt}%
+      \begin{tabularx}{\linewidth}{@{}>{\hsize=0.93\hsize\linewidth=\hsize}X@{\hspace{12pt}}>{\hsize=1.07\hsize\linewidth=\hsize}X@{}}
+        \cvcontact{id-card}{\StudentID} & \cvcontact{graduation-cap}{\Major} \\[6pt]
+        \hline\noalign{\vskip6pt}
+        \cvcontact{phone-alt}{\Phone} & \cvcontact{envelope}{\Email} \\[6pt]
+        \hline\noalign{\vskip6pt}
+        \cvcontact{github}{\Github} & \cvcontact{globe}{\Blog} \\[6pt]
+        \hline
+      \end{tabularx}%
+    \endgroup
+  \end{minipage}\hfill
+  \begin{minipage}[c]{68pt}
+    \centering\cvphoto
+  \end{minipage}\par
+}
+
+% 条目：名称靠左、学位或职位位于整行中央略偏右、日期靠右；长文字自动换行。
+% 用法：\cventry{名称}{学位 / 职位}{日期}
+% 优先使用实际文字宽度；发生碰撞时再退回可换行的宽中栏布局。
+\newsavebox{\cvEntryLeft}
+\newsavebox{\cvEntryMiddle}
+\newsavebox{\cvEntryRight}
+\newif\ifcvEntryFits
+\newlength{\cvEntryOffset}
+\setlength{\cvEntryOffset}{12pt} % 学位／职位相对页面中线向右偏移约 4 mm。
+\newcommand{\cventry}[3]{%
+  \par\addvspace{7pt}%
+  \Needspace{4\baselineskip}%
+  \begingroup
+  \sbox{\cvEntryLeft}{\textbf{#1}}%
+  \sbox{\cvEntryMiddle}{\textit{#2}}%
+  \sbox{\cvEntryRight}{#3}%
+  \cvEntryFitstrue
+  \ifdim\dimexpr\wd\cvEntryLeft+0.5\wd\cvEntryMiddle+8pt\relax>\dimexpr0.5\linewidth+\cvEntryOffset\relax
+    \cvEntryFitsfalse
+  \fi
+  \ifdim\dimexpr\wd\cvEntryRight+0.5\wd\cvEntryMiddle+8pt\relax>\dimexpr0.5\linewidth-\cvEntryOffset\relax
+    \cvEntryFitsfalse
+  \fi
+  \ifcvEntryFits
+    \noindent\makebox[\linewidth][l]{%
+      \rlap{\usebox{\cvEntryLeft}}%
+      \hspace*{\cvEntryOffset}%
+      \makebox[\linewidth][c]{\usebox{\cvEntryMiddle}}%
+      \hspace*{-\cvEntryOffset}%
+      \llap{\usebox{\cvEntryRight}}}%
+    \par\nobreak
+  \else
+  \noindent\begin{tabularx}{\linewidth}{@{}>{\hsize=0.84\hsize\advance\hsize by\cvEntryOffset\linewidth=\hsize\raggedright\arraybackslash}X@{\hspace{8pt}}>{\hsize=1.32\hsize\linewidth=\hsize\centering\arraybackslash}X@{\hspace{8pt}}>{\hsize=0.84\hsize\advance\hsize by-\cvEntryOffset\linewidth=\hsize\raggedleft\arraybackslash}X@{}}%
+    \textbf{#1} & \textit{#2} & #3
+  \end{tabularx}\par\nobreak
+  \fi
+  \endgroup
+}
+
+% 概述：用于条目标题下、无序列表上方；可省略。
+\newcommand{\cvoverview}[1]{%
+  \par\nobreak\noindent #1\par\nobreak\vspace{2pt}%
+}
+
+% 圆点与悬挂缩进保持原稿风格，长条目允许自然跨页。
+\newlist{cvitems}{itemize}{1}
+\setlist[cvitems]{%
+  label=\textbullet,
+  leftmargin=14pt,
+  labelwidth=5pt,
+  labelsep=9pt,
+  itemsep=0pt,
+  parsep=0pt,
+  topsep=0pt,
+  partopsep=0pt,
+  beginpenalty=10000
+}
+
+\newcommand{\cvskill}[2]{\par\noindent\textbf{#1}: #2\par}
+
+\input{info.tex}
+
+\begin{document}
+
+\cvheader
+
+\cvsection{EDUCATION}
+\EducationContent
+
+\cvsection{PROJECT}
+\ProjectContent
+
+\cvsection{INTERNSHIP}
+\InternshipContent
+
+\cvsection{SKILLS}
+\nobreak\vspace{5pt}
+\SkillsContent
+
+\cvsection{PERSONAL STATEMENT}
+\nobreak\vspace{5pt}
+\PersonalStatementContent
+
+\end{document}

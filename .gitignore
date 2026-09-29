@@ -1,0 +1,36 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local AI assistant state and conversation traces
+.claude/
+**/.claude/
+.codex/
+**/.codex/
+.cursor/
+**/.cursor/
+.continue/
+**/.continue/
+.windsurf/
+**/.windsurf/
+
+# IDE and editor settings
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+
+# Obsidian vault metadata
+.obsidian/
+**/.obsidian/
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.synctex.gz
