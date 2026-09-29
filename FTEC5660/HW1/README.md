@@ -60,4 +60,4 @@ flowchart LR
     F --> G
 ```
 
-The chain sends each receipt image to `deepseek-v4-flash-vision-exp` through LangChain and asks for the printed subtotal, the final payment after rounding, and each discount line as structured JSON. The runner adds final payments for the first answer; for the no-discount answer, it adds each receipt's discounts back to its subtotal while excluding rounding. Amounts are parsed and summed with `Decimal` to avoid floating-point rounding errors, and each response contains only one HKD amount.
+The chain sends each receipt image to `deepseek-v4-flash-vision-exp` through LangChain and asks for the printed subtotal, the final payment after rounding, and each discount line as structured JSON. The extraction prompt is stored in `prompt.md` and loaded relative to `hw1.py`. The runner adds final payments for the first answer; for the no-discount answer, it adds each receipt's discounts back to its subtotal while excluding rounding. Amounts are parsed and summed with `Decimal` to avoid floating-point rounding errors, and each response contains only one HKD amount.

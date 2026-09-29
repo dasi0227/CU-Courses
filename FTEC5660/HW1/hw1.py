@@ -69,46 +69,23 @@ def build_chain() -> Any:
         [
             (
                 "system",
-                "You are an accurate Hong Kong supermarket receipt accountant. "
-                "Read only the attached receipt and return valid JSON, with no "
-                "markdown or explanation. Use decimal HKD amounts as strings.",
+                Path(__file__).resolve()
+                .with_name("prompt.md")
+                .read_text(encoding="utf-8")
+                .replace("{", "{{")
+                .replace("}", "}}"),
             ),
-            (
-                "human",
-                [
-                    {
-                        "type": "text",
-                        "text": (
-                            "Extract three things from this one receipt:\n"
-                            "1. subtotal_hkd: the printed SUBTOTAL before rounding.\n"
-                            "2. final_payment_hkd: the final amount actually paid, "
-                            "after applying ROUNDING (for example the OCTOPUS, CASH, "
-                            "or CARD payment amount).\n"
-                            "3. discounts_hkd: an array containing the absolute "
-                            "amount of every discount, promotion, coupon, or other "
-                            "price reduction that must be added back to get the "
-                            "pre-discount bill. Do not include ROUNDING, payments, "
-                            "taxes, or item prices in this array. Include each "
-                            "discount line exactly once.\n\n"
-                            "Return exactly this JSON shape: "
-                            '{"subtotal_hkd":"102.31",'
-                            '"final_payment_hkd":"102.30",'
-                            '"discounts_hkd":["5.39"]}. '
-                            "If there is no discount, use an empty array. Do not "
-                            "confuse the subtotal with the final payment."
-                        ),
-                    },
-                    {"type": "image_url", "image_url": "{image_url}"},
-                ],
-            ),
+            ("human", [{"type": "image_url", "image_url": "{image_url}"}]),
         ]
     )
+
     model = ChatDeepSeek(
         model="deepseek-v4-flash-vision-exp",
         temperature=0,
         timeout=60,
         max_retries=2,
     )
+
     return prompt | model
 
 
@@ -128,68 +105,65 @@ def answer_queries(chain: Any, images: list[Path]) -> dict[str, Any]:
     import time
 
     def parse_amount(value: Any) -> Decimal:
-        if isinstance(value, bool) or value is None:
-            raise ValueError("missing amount")
-        text = str(value).strip().replace(",", "")
+        if not isinstance(value, str):
+            raise ValueError("amount must be a string")
+
+        text = value.strip().replace(",", "")
         match = re.search(r"-?\d+(?:\.\d{1,2})?", text)
         if not match:
             raise ValueError(f"invalid amount: {value!r}")
+
         return Decimal(match.group(0)).quantize(Decimal("0.01"))
 
     def parse_receipt(result: Any) -> tuple[Decimal, Decimal]:
         content = getattr(result, "content", result)
-        if isinstance(content, list):
-            content = "".join(
-                block if isinstance(block, str) else block.get("text", "")
-                for block in content
-                if isinstance(block, str) or isinstance(block, dict)
-            )
-        text = str(content).strip()
-        # Accept a fenced JSON object or a short preamble if the model ignores
-        # the JSON-only instruction, while still validating every required field.
+
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict):
+                parts.append(block.get("text", ""))
+        text = str("".join(parts)).strip()
+
         start, end = text.find("{"), text.rfind("}")
         if start < 0 or end < start:
             raise ValueError("model response did not contain a JSON object")
+
         data = json.loads(text[start : end + 1])
         subtotal = parse_amount(data["subtotal_hkd"])
         paid = parse_amount(data["final_payment_hkd"])
         discounts = data["discounts_hkd"]
+
         if not isinstance(discounts, list):
             raise ValueError("discounts_hkd must be an array")
-        without_discount = subtotal + sum(
-            (abs(parse_amount(amount)) for amount in discounts), Decimal("0.00")
-        )
-        return paid, without_discount.quantize(Decimal("0.01"))
+
+        total_discount = sum((abs(parse_amount(amount)) for amount in discounts), Decimal("0.00"))
+        original = (subtotal + total_discount).quantize(Decimal("0.01"))
+
+        return paid, original
 
     total_paid = Decimal("0.00")
-    total_without_discount = Decimal("0.00")
+    total_original = Decimal("0.00")
+
     for image in images:
         request = {"image_url": image_data_url(image)}
-        parsed = None
-        last_error: Exception | None = None
-        for attempt in range(2):
+        cur_paid, cur_original = Decimal("0.00"), Decimal("0.00")
+
+        for attempt in range(3):
             try:
-                parsed = parse_receipt(chain.invoke(request))
+                cur_paid, cur_original = parse_receipt(chain.invoke(request))
                 break
-            except Exception as exc:
-                last_error = exc
+            except Exception:
                 if attempt == 0:
                     time.sleep(1)
-        if parsed is None:
-            # Keep the provided runner alive so it can still write results.csv;
-            # the warning makes a failed receipt extraction visible to the user.
-            print(
-                f"Warning: could not extract {image.name}: {last_error}",
-                file=sys.stderr,
-            )
-            continue
-        paid, without_discount = parsed
-        total_paid += paid
-        total_without_discount += without_discount
+
+        total_paid += cur_paid
+        total_original += cur_original
 
     return {
         QUERY_1: f"HK${total_paid:.2f}",
-        QUERY_2: f"HK${total_without_discount:.2f}",
+        QUERY_2: f"HK${total_original:.2f}",
     }
 
 

@@ -2,7 +2,7 @@
 .DS_Store
 **/.DS_Store
 
-# Local AI assistant state and conversation traces
+# Local AI assistant
 .claude/
 **/.claude/
 .codex/
@@ -19,8 +19,6 @@
 **/.idea/
 .vscode/
 **/.vscode/
-
-# Obsidian vault metadata
 .obsidian/
 **/.obsidian/
 
@@ -34,3 +32,9 @@
 *.log
 *.out
 *.synctex.gz
+
+# Python environment, cache, and local homework output
+.venv/
+__pycache__/
+*.pyc
+results.csv
