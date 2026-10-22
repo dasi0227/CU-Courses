@@ -184,8 +184,6 @@ I pick Fisher points **5, 7 and 10**.
 
 ### Design
 
-**Workflow**
-
 1. Process companies with up to four concurrent tasks using `asyncio.gather()`.
 2. For each company, read all listed documents, run three predefined SQL queries, and interview a current employee and a former employee.
 3. Combine the documents, SQL tables and interview responses into one Markdown evidence package.

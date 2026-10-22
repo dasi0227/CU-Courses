@@ -1,0 +1,83 @@
+{
+  "group": "A",
+  "trial": 1,
+  "status": "complete",
+  "mock": false,
+  "formal_metrics": true,
+  "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+  "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/A/01/predictions.jsonl",
+  "playbook_sha256": "d0e7d0049bd539630f51db8d08fdff170ea2882267c960fbe843bede303e2249",
+  "playbook_source": "empty_playbook",
+  "test": {
+    "accuracy": 0.685,
+    "correct": 137,
+    "total": 200,
+    "no_answer": 0,
+    "api_success_count": 200,
+    "api_failure_count": 0,
+    "success_rate": 1.0,
+    "stage": "test"
+  },
+  "wall_seconds": 527.1141392499994,
+  "llm": {
+    "attempts": 203,
+    "successful_calls": 200,
+    "failed_attempts": 3,
+    "prompt_tokens": 88727,
+    "completion_tokens": 42384,
+    "usage_missing_calls": 0,
+    "mock": false,
+    "stages": {
+      "test": 203
+    },
+    "stage_usage": {
+      "test": {
+        "successful_calls": 200,
+        "attempts": 203,
+        "prompt_tokens": 88727,
+        "completion_tokens": 42384
+      }
+    }
+  },
+  "jev": {
+    "attempts": 0,
+    "successful_calls": 0,
+    "latency_seconds": 0,
+    "reported_usage": []
+  },
+  "errors": [
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_96",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_105",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_96",
+      "attempt": 2,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    }
+  ],
+  "llm_usage_including_shared_learning": {
+    "successful_calls": 200,
+    "attempts": 203,
+    "prompt_tokens": 88727,
+    "completion_tokens": 42384
+  }
+}

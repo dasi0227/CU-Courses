@@ -1,0 +1,3 @@
+group,completed_trials,expected_trials,accuracy_mean,accuracy_sample_variance,accuracy_sample_std,mean_wall_seconds,mean_llm_calls_incremental,mean_llm_calls_including_shared_learning,mean_prompt_tokens_incremental,mean_prompt_tokens_including_shared_learning,mean_completion_tokens_incremental,mean_completion_tokens_including_shared_learning,mean_jev_calls,mock,formal_metrics
+A,1,3,0.685,,,527.1141392499994,200,200,88727,88727,42384,42384,0,False,False
+B,1,3,0.825,,,9848.742457,894,894,5759776,5759776,268087,268087,0,False,False

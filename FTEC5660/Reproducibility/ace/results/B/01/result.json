@@ -1,0 +1,368 @@
+{
+  "group": "B",
+  "trial": 1,
+  "status": "complete",
+  "mock": false,
+  "formal_metrics": true,
+  "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+  "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/predictions.jsonl",
+  "training_config": {
+    "task_name": "formula",
+    "mode": "offline",
+    "generator_model": "siliconflow/deepseek-v3.1-terminus",
+    "reflector_model": "siliconflow/deepseek-v3.1-terminus",
+    "curator_model": "siliconflow/deepseek-v3.1-terminus",
+    "config": {
+      "num_epochs": 1,
+      "eval_steps": 20,
+      "save_steps": 20,
+      "curator_frequency": 1,
+      "batch_size": 1,
+      "max_num_rounds": 3,
+      "task_name": "formula",
+      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training",
+      "test_workers": 4,
+      "json_mode": false,
+      "no_ground_truth": false,
+      "playbook_token_budget": 80000,
+      "use_bulletpoint_analyzer": false,
+      "compact_artifacts": true
+    },
+    "effective_parameters": {
+      "num_epochs": 1,
+      "max_num_rounds": 3,
+      "curator_frequency": 1,
+      "eval_steps": 20,
+      "save_steps": 20,
+      "token_budget": 80000,
+      "task_name": "formula",
+      "use_json_mode": false,
+      "no_ground_truth": false,
+      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training",
+      "test_workers": 4,
+      "use_bulletpoint_analyzer": false,
+      "bulletpoint_analyzer_threshold": 0.9,
+      "compact_artifacts": true
+    }
+  },
+  "training_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/train_results.json",
+  "training": {
+    "training_results": {
+      "best_validation_accuracy": 0.86,
+      "best_checkpoint": {
+        "epoch": 1,
+        "step": 100,
+        "stage": "validation_e_1_s_100",
+        "playbook_sha256": "960abead019381d6cd70b1b8f3d213702bb06725e7b4e4416a70dacf537fde0a"
+      },
+      "steps_completed": 100,
+      "checkpoints_completed": 5,
+      "train_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/train_results.json"
+    }
+  },
+  "playbook_sha256": "960abead019381d6cd70b1b8f3d213702bb06725e7b4e4416a70dacf537fde0a",
+  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/best_playbook.txt",
+  "test": {
+    "accuracy": 0.825,
+    "correct": 165,
+    "total": 200,
+    "no_answer": 0,
+    "api_success_count": 200,
+    "api_failure_count": 0,
+    "success_rate": 1.0,
+    "stage": "test"
+  },
+  "wall_seconds": 9848.742457,
+  "llm": {
+    "attempts": 898,
+    "successful_calls": 894,
+    "failed_attempts": 4,
+    "prompt_tokens": 5759776,
+    "completion_tokens": 268087,
+    "usage_missing_calls": 0,
+    "mock": false,
+    "stages": {
+      "test": 200,
+      "training": 448,
+      "validation_e_1_s_100": 50,
+      "validation_e_1_s_20": 50,
+      "validation_e_1_s_40": 50,
+      "validation_e_1_s_60": 50,
+      "validation_e_1_s_80": 50
+    },
+    "stage_usage": {
+      "test": {
+        "successful_calls": 200,
+        "attempts": 200,
+        "prompt_tokens": 1995527,
+        "completion_tokens": 57396
+      },
+      "training": {
+        "successful_calls": 444,
+        "attempts": 448,
+        "prompt_tokens": 2105279,
+        "completion_tokens": 142839
+      },
+      "validation_e_1_s_100": {
+        "successful_calls": 50,
+        "attempts": 50,
+        "prompt_tokens": 498914,
+        "completion_tokens": 13750
+      },
+      "validation_e_1_s_20": {
+        "successful_calls": 50,
+        "attempts": 50,
+        "prompt_tokens": 123214,
+        "completion_tokens": 11214
+      },
+      "validation_e_1_s_40": {
+        "successful_calls": 50,
+        "attempts": 50,
+        "prompt_tokens": 239064,
+        "completion_tokens": 12127
+      },
+      "validation_e_1_s_60": {
+        "successful_calls": 50,
+        "attempts": 50,
+        "prompt_tokens": 347714,
+        "completion_tokens": 15751
+      },
+      "validation_e_1_s_80": {
+        "successful_calls": 50,
+        "attempts": 50,
+        "prompt_tokens": 450064,
+        "completion_tokens": 15010
+      }
+    }
+  },
+  "jev": {
+    "attempts": 0,
+    "successful_calls": 0,
+    "latency_seconds": 0,
+    "reported_usage": []
+  },
+  "errors": [
+    {
+      "kind": "api",
+      "role": "reflector",
+      "stage": "training",
+      "call_id": "train_e_1_s_25_reflect_on_correct",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "reflector",
+      "stage": "training",
+      "call_id": "train_e_1_s_50_round_0",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "reflector",
+      "stage": "training",
+      "call_id": "train_e_1_s_50_round_0",
+      "attempt": 2,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "reflector",
+      "stage": "training",
+      "call_id": "train_e_1_s_50_round_0",
+      "attempt": 3,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "run",
+      "role": "runner",
+      "call_id": "B:01",
+      "stage": "training",
+      "error_type": "RuntimeError",
+      "message": "reflector call failed after bounded attempts (APITimeoutError)"
+    }
+  ],
+  "llm_usage_including_shared_learning": {
+    "successful_calls": 894,
+    "attempts": 898,
+    "prompt_tokens": 5759776,
+    "completion_tokens": 268087
+  },
+  "recovery": {
+    "mode": "deterministic_successful_call_replay",
+    "helper_sha256": "a0c69fe889a3b30f9bb1e501e98e6393c197d0e401f104452c8f888de27740fc",
+    "offline_verification": {
+      "verified": true,
+      "cached_successes": 313,
+      "historical_attempts": 317,
+      "replayed_steps": 49,
+      "replayed_validation_checkpoints": 2,
+      "replayed_validation_predictions": 100,
+      "best_playbook_sha256": "fc0741cde4a2f1fc3f68e53080db74127fefeccbb40f81bfe5f0c08b541b8720",
+      "exact_boundary": "train_e_1_s_50_round_0",
+      "source_fingerprint_unchanged": true,
+      "original_results_unchanged": true,
+      "api_calls_made": 0
+    },
+    "original_started_at_utc": "2026-10-22T15:11:33.995038+00:00",
+    "resumed_at_utc": "2026-10-22T16:21:31.065477+00:00",
+    "previous_wall_seconds": 3968.8632417920016,
+    "resumed_wall_seconds": 5651.671389375006,
+    "downtime_seconds": 228.20719720799843,
+    "previous_result": {
+      "group": "B",
+      "trial": 1,
+      "status": "failed",
+      "mock": false,
+      "formal_metrics": true,
+      "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+      "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/predictions.jsonl",
+      "training_config": {
+        "task_name": "formula",
+        "mode": "offline",
+        "generator_model": "siliconflow/deepseek-v3.1-terminus",
+        "reflector_model": "siliconflow/deepseek-v3.1-terminus",
+        "curator_model": "siliconflow/deepseek-v3.1-terminus",
+        "config": {
+          "num_epochs": 1,
+          "eval_steps": 20,
+          "save_steps": 20,
+          "curator_frequency": 1,
+          "batch_size": 1,
+          "max_num_rounds": 3,
+          "task_name": "formula",
+          "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training",
+          "test_workers": 4,
+          "json_mode": false,
+          "no_ground_truth": false,
+          "playbook_token_budget": 80000,
+          "use_bulletpoint_analyzer": false,
+          "compact_artifacts": true
+        },
+        "effective_parameters": {
+          "num_epochs": 1,
+          "max_num_rounds": 3,
+          "curator_frequency": 1,
+          "eval_steps": 20,
+          "save_steps": 20,
+          "token_budget": 80000,
+          "task_name": "formula",
+          "use_json_mode": false,
+          "no_ground_truth": false,
+          "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training",
+          "test_workers": 4,
+          "use_bulletpoint_analyzer": false,
+          "bulletpoint_analyzer_threshold": 0.9,
+          "compact_artifacts": true
+        }
+      },
+      "training_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/train_results.json",
+      "error_type": "RuntimeError",
+      "error": "reflector call failed after bounded attempts (APITimeoutError)",
+      "wall_seconds": 3968.8632417920016,
+      "llm": {
+        "attempts": 317,
+        "successful_calls": 313,
+        "failed_attempts": 4,
+        "prompt_tokens": 940453,
+        "completion_tokens": 85842,
+        "usage_missing_calls": 0,
+        "mock": false,
+        "stages": {
+          "training": 217,
+          "validation_e_1_s_20": 50,
+          "validation_e_1_s_40": 50
+        },
+        "stage_usage": {
+          "training": {
+            "successful_calls": 213,
+            "attempts": 217,
+            "prompt_tokens": 578175,
+            "completion_tokens": 62501
+          },
+          "validation_e_1_s_20": {
+            "successful_calls": 50,
+            "attempts": 50,
+            "prompt_tokens": 123214,
+            "completion_tokens": 11214
+          },
+          "validation_e_1_s_40": {
+            "successful_calls": 50,
+            "attempts": 50,
+            "prompt_tokens": 239064,
+            "completion_tokens": 12127
+          }
+        }
+      },
+      "jev": {
+        "attempts": 0,
+        "successful_calls": 0,
+        "latency_seconds": 0,
+        "reported_usage": []
+      },
+      "errors": [
+        {
+          "kind": "api",
+          "role": "reflector",
+          "stage": "training",
+          "call_id": "train_e_1_s_25_reflect_on_correct",
+          "attempt": 1,
+          "error_type": "APITimeoutError",
+          "message": "Request timed out."
+        },
+        {
+          "kind": "api",
+          "role": "reflector",
+          "stage": "training",
+          "call_id": "train_e_1_s_50_round_0",
+          "attempt": 1,
+          "error_type": "APITimeoutError",
+          "message": "Request timed out."
+        },
+        {
+          "kind": "api",
+          "role": "reflector",
+          "stage": "training",
+          "call_id": "train_e_1_s_50_round_0",
+          "attempt": 2,
+          "error_type": "APITimeoutError",
+          "message": "Request timed out."
+        },
+        {
+          "kind": "api",
+          "role": "reflector",
+          "stage": "training",
+          "call_id": "train_e_1_s_50_round_0",
+          "attempt": 3,
+          "error_type": "APITimeoutError",
+          "message": "Request timed out."
+        },
+        {
+          "kind": "run",
+          "role": "runner",
+          "call_id": "B:01",
+          "stage": "training",
+          "error_type": "RuntimeError",
+          "message": "reflector call failed after bounded attempts (APITimeoutError)"
+        }
+      ],
+      "llm_usage_including_shared_learning": {
+        "successful_calls": 313,
+        "attempts": 317,
+        "prompt_tokens": 940453,
+        "completion_tokens": 85842
+      }
+    },
+    "transport_override": {
+      "configured_timeout": 60,
+      "effective_timeout": 180,
+      "reason": "three consecutive reflector request timeouts"
+    },
+    "updated_at_utc": "2026-10-22T17:55:42.737481+00:00"
+  }
+}
