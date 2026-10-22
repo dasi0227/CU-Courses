@@ -38,3 +38,6 @@
 __pycache__/
 *.pyc
 results.csv
+
+# Downloaded assignment datasets
+/AIMS5702/Assignmen3/data/
