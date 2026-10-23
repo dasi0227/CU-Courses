@@ -3,8 +3,6 @@
   "trial": 1,
   "status": "complete",
   "mock": false,
-  "formal_metrics": true,
-  "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
   "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/predictions.jsonl",
   "training_config": {
     "task_name": "formula",
@@ -52,15 +50,13 @@
       "best_checkpoint": {
         "epoch": 1,
         "step": 100,
-        "stage": "validation_e_1_s_100",
-        "playbook_sha256": "960abead019381d6cd70b1b8f3d213702bb06725e7b4e4416a70dacf537fde0a"
+        "stage": "validation_e_1_s_100"
       },
       "steps_completed": 100,
       "checkpoints_completed": 5,
       "train_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/train_results.json"
     }
   },
-  "playbook_sha256": "960abead019381d6cd70b1b8f3d213702bb06725e7b4e4416a70dacf537fde0a",
   "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/best_playbook.txt",
   "test": {
     "accuracy": 0.825,
@@ -195,7 +191,6 @@
   },
   "recovery": {
     "mode": "deterministic_successful_call_replay",
-    "helper_sha256": "a0c69fe889a3b30f9bb1e501e98e6393c197d0e401f104452c8f888de27740fc",
     "offline_verification": {
       "verified": true,
       "cached_successes": 313,
@@ -203,9 +198,7 @@
       "replayed_steps": 49,
       "replayed_validation_checkpoints": 2,
       "replayed_validation_predictions": 100,
-      "best_playbook_sha256": "fc0741cde4a2f1fc3f68e53080db74127fefeccbb40f81bfe5f0c08b541b8720",
       "exact_boundary": "train_e_1_s_50_round_0",
-      "source_fingerprint_unchanged": true,
       "original_results_unchanged": true,
       "api_calls_made": 0
     },
@@ -219,8 +212,6 @@
       "trial": 1,
       "status": "failed",
       "mock": false,
-      "formal_metrics": true,
-      "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
       "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/predictions.jsonl",
       "training_config": {
         "task_name": "formula",

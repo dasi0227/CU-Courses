@@ -10,7 +10,6 @@ This module coordinates three agents:
 
 import os
 import json
-import hashlib
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional, Any
 
@@ -982,9 +981,6 @@ class ACE:
                             "epoch": epoch,
                             "step": step,
                             "stage": stage,
-                            "playbook_sha256": hashlib.sha256(
-                                self.best_playbook.encode("utf-8")
-                            ).hexdigest(),
                         }
                         persist_best_playbook()
                     persist()

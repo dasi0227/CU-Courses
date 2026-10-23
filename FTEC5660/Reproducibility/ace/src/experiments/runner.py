@@ -1,10 +1,9 @@
-"""Paired Formula trials with explicit model execution and immutable lineage."""
+"""Paired Formula trials with explicit model execution and saved results."""
 from __future__ import annotations
 
 import argparse
 from contextlib import ExitStack
 import csv
-import hashlib
 import importlib
 import json
 import os
@@ -14,7 +13,6 @@ import time
 from unittest.mock import patch
 
 from .data import GROUPS, PROJECT_ROOT, load_config, prepare_data, validate_llm_config, validate_config
-from .compatibility import load_compatibility, storage_names, validate_result_origin
 
 
 def write_json(path, value):
@@ -25,42 +23,15 @@ def write_json(path, value):
     os.replace(temporary, path)
 
 
-def digest(value):
-    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-
-
-def source_hashes(root):
-    paths = list((root / 'src').rglob('*.py')) + list((root / 'eval/finance').glob('*.py'))
-    return {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted(paths)}
-
-
-def build_plan(config, data, groups, mock=False):
+def build_plan(config, data):
     validate_llm_config(config['llm'])
     count = len(data['train'])
     if count % config['training']['eval_steps']:
         raise ValueError('eval_steps must divide the training count so every epoch ends with validation')
-    codes = source_hashes(PROJECT_ROOT)
-    fingerprint = digest({'config': config, 'data': data['manifest'], 'source': codes, 'mock': mock})
     return {
-        'schema_version': 11, 'protocol': 'formula-abc-score-top10-final-results-bailian-v11',
-        'fingerprint': fingerprint, 'mode': 'mock' if mock else 'live',
-        'formal_metrics': not mock and config['profile'] != 'smoke',
-        'config': config, 'data': data['manifest'], 'source_sha256': codes,
-        'groups': groups,
-        'required_keys': [config['llm']['api_key_env']] + ([config['jev']['api_key_env']]
-                                                    if 'C' in groups else []),
-        'notes': [
-            'All roles use Bailian SiliconFlow DeepSeek-V3.1-Terminus in non-thinking mode. Terminus updates the paper backbone; this is not an exact original V3.1 reproduction.',
-            'All arms use the same formula-stripped questions and original ACE Generator prompt; A keeps an empty playbook.',
-            'B learns an independent playbook with a reflection cap of 3; C reuses the matching B best checkpoint and selects fixed top-10 entries per question.',
-            'A/B measures learned memory, and B/C measures Jev read selection without retraining.',
-            'All arms use numeric exact match and the same selected test IDs; API failures remain in the denominator.',
-            'Test labels are used only by the evaluator; C uses the fixed Score rubric and top-10 policy without training or validation tuning.',
-            'C uses Score: 0 irrelevant, 1 topic-only or generic reminder, 2 usable supporting step, 3 directly supports the core formula or key calculation. Rank by descending score, with handbook order breaking ties; confidence is recorded only.',
-            'Jev probabilities are preserved for audit without normalization or a sum-to-one gate; ranking uses the returned score directly.',
-            'Repeated temperature-0 calls can still vary. Trials share the selected data/order, but never the learned memory.',
-        ],
+        'config': config,
+        'ids': {split: [sample['id'] for sample in data[split]]
+                for split in ('train', 'val', 'test')},
     }
 
 
@@ -85,18 +56,12 @@ class SelectedGenerator:
         return response, bullets, {**info, 'selection': selection}
 
 
-def jev_client(config, output, mock):
+def jev_client(config, output):
     from .jev import JevClient
-    def fake_transport(request, timeout):
-        payload = json.loads(request.data)
-        return {'model': payload['model'], 'usage': {'mock': True}, 'answers': {
-            key: {'type': 'score', 'score': 3.0, 'confidence': .9}
-            for key in payload['questions']}}
     return JevClient(
         model=config['model'], base_url=config['base_url'],
-        api_key_env='FORMULA_OFFLINE_MOCK_KEY' if mock else config['api_key_env'],
+        api_key_env=config['api_key_env'],
         enabled=True, audit_path=output / 'jev_audit.jsonl', timeout=config['timeout'],
-        transport=fake_transport if mock else None,
     )
 
 
@@ -139,9 +104,29 @@ def trial_folder(output_root, group, trial):
     return Path(output_root) / group / f'{trial:02d}'
 
 
+def check_existing_plan(output_root, plan):
+    path = Path(output_root) / 'plan.json'
+    if path.exists():
+        saved = json.loads(path.read_text(encoding='utf-8'))
+        fields = ('config', 'ids')
+        if any(saved.get(field) != plan.get(field) for field in fields):
+            raise ValueError('Output directory belongs to a different configuration or selected data')
+
+
+def check_completed_result(result, group, trial):
+    if (result.get('group') != group or type(result.get('trial')) is not int
+            or result['trial'] != trial):
+        raise ValueError('Result group/trial does not match its folder')
+    if result.get('status') != 'complete':
+        raise ValueError('A completed result is required')
+    if result.get('mock') is not False:
+        raise ValueError('A real model result is required')
+
+
 def b_checkpoint(output_root, trial, plan):
     if not isinstance(plan, dict):
-        raise ValueError('A complete plan is required to validate B checkpoint lineage')
+        raise ValueError('A complete plan is required to read a B checkpoint')
+    check_existing_plan(output_root, plan)
     folder = trial_folder(output_root, 'B', trial)
     result_path = folder / 'result.json'
     if not result_path.exists():
@@ -150,48 +135,40 @@ def b_checkpoint(output_root, trial, plan):
     if result.get('group') != 'B' or result.get('trial') != trial:
         raise ValueError('C requires a B checkpoint from the same trial')
     if result.get('status') != 'complete':
-        raise ValueError('C requires a completed B with identical configuration, selected data and source hashes')
-    compatibility = load_compatibility(output_root, plan)
-    origin = validate_result_origin(output_root, 'B', trial, plan, result, compatibility=compatibility)
+        raise ValueError('C requires a completed B trial')
+    check_completed_result(result, 'B', trial)
     path = folder / 'training' / 'best_playbook.txt'
     text = path.read_text(encoding='utf-8')
-    sha = hashlib.sha256(text.encode()).hexdigest()
-    if sha != result.get('playbook_sha256'):
-        raise ValueError('B playbook changed after completion')
+    if not text.strip():
+        raise ValueError('B best playbook is empty')
     learning_stages = [usage for stage, usage in result['llm']['stage_usage'].items() if stage != 'test']
     learning_usage = {key: sum(stage[key] for stage in learning_stages)
                       for key in ('successful_calls', 'attempts', 'prompt_tokens', 'completion_tokens')}
-    return text, {'group': 'B', 'trial': trial, 'path': str(path), 'sha256': sha,
-                  'original_fingerprint': result['fingerprint'], 'origin': origin,
+    return text, {'group': 'B', 'trial': trial, 'path': str(path),
                   'training_cost_included_in_C_incremental_usage': False,
                   'shared_learning_llm_usage': learning_usage,
                   'shared_learning_excludes_B_test': True}
 
 
-def run_group(group, trial, plan, data, output_root, *, mock=False):
+def run_group(group, trial, plan, data, output_root):
     validate_config(plan['config'])
-    if group not in GROUPS or not plan['config']['groups'][group]['enabled']:
-        raise ValueError('Only enabled A/B/C groups can run')
+    if group not in GROUPS:
+        raise ValueError('Only A/B/C groups can run')
     if type(trial) is not int or not 1 <= trial <= plan['config']['repeats']:
         raise ValueError('trial must be an integer inside 1..repeats')
-    if mock != (plan['mode'] == 'mock'):
-        raise ValueError('Execution mode must match the plan')
-    compatibility = load_compatibility(output_root, plan)
+    check_existing_plan(output_root, plan)
     inherited_book, lineage = b_checkpoint(output_root, trial, plan) if group == 'C' else (None, None)
     from src import ACE
-    from eval.finance.data_processor import DataProcessor
+    from eval.data_processor import DataProcessor
     from .runtime import Runtime
     from .jev import ReadSelector
 
     config = plan['config']
     folder = trial_folder(output_root, group, trial)
     folder.mkdir(parents=True, exist_ok=False)
-    runtime = Runtime(config['llm'], folder, mock=mock)
-    result = {'group': group, 'trial': trial, 'status': 'running', 'mock': mock,
-              'formal_metrics': plan['formal_metrics'], 'fingerprint': plan['fingerprint'],
+    runtime = Runtime(config['llm'], folder)
+    result = {'group': group, 'trial': trial, 'status': 'running', 'mock': False,
               'predictions_path': str(folder / 'predictions.jsonl')}
-    if compatibility:
-        result['compatibility_source'] = compatibility_reference(compatibility)
     write_json(folder / 'result.json', result)
     processor = DataProcessor('formula')
     selected = {split: processed_samples(data[split], processor)
@@ -201,8 +178,6 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
     started = time.monotonic()
     try:
         with ExitStack() as stack:
-            if mock:
-                stack.enter_context(patch.dict(os.environ, {'FORMULA_OFFLINE_MOCK_KEY': 'offline-placeholder'}))
             stack.enter_context(runtime.installed())
             engine = ACE(api_provider=config['llm']['api_provider'],
                          generator_model=config['llm']['model'], reflector_model=config['llm']['model'],
@@ -211,7 +186,7 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
             book = engine.playbook
             generator = engine.generator
             if group == 'C':
-                client = jev_client(config['jev'], folder, mock)
+                client = jev_client(config['jev'], folder)
             if group == 'B':
                 training_dir = folder / 'training'
                 def fixed_paths(save_dir, task_name, mode):
@@ -233,7 +208,7 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
                     return metrics, errors
                 stack.enter_context(patch.object(ace_module, 'evaluate_test_set', validation))
                 runtime.stage = 'training'
-                ace_config = {**config['training'], 'max_num_rounds': config['groups'][group]['max_num_rounds'],
+                ace_config = {**config['training'],
                               'task_name': 'formula', 'save_dir': str(training_dir), 'test_workers': workers,
                               'json_mode': False, 'no_ground_truth': False,
                               'playbook_token_budget': 80000, 'use_bulletpoint_analyzer': False,
@@ -260,7 +235,6 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
                               selection_ranking='score_desc_then_playbook_order',
                               selection_confidence_used_for_ranking=False)
                 generator = SelectedGenerator(generator, ReadSelector(client, k, config['jev']['batch_size']), 'test')
-            result['playbook_sha256'] = hashlib.sha256(book.encode()).hexdigest()
             result['playbook_source'] = (
                 str(folder / 'training' / 'best_playbook.txt') if group == 'B' else
                 result['b_checkpoint']['path'] if group == 'C' else 'empty_playbook'
@@ -291,16 +265,9 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
     return result
 
 
-def compatibility_reference(compatibility):
-    """Point to the source information merged into the shared plan."""
-    return {'kind': 'consolidated_plan',
-            'provenance_sha256': compatibility['provenance_sha256'],
-            'target_fingerprint': compatibility['target_fingerprint']}
-
-
 def aggregate(output_root, plan):
     output_root = Path(output_root)
-    compatibility = load_compatibility(output_root, plan)
+    check_existing_plan(output_root, plan)
     collected = []
     for group in GROUPS:
         for trial in range(1, plan['config']['repeats'] + 1):
@@ -310,12 +277,7 @@ def aggregate(output_root, plan):
             row = json.loads(path.read_text(encoding='utf-8'))
             if row.get('status') != 'complete':
                 continue
-            if row.get('fingerprint') != plan['fingerprint'] and not (
-                compatibility and f'{group}/{trial:02d}' in compatibility['preserved_results']
-            ):
-                continue
-            origin = validate_result_origin(output_root, group, trial, plan, row,
-                                            compatibility=compatibility)
+            check_completed_result(row, group, trial)
             if group == 'C' and (
                 row.get('selection_k') != plan['config']['jev']['k']
                 or row.get('selection_primitive') != 'score'
@@ -323,16 +285,20 @@ def aggregate(output_root, plan):
                 or row.get('selection_confidence_used_for_ranking') is not False
             ):
                 raise ValueError('C result selection policy does not match the current Score top-10 plan')
-            collected.append((row, origin))
+            if group == 'C':
+                checkpoint = row.get('b_checkpoint', {})
+                if (checkpoint.get('group') != 'B' or type(checkpoint.get('trial')) is not int
+                        or checkpoint['trial'] != trial):
+                    raise ValueError('C requires a B checkpoint from the same trial')
+                b_checkpoint(output_root, trial, plan)
+            collected.append(row)
     summaries = []
     for group in GROUPS:
-        entries = [(row, origin) for row, origin in collected if row['group'] == group]
-        rows = [row for row, _ in entries]
+        rows = [row for row in collected if row['group'] == group]
         if not rows:
             continue
         accuracies = [row['test']['accuracy'] for row in rows]
         summaries.append({'group': group, 'completed_trials': len(rows), 'expected_trials': plan['config']['repeats'],
-                          'aggregation_protocol': plan['protocol'],
                           'selection_k': plan['config']['jev']['k'] if group == 'C' else None,
                           'accuracy_mean': statistics.mean(accuracies),
                           'accuracy_sample_variance': statistics.variance(accuracies) if len(rows) > 1 else None,
@@ -348,66 +314,55 @@ def aggregate(output_root, plan):
                           'mean_completion_tokens_including_shared_learning': statistics.mean(
                               row['llm_usage_including_shared_learning']['completion_tokens'] for row in rows),
                           'mean_jev_calls': statistics.mean(row['jev']['successful_calls'] for row in rows),
-                          'result_fingerprints': json.dumps(sorted({row['fingerprint'] for row in rows})),
-                          'compatibility_sources': json.dumps(
-                              [origin for _, origin in entries if origin['kind'] != 'current'],
-                              ensure_ascii=False, sort_keys=True),
-                          'mock': plan['mode'] == 'mock',
-                          'formal_metrics': plan['formal_metrics'] and len(rows) == plan['config']['repeats']})
+                          'mock': False})
     if summaries:
-        summary_name = storage_names(output_root, plan, compatibility)[1]
-        with (output_root / summary_name).open('w', encoding='utf-8', newline='') as handle:
+        with (output_root / 'summary.csv').open('w', encoding='utf-8', newline='') as handle:
             writer = csv.DictWriter(handle, fieldnames=list(summaries[0]), lineterminator='\n')
             writer.writeheader()
             writer.writerows(summaries)
     return summaries
 
 
+class ExperimentHelpFormatter(argparse.HelpFormatter):
+    def _format_action_invocation(self, action):
+        if action.dest == 'groups':
+            return '--groups GROUP'
+        return super()._format_action_invocation(action)
+
+
 def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config', help='Defaults to small.json; --mock defaults to smoke.json')
-    parser.add_argument('--groups', nargs='+', choices=GROUPS, help='Defaults to all enabled groups')
-    parser.add_argument('--trial', type=int, help='Run one paired trial (1..repeats), preserving configuration')
-    parser.add_argument('--output', type=Path, help='Shared output root; results live in A/01, B/01 and C/01')
+    parser = argparse.ArgumentParser(description=__doc__, add_help=False,
+                                     formatter_class=ExperimentHelpFormatter)
+    parser.add_argument('-h', '--help', action='help', help='Show help and exit.')
+    parser.add_argument('--config', metavar='PATH', help='Config file (default: config.json).')
+    parser.add_argument('--groups', nargs='+', choices=GROUPS, metavar='GROUP',
+                        help='Select A, B, C (default: all).')
+    parser.add_argument('--trial', type=int, metavar='N', help='Trial number (default: all).')
+    parser.add_argument('--output', type=Path, metavar='DIR', help='Results directory (default: results).')
     modes = parser.add_mutually_exclusive_group()
-    modes.add_argument('--execute', action='store_true', help='Explicitly enable real model/Jev API requests')
-    modes.add_argument('--mock', action='store_true', help='Offline fake transports; never real accuracy')
-    modes.add_argument('--dry-run', action='store_true', help='Write plan only (the default)')
+    modes.add_argument('--execute', action='store_true', help='Run experiments using real APIs.')
+    modes.add_argument('--dry-run', action='store_true', help='Create/check the plan only (default).')
     args = parser.parse_args(argv)
-    config = load_config(args.config or f"configs/formula/{'smoke' if args.mock else 'small'}.json")
-    if args.execute and config['profile'] == 'smoke':
-        parser.error('smoke is for offline checks only; choose small or paper for --execute')
-    if args.mock and config['profile'] != 'smoke':
-        parser.error('--mock requires the smoke profile')
-    groups = [group for group in GROUPS if group in (args.groups or GROUPS) and config['groups'][group]['enabled']]
+    config = load_config(args.config or 'config.json')
+    groups = [group for group in GROUPS if group in (args.groups or GROUPS)]
     if not groups:
-        parser.error('No enabled groups selected')
+        parser.error('No groups selected')
+    required_keys = [config['llm']['api_key_env']]
+    if 'C' in groups:
+        required_keys.append(config['jev']['api_key_env'])
     trials = [args.trial] if args.trial is not None else list(range(1, config['repeats'] + 1))
     if any(trial < 1 or trial > config['repeats'] for trial in trials):
         parser.error('--trial is outside 1..repeats')
     data = prepare_data(config, PROJECT_ROOT)
-    plan = build_plan(config, data, groups, args.mock)
+    plan = build_plan(config, data)
     default_output = PROJECT_ROOT / config['output_dir']
-    if args.mock:
-        default_output = default_output.with_name(default_output.name + '-mock')
     output = (args.output or default_output).resolve()
     try:
-        compatibility = load_compatibility(output, plan)
-        names = storage_names(output, plan, compatibility)
+        check_existing_plan(output, plan)
     except ValueError as exc:
         parser.error(str(exc))
-    plan_path = output / names[0]
-    if plan_path.exists():
-        existing = json.loads(plan_path.read_text(encoding='utf-8'))
-        if any(existing.get(key) != plan.get(key) for key in (
-            'schema_version', 'protocol', 'fingerprint', 'mode', 'formal_metrics',
-            'config', 'data', 'source_sha256')):
-            parser.error('Output directory belongs to a different config/data/source/mode fingerprint')
-        # Retain the verified provenance without rewriting an existing plan.
-        for key in ('provenance', 'provenance_sha256'):
-            if key in existing:
-                plan[key] = existing[key]
-    if args.execute or args.mock:
+    plan_path = output / 'plan.json'
+    if args.execute:
         # Preflight every selected output/dependency before any paid request.
         for trial in trials:
             for group in groups:
@@ -415,16 +370,15 @@ def main(argv=None):
                     parser.error(f'Output already exists for trial {trial} group {group}; use a new output directory')
             if 'C' in groups and 'B' not in groups:
                 b_checkpoint(output, trial, plan)
-        if args.execute:
-            from dotenv import load_dotenv
-            load_dotenv(PROJECT_ROOT / '.env')
-            missing = [name for name in plan['required_keys'] if not os.environ.get(name, '').strip()]
-            if missing:
-                parser.error('Missing keys: ' + ', '.join(missing))
+        from dotenv import load_dotenv
+        load_dotenv(PROJECT_ROOT / '.env')
+        missing = [name for name in required_keys if not os.environ.get(name, '').strip()]
+        if missing:
+            parser.error('Missing keys: ' + ', '.join(missing))
     output.mkdir(parents=True, exist_ok=True)
     if not plan_path.exists():
         write_json(plan_path, plan)
-    print(json.dumps({'mode': 'mock' if args.mock else 'execute' if args.execute else 'dry-run',
+    print(json.dumps({'mode': 'execute' if args.execute else 'dry-run',
                       'groups': groups, 'trials': trials,
                       'samples': {split: len(data[split]) for split in ('train', 'val', 'test')},
                       'llm_model': config['llm']['model'],
@@ -432,16 +386,14 @@ def main(argv=None):
                       'llm_base_url': config['llm']['base_url'],
                       'enable_thinking': config['llm']['enable_thinking'],
                       'jev_model': config['jev']['model'] if 'C' in groups else None,
-                      'required_keys_for_live_run': plan['required_keys'], 'output': str(output),
-                      'plan_path': str(plan_path),
-                      'compatibility_source': compatibility_reference(compatibility)
-                                              if compatibility else None}, ensure_ascii=False, indent=2))
-    if not (args.execute or args.mock):
+                      'required_keys_for_live_run': required_keys, 'output': str(output),
+                      'plan_path': str(plan_path)}, ensure_ascii=False, indent=2))
+    if not args.execute:
         return 0
     try:
         for trial in trials:
             for group in groups:
-                run_group(group, trial, plan, data, output, mock=args.mock)
+                run_group(group, trial, plan, data, output)
                 aggregate(output, plan)
     except Exception as exc:
         aggregate(output, plan)

@@ -3,10 +3,7 @@
   "trial": 1,
   "status": "complete",
   "mock": false,
-  "formal_metrics": true,
-  "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
   "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/A/01/predictions.jsonl",
-  "playbook_sha256": "d0e7d0049bd539630f51db8d08fdff170ea2882267c960fbe843bede303e2249",
   "playbook_source": "empty_playbook",
   "test": {
     "accuracy": 0.685,

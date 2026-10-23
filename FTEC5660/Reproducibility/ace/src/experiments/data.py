@@ -6,7 +6,6 @@ loads API keys, writes datasets, or constructs a model client.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -87,14 +86,12 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
     """Validate the settings used by all experiment runners, without side effects."""
     if not isinstance(config, dict):
         raise ValueError("configuration must be a JSON object")
-    for name in ("profile", "seed", "repeats", "llm", "training", "data", "jev", "groups"):
+    for name in ("seed", "repeats", "llm", "training", "data", "jev"):
         if name not in config:
             raise ValueError(f"missing configuration field: {name}")
-    if config["profile"] not in ("small", "paper", "smoke"):
-        raise ValueError("profile must be small, paper, or smoke")
     _integer(config["seed"], "seed", 0)
-    _integer(config["repeats"], "repeats", 1 if config["profile"] == "smoke" else 3, 5)
-    for name in ("llm", "training", "data", "jev", "groups"):
+    _integer(config["repeats"], "repeats", 3, 5)
+    for name in ("llm", "training", "data", "jev"):
         if not isinstance(config[name], dict):
             raise ValueError(f"{name} must be an object")
 
@@ -105,6 +102,9 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
         _integer(training.get(name), f"training.{name}")
     if training["batch_size"] != 1:
         raise ValueError("training.batch_size must be 1 to preserve the ACE sample-wise workflow")
+    rounds = _integer(training.get("max_num_rounds"), "training.max_num_rounds")
+    if rounds != 3:
+        raise ValueError("training.max_num_rounds must be 3")
 
     data = config["data"]
     for split in SPLITS:
@@ -115,17 +115,13 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(sampling, dict):
         raise ValueError("data.sampling must be an object")
     mode = sampling.get("mode")
-    expected_mode = {"small": "per_formula", "paper": "all", "smoke": "head"}[config["profile"]]
-    if mode != expected_mode:
-        raise ValueError(f"{config['profile']} profile requires data.sampling.mode={expected_mode}")
+    if mode not in ("per_formula", "all"):
+        raise ValueError("data.sampling.mode must be per_formula or all")
     if mode == "per_formula":
         for split in ("train", "val"):
             _integer(sampling.get(f"{split}_per_formula"), f"data.sampling.{split}_per_formula")
         if (sampling["train_per_formula"], sampling["val_per_formula"]) != (2, 1):
-            raise ValueError("small profile requires 2 training and 1 validation sample per formula")
-    elif mode == "head":
-        for split in SPLITS:
-            _integer(sampling.get(f"{split}_limit"), f"data.sampling.{split}_limit")
+            raise ValueError("per_formula sampling requires 2 training and 1 validation sample per formula")
 
     jev = config["jev"]
     for name in ("base_url", "model", "api_key_env"):
@@ -138,20 +134,6 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
     _integer(jev.get("batch_size"), "jev.batch_size")
     _number(jev.get("timeout"), "jev.timeout", 0.001)
 
-    groups = config["groups"]
-    if set(groups) != set(GROUPS):
-        raise ValueError("groups must define exactly A, B, and C")
-    expected_kinds = {"A": "empty_playbook", "B": "ace", "C": "jev_filter"}
-    for name, group in groups.items():
-        if not isinstance(group, dict) or not isinstance(group.get("enabled"), bool):
-            raise ValueError(f"groups.{name} must contain a boolean enabled field")
-        if group.get("kind") != expected_kinds[name]:
-            raise ValueError(f"groups.{name}.kind must be {expected_kinds[name]}")
-    rounds = _integer(groups["B"].get("max_num_rounds"), "groups.B.max_num_rounds")
-    if rounds != 3:
-        raise ValueError("groups.B.max_num_rounds must be 3")
-    if groups["C"].get("depends_on") != "B":
-        raise ValueError("groups.C.depends_on must be B")
     return config
 
 
@@ -168,7 +150,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
 read_config = load_config
 
 
-def _read_split(path: Path, split: str) -> tuple[list[dict[str, Any]], str]:
+def _read_split(path: Path, split: str) -> list[dict[str, Any]]:
     content = path.read_bytes()
     rows = []
     for line_number, line in enumerate(content.decode("utf-8").splitlines(), 1):
@@ -194,7 +176,7 @@ def _read_split(path: Path, split: str) -> tuple[list[dict[str, Any]], str]:
         })
     if not rows:
         raise ValueError(f"{path}: dataset must not be empty")
-    return rows, hashlib.sha256(content).hexdigest()
+    return rows
 
 
 def _sample_per_formula(rows: list[dict[str, Any]], count: int, seed: int) -> list[dict[str, Any]]:
@@ -211,50 +193,27 @@ def _sample_per_formula(rows: list[dict[str, Any]], count: int, seed: int) -> li
 
 
 def prepare_data(config: dict[str, Any], project_root: Path) -> dict[str, Any]:
-    """Return raw selected samples and their provenance, without writing files."""
+    """Return the selected train, validation and test samples without writing files."""
     validate_config(config)
     project_root = Path(project_root).expanduser().resolve()
     result: dict[str, Any] = {}
-    manifest: dict[str, Any] = {
-        "profile": config["profile"],
-        "seed": config["seed"],
-        "formal_metrics": config["profile"] != "smoke",
-        "sampling": dict(config["data"]["sampling"]),
-        "sources": {},
-    }
     sampling = config["data"]["sampling"]
     for split_index, split in enumerate(SPLITS):
         path = Path(config["data"][f"{split}_path"]).expanduser()
         if not path.is_absolute():
             path = project_root / path
         path = path.resolve()
-        rows, digest = _read_split(path, split)
+        rows = _read_split(path, split)
         split_seed = config["seed"] + split_index
         selected = rows
         if sampling["mode"] == "per_formula" and split != "test":
             selected = _sample_per_formula(rows, sampling[f"{split}_per_formula"], split_seed)
-        elif sampling["mode"] == "head":
-            limit = sampling[f"{split}_limit"]
-            if len(rows) < limit:
-                raise ValueError(f"{split} contains fewer than the requested {limit} samples")
-            selected = rows[:limit]
         result[split] = selected
-        manifest["sources"][split] = {
-            "path": str(path),
-            "sha256": digest,
-            "source_count": len(rows),
-            "selected_count": len(selected),
-            "formula_count": len({row["formula_name"] for row in selected}),
-            "sampling_seed": split_seed if sampling["mode"] == "per_formula" and split != "test" else None,
-            "line_numbers": [row["source_line"] for row in selected],
-            "ids": [row["id"] for row in selected],
-        }
-    if config["profile"] in ("small", "paper"):
-        formula_sets = [{row["formula_name"] for row in result[split]} for split in SPLITS]
-        if len(formula_sets[0]) != 50 or not all(names == formula_sets[0] for names in formula_sets):
-            raise ValueError("formal Formula profiles require the same 50 formulas in every split")
-        expected_counts = (100, 50, 200) if config["profile"] == "small" else (500, 300, 200)
-        if tuple(len(result[split]) for split in SPLITS) != expected_counts:
-            raise ValueError(f"{config['profile']} profile requires split sizes {expected_counts}")
-    result["manifest"] = manifest
+    formula_sets = [{row["formula_name"] for row in result[split]} for split in SPLITS]
+    if len(formula_sets[0]) != 50 or not all(names == formula_sets[0] for names in formula_sets):
+        raise ValueError("Formula datasets must contain the same 50 formulas in every split")
+    expected_counts = ((50 * sampling['train_per_formula'], 50 * sampling['val_per_formula'], 200)
+                       if sampling['mode'] == 'per_formula' else (500, 300, 200))
+    if tuple(len(result[split]) for split in SPLITS) != expected_counts:
+        raise ValueError(f"{sampling['mode']} sampling requires split sizes {expected_counts}")
     return result

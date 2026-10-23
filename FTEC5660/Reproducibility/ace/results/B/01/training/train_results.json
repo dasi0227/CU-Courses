@@ -5188,7 +5188,6 @@
   "best_checkpoint": {
     "epoch": 1,
     "step": 100,
-    "stage": "validation_e_1_s_100",
-    "playbook_sha256": "960abead019381d6cd70b1b8f3d213702bb06725e7b4e4416a70dacf537fde0a"
+    "stage": "validation_e_1_s_100"
   }
 }

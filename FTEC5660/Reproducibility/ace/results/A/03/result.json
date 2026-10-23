@@ -3,19 +3,7 @@
   "trial": 3,
   "status": "complete",
   "mock": false,
-  "formal_metrics": true,
-  "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
   "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/A/03/predictions.jsonl",
-  "compatibility_source": {
-    "migration_id": "formula-small-v7-to-abc-score-v9-2026-10-23",
-    "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/v7-small-to-abc-score-v9.json",
-    "manifest_sha256": "eb94629c5e707e9dea2e455bc281057980bb05e8cf40259ded366f64036af1fb",
-    "legacy_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json",
-    "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
-    "legacy_fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
-    "target_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362"
-  },
-  "playbook_sha256": "d0e7d0049bd539630f51db8d08fdff170ea2882267c960fbe843bede303e2249",
   "playbook_source": "empty_playbook",
   "test": {
     "accuracy": 0.705,

@@ -1,7 +1,7 @@
 """Bounded, audited LLM transport for the three experiment arms.
 
-The original role prompts and ACE training loop are retained. Only transport is
-injected, so offline tests can exercise that same loop without network access.
+The original role prompts and ACE training loop are retained. Transport is
+injected to apply one audited API configuration to every role.
 """
 from __future__ import annotations
 
@@ -18,11 +18,10 @@ from .data import validate_llm_config
 
 
 class Runtime:
-    def __init__(self, config, output_dir: Path, *, mock=False):
+    def __init__(self, config, output_dir: Path):
         validate_llm_config(config)
         self.config = config
         self.output_dir = Path(output_dir)
-        self.mock = mock
         self.stage = 'setup'
         self.records = []
         self.errors = []
@@ -32,7 +31,7 @@ class Runtime:
     def clients(self, api_provider):
         if api_provider != self.config['api_provider']:
             raise ValueError('Client provider must match the configured Bailian provider')
-        if self._client is None and not self.mock:
+        if self._client is None:
             from openai import OpenAI
             secret = os.environ.get(self.config['api_key_env'], '').strip()
             if not secret:
@@ -44,20 +43,6 @@ class Runtime:
             )
         return (self._client,) * 3
 
-    def _mock_response(self, role, call_id):
-        # Intentionally wrong numeric answer exercises the full reflection cap.
-        if role == 'generator':
-            return json.dumps({'reasoning': 'OFFLINE MOCK', 'bullet_ids': [],
-                               'final_answer': '0.123456789'})
-        if role == 'reflector':
-            return json.dumps({'reasoning': 'OFFLINE MOCK', 'bullet_tags': [],
-                               'key_insight': 'Check units and round only the final result.'})
-        return json.dumps({'reasoning': 'OFFLINE MOCK', 'operations': [{
-            'type': 'ADD', 'section': 'COMMON MISTAKES TO AVOID',
-            'content': f'Check units before rounding. Offline sample {call_id}.',
-            'reason': 'OFFLINE MOCK',
-        }]})
-
     def call(self, client, api_provider, model, prompt, role, call_id,
              max_tokens=4096, log_dir=None, use_json_mode=False, **_):
         if api_provider != self.config['api_provider'] or model != self.config['model']:
@@ -68,7 +53,7 @@ class Runtime:
         params = dict(model=model, messages=[{'role': 'user', 'content': prompt}],
                       temperature=self.config['temperature'], max_tokens=max_tokens,
                       extra_body={'enable_thinking': False})
-        attempts = 1 if self.mock else self.config.get('retries', 2) + 1
+        attempts = self.config.get('retries', 2) + 1
         last_error = None
         for attempt in range(1, attempts + 1):
             info = {'role': role, 'call_id': call_id, 'stage': self.stage,
@@ -76,23 +61,17 @@ class Runtime:
                     'temperature': self.config['temperature'], 'attempt': attempt,
                     'api_provider': api_provider, 'base_url': self.config['base_url'],
                     'enable_thinking': False,
-                    'mock': self.mock}
+                    'mock': False}
             try:
-                if self.mock:
-                    text = self._mock_response(role, call_id)
-                    prompt_tokens = completion_tokens = 0
-                    response_model = model
-                    finish_reason = 'stop'
-                else:
-                    response = client.chat.completions.create(**params)
-                    text = response.choices[0].message.content
-                    if not text or not text.strip():
-                        raise RuntimeError('Empty model response')
-                    usage = response.usage
-                    prompt_tokens = getattr(usage, 'prompt_tokens', None)
-                    completion_tokens = getattr(usage, 'completion_tokens', None)
-                    response_model = getattr(response, 'model', None)
-                    finish_reason = getattr(response.choices[0], 'finish_reason', None)
+                response = client.chat.completions.create(**params)
+                text = response.choices[0].message.content
+                if not text or not text.strip():
+                    raise RuntimeError('Empty model response')
+                usage = response.usage
+                prompt_tokens = getattr(usage, 'prompt_tokens', None)
+                completion_tokens = getattr(usage, 'completion_tokens', None)
+                response_model = getattr(response, 'model', None)
+                finish_reason = getattr(response.choices[0], 'finish_reason', None)
                 info.update(response=text, prompt_num_tokens=prompt_tokens,
                             response_num_tokens=completion_tokens, api_success=True,
                             response_model=response_model, finish_reason=finish_reason,
@@ -144,7 +123,7 @@ class Runtime:
 
     def _safe(self, value):
         if isinstance(value, str):
-            for name in (self.config['api_key_env'], 'TYPESAFE_API_KEY', 'FORMULA_OFFLINE_MOCK_KEY'):
+            for name in (self.config['api_key_env'], 'TYPESAFE_API_KEY'):
                 secret = os.environ.get(name, '')
                 if secret:
                     value = value.replace(secret, '[REDACTED]')
@@ -194,7 +173,7 @@ class Runtime:
             'completion_tokens': sum(r.get('response_num_tokens') or 0 for r in successful),
             'usage_missing_calls': sum(r.get('prompt_num_tokens') is None or
                                        r.get('response_num_tokens') is None for r in successful),
-            'mock': self.mock,
+            'mock': False,
             'stages': {stage: sum(r['stage'] == stage for r in self.records)
                        for stage in sorted({r['stage'] for r in self.records})},
             'stage_usage': by_stage,
@@ -202,7 +181,7 @@ class Runtime:
 
     @contextmanager
     def installed(self):
-        """Inject clients/transport, and make all mock token counting offline."""
+        """Inject the audited API clients, transport, and error handlers."""
         ace_module = importlib.import_module('src.ace')
         with ExitStack() as stack:
             stack.enter_context(patch.object(ace_module, 'initialize_clients', self.clients))
@@ -219,7 +198,4 @@ class Runtime:
                     kind='reflector_parse', role='reflector', call_id=call_id,
                     error_type=type(error).__name__, message=str(error)),
             ))
-            if self.mock:
-                # Synthetic token counts are never reported as real model usage.
-                stack.enter_context(patch.object(ace_module, 'count_tokens', lambda s: len(s.split())))
             yield

@@ -3,18 +3,7 @@
   "trial": 2,
   "status": "complete",
   "mock": false,
-  "formal_metrics": true,
-  "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
   "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/predictions.jsonl",
-  "compatibility_source": {
-    "migration_id": "formula-small-v7-to-abc-score-v9-2026-10-23",
-    "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/v7-small-to-abc-score-v9.json",
-    "manifest_sha256": "eb94629c5e707e9dea2e455bc281057980bb05e8cf40259ded366f64036af1fb",
-    "legacy_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json",
-    "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
-    "legacy_fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
-    "target_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362"
-  },
   "training_config": {
     "task_name": "formula",
     "mode": "offline",
@@ -61,15 +50,13 @@
       "best_checkpoint": {
         "epoch": 1,
         "step": 100,
-        "stage": "validation_e_1_s_100",
-        "playbook_sha256": "2f41032abdecc9a6538b8355082771debd799215f5b0effcdaf5e84191e4b259"
+        "stage": "validation_e_1_s_100"
       },
       "steps_completed": 100,
       "checkpoints_completed": 5,
       "train_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/train_results.json"
     }
   },
-  "playbook_sha256": "2f41032abdecc9a6538b8355082771debd799215f5b0effcdaf5e84191e4b259",
   "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/best_playbook.txt",
   "test": {
     "accuracy": 0.835,
@@ -222,7 +209,6 @@
   },
   "recovery": {
     "mode": "deterministic_successful_call_replay",
-    "helper_sha256": "a57eb0639c7cd2766d49a289ade8cb417b157e473a8d1c6569fe93ccf9a11dfb",
     "offline_verification": {
       "verified": true,
       "cached_successes": 310,
@@ -230,9 +216,7 @@
       "replayed_steps": 49,
       "replayed_validation_checkpoints": 2,
       "replayed_validation_predictions": 100,
-      "best_playbook_sha256": "64833dc349de4b31fc719904bd2c45a81a1cc6acdb9eb86cfda43edc294e09bf",
       "exact_boundary": "train_e_1_s_50_round_0",
-      "source_fingerprint_unchanged": true,
       "original_results_unchanged": true,
       "api_calls_made": 0
     },
@@ -246,18 +230,7 @@
       "trial": 2,
       "status": "failed",
       "mock": false,
-      "formal_metrics": true,
-      "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
       "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/predictions.jsonl",
-      "compatibility_source": {
-        "migration_id": "formula-small-v7-to-abc-score-v9-2026-10-23",
-        "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/v7-small-to-abc-score-v9.json",
-        "manifest_sha256": "eb94629c5e707e9dea2e455bc281057980bb05e8cf40259ded366f64036af1fb",
-        "legacy_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json",
-        "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
-        "legacy_fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
-        "target_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362"
-      },
       "training_config": {
         "task_name": "formula",
         "mode": "offline",
@@ -418,7 +391,6 @@
       "reason": "three consecutive reflector request timeouts"
     },
     "helper_path": "/private/tmp/ace-b02-run-l8j3z6ft/resume_b02.py",
-    "effective_execution_fingerprint": "a1eef3124d601dfaaf25179f1edbd94dd9203e583859507927cebe96924a3ab6",
     "updated_at_utc": "2026-10-22T20:47:48.628002+00:00"
   }
 }
