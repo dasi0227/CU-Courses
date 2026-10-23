@@ -44,7 +44,7 @@ def build_plan(config, data, groups, mock=False):
     codes = source_hashes(PROJECT_ROOT)
     fingerprint = digest({'config': config, 'data': data['manifest'], 'source': codes, 'mock': mock})
     return {
-        'schema_version': 8, 'protocol': 'formula-abc-compact-artifacts-bailian-v8',
+        'schema_version': 10, 'protocol': 'formula-abc-score-top10-compact-artifacts-bailian-v10',
         'fingerprint': fingerprint, 'mode': 'mock' if mock else 'live',
         'formal_metrics': not mock and config['profile'] != 'smoke',
         'config': config, 'data': data['manifest'], 'source_sha256': codes,
@@ -54,10 +54,12 @@ def build_plan(config, data, groups, mock=False):
         'notes': [
             'All roles use Bailian SiliconFlow DeepSeek-V3.1-Terminus in non-thinking mode. Terminus updates the paper backbone; this is not an exact original V3.1 reproduction.',
             'All arms use the same formula-stripped questions and original ACE Generator prompt; A keeps an empty playbook.',
-            'B learns an independent playbook with a reflection cap of 3; C reuses the matching B best checkpoint and selects fixed top-5 entries per question.',
+            'B learns an independent playbook with a reflection cap of 3; C reuses the matching B best checkpoint and selects fixed top-10 entries per question.',
             'A/B measures learned memory, and B/C measures Jev read selection without retraining.',
             'All arms use numeric exact match and the same selected test IDs; API failures remain in the denominator.',
-            'Test labels are used only by the evaluator; C uses the existing fixed decision instructions and top-5 policy without training or validation tuning.',
+            'Test labels are used only by the evaluator; C uses the fixed Score rubric and top-10 policy without training or validation tuning.',
+            'C uses Score: 0 irrelevant, 1 topic-only or generic reminder, 2 usable supporting step, 3 directly supports the core formula or key calculation. Rank by descending score, with handbook order breaking ties; confidence is recorded only.',
+            'Jev probabilities are preserved for audit without normalization or a sum-to-one gate; ranking uses the returned score directly.',
             'Repeated temperature-0 calls can still vary. Trials share the selected data/order, but never the learned memory.',
         ],
     }
@@ -89,7 +91,8 @@ def jev_client(config, output, mock):
     def fake_transport(request, timeout):
         payload = json.loads(request.data)
         return {'model': payload['model'], 'usage': {'mock': True}, 'answers': {
-            key: {'type': 'noul', 'noul': .9} for key in payload['questions']}}
+            key: {'type': 'score', 'score': 3.0, 'confidence': .9}
+            for key in payload['questions']}}
     return JevClient(
         model=config['model'], base_url=config['base_url'],
         api_key_env='FORMULA_OFFLINE_MOCK_KEY' if mock else config['api_key_env'],
@@ -170,6 +173,8 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
     validate_config(plan['config'])
     if group not in GROUPS or not plan['config']['groups'][group]['enabled']:
         raise ValueError('Only enabled A/B/C groups can run')
+    if type(trial) is not int or not 1 <= trial <= plan['config']['repeats']:
+        raise ValueError('trial must be an integer inside 1..repeats')
     if mock != (plan['mode'] == 'mock'):
         raise ValueError('Execution mode must match the plan')
     compatibility = load_compatibility(output_root, plan)
@@ -251,7 +256,10 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
                 book = inherited_book
                 result['b_checkpoint'] = lineage
                 k = config['jev']['k']
-                result.update(selection_k=k, selection_method='fixed_top_k')
+                result.update(selection_k=k, selection_method='fixed_top_k',
+                              selection_primitive='score',
+                              selection_ranking='score_desc_then_playbook_order',
+                              selection_confidence_used_for_ranking=False)
                 generator = SelectedGenerator(generator, ReadSelector(client, k, config['jev']['batch_size']), 'test')
             result['playbook_sha256'] = hashlib.sha256(book.encode()).hexdigest()
             result['playbook_source'] = (
@@ -286,9 +294,11 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
 
 def compatibility_reference(compatibility):
     """Record migration provenance without copying whole data manifests."""
-    return {key: compatibility[key] for key in (
+    reference = {key: compatibility[key] for key in (
         'migration_id', 'manifest_path', 'manifest_sha256', 'legacy_plan_path',
         'legacy_plan_sha256', 'legacy_fingerprint', 'target_fingerprint')}
+    reference['origin_plans'] = compatibility['origin_plans']
+    return reference
 
 
 def aggregate(output_root, plan):
@@ -309,6 +319,13 @@ def aggregate(output_root, plan):
                 continue
             origin = validate_result_origin(output_root, group, trial, plan, row,
                                             compatibility=compatibility)
+            if group == 'C' and (
+                row.get('selection_k') != plan['config']['jev']['k']
+                or row.get('selection_primitive') != 'score'
+                or row.get('selection_ranking') != 'score_desc_then_playbook_order'
+                or row.get('selection_confidence_used_for_ranking') is not False
+            ):
+                raise ValueError('C result selection policy does not match the current Score top-10 plan')
             collected.append((row, origin))
     summaries = []
     for group in GROUPS:
@@ -318,6 +335,8 @@ def aggregate(output_root, plan):
             continue
         accuracies = [row['test']['accuracy'] for row in rows]
         summaries.append({'group': group, 'completed_trials': len(rows), 'expected_trials': plan['config']['repeats'],
+                          'aggregation_protocol': plan['protocol'],
+                          'selection_k': plan['config']['jev']['k'] if group == 'C' else None,
                           'accuracy_mean': statistics.mean(accuracies),
                           'accuracy_sample_variance': statistics.variance(accuracies) if len(rows) > 1 else None,
                           'accuracy_sample_std': statistics.stdev(accuracies) if len(rows) > 1 else None,

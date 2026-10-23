@@ -36,7 +36,7 @@
     "base_url": "https://api.typesafe.ai/v1/systemone",
     "model": "jev-1.13.0",
     "api_key_env": "TYPESAFE_API_KEY",
-    "k": 5,
+    "k": 10,
     "batch_size": 20,
     "timeout": 30
   },

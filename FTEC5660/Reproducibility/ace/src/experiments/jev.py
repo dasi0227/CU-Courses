@@ -1,10 +1,10 @@
 """Opt-in Jev decisions for Formula memory experiments.
 
 The HTTP contract follows https://docs.typesafe.ai/api/system-one and
-https://docs.typesafe.ai/primitives/noul. No request is made on import or
+https://docs.typesafe.ai/primitives/score. No request is made on import or
 construction, and even an injected transport requires ``enabled=True``.
-The HTTP schema's ``questions.{key}.criteria`` is a NoulCriteria object:
-``{"true": "yes description", "false": "no description"}``, not a list.
+Score criteria are ordered level descriptions, numbered from zero. The API
+returns a fractional score on that scale and a separate confidence value.
 Pinned IDs are documented at https://docs.typesafe.ai/models.
 Jev judges the semantic relevance of existing playbook entries; it never replaces
 the deterministic numerical scorer or generates playbook content.
@@ -34,7 +34,7 @@ class JevDisabledError(JevError):
 
 
 class JevResponseError(JevError):
-    """The API response does not satisfy the requested Noul contract."""
+    """The API response does not satisfy the requested Score contract."""
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -52,17 +52,17 @@ def _http_transport(request: Request, timeout: float) -> dict[str, Any]:
         raise JevResponseError("Jev returned invalid JSON") from exc
 
 
-def _probability(value: Any, name: str) -> float:
+def _bounded_number(value: Any, name: str, maximum: float) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise ValueError(f"{name} must be a number between 0 and 1")
+        raise ValueError(f"{name} must be a number between 0 and {maximum}")
     result = float(value)
-    if not math.isfinite(result) or not 0 <= result <= 1:
-        raise ValueError(f"{name} must be a number between 0 and 1")
+    if not math.isfinite(result) or not 0 <= result <= maximum:
+        raise ValueError(f"{name} must be a number between 0 and {maximum}")
     return result
 
 
 class JevClient:
-    """Small, bounded stdlib client for named Noul questions.
+    """Small, bounded stdlib client for named Score questions.
 
     ``base_url`` is the versioned API base (normally ``.../v1``), or a full
     ``.../systemone`` endpoint. ``transport(request, timeout)`` can be injected
@@ -143,7 +143,7 @@ class JevClient:
             self.events.append(safe_event)
         return safe_event
 
-    def _scores(self, response: Any, questions: dict[str, Any]) -> dict[str, float]:
+    def _score_answers(self, response: Any, questions: dict[str, Any]) -> dict[str, dict[str, Any]]:
         if not isinstance(response, dict):
             raise JevResponseError("Jev response must be an object")
         if response.get("model") != self.model:
@@ -151,17 +151,40 @@ class JevClient:
         answers = response.get("answers")
         if not isinstance(answers, dict) or set(answers) != set(questions):
             raise JevResponseError("Jev response must answer exactly the requested questions")
-        scores = {}
+        parsed = {}
         for name, answer in answers.items():
-            if not isinstance(answer, dict) or answer.get("type") != "noul":
-                raise JevResponseError(f"Jev answer {name!r} must have type noul")
+            if not isinstance(answer, dict) or answer.get("type") != "score":
+                raise JevResponseError(f"Jev answer {name!r} must have type score")
+            levels = len(questions[name]["criteria"])
             try:
-                scores[name] = _probability(answer.get("noul"), f"Jev answer {name!r}")
+                score = _bounded_number(answer.get("score"), f"Jev score {name!r}", levels - 1)
+                confidence = _bounded_number(answer.get("confidence"), f"Jev confidence {name!r}", 1)
+                item = {"type": "score", "score": score, "confidence": confidence}
+                # Keep the official distribution and legend when supplied, but
+                # neither is used to derive or adjust the returned score.
+                keys = {str(level) for level in range(levels)}
+                if "probabilities" in answer:
+                    probabilities = answer["probabilities"]
+                    if not isinstance(probabilities, dict) or set(probabilities) != keys:
+                        raise ValueError(f"Jev probabilities {name!r} must cover the requested levels")
+                    for key, value in probabilities.items():
+                        _bounded_number(value, f"Jev probability {name!r}/{key}", 1)
+                    # The API's optional distribution is audit data. Keep its
+                    # original values, including numeric types and any total;
+                    # ranking uses the returned score directly.
+                    item["probabilities"] = dict(probabilities)
+                if "legend" in answer:
+                    legend = answer["legend"]
+                    if (not isinstance(legend, dict) or set(legend) != keys
+                            or any(not isinstance(value, str) for value in legend.values())):
+                        raise ValueError(f"Jev legend {name!r} must describe the requested levels")
+                    item["legend"] = dict(legend)
+                parsed[name] = item
             except ValueError as exc:
                 raise JevResponseError(str(exc)) from exc
         if "usage" in response and not isinstance(response["usage"], dict):
             raise JevResponseError("Jev usage must be an object when present")
-        return scores
+        return parsed
 
     @staticmethod
     def _retryable(exc: Exception) -> bool:
@@ -176,8 +199,8 @@ class JevClient:
         *,
         call_id: str,
         stage: str,
-    ) -> dict[str, float]:
-        """Return one validated yes-probability per named Noul question.
+    ) -> dict[str, dict[str, Any]]:
+        """Return each validated Score answer, including confidence for audit.
 
         Disabled, failed, missing, non-finite, and out-of-range decisions raise;
         callers must mark the run failed rather than silently allow/drop items.
@@ -186,8 +209,11 @@ class JevClient:
             raise ValueError("state and nonempty questions must be dictionaries")
         for name, question in questions.items():
             if (not isinstance(name, str) or not isinstance(question, dict)
-                    or question.get("type") != "noul" or not question.get("instructions")):
-                raise ValueError("Each question must be a named Noul with instructions")
+                    or not name or question.get("type") != "score" or not question.get("instructions")
+                    or not isinstance(question.get("criteria"), list)
+                    or not 2 <= len(question["criteria"]) <= 10
+                    or any(not isinstance(level, str) or not level.strip() for level in question["criteria"])):
+                raise ValueError("Each question must be a named Score with instructions and 2..10 ordered criteria")
         if not isinstance(call_id, str) or not isinstance(stage, str) or not call_id or not stage:
             raise ValueError("call_id and stage must be nonempty strings")
         payload = {"model": self.model, "state": state, "questions": questions}
@@ -217,7 +243,7 @@ class JevClient:
             response = None
             try:
                 response = self._transport(request, self.timeout)
-                scores = self._scores(response, questions)
+                answers = self._score_answers(response, questions)
             except Exception as exc:
                 retry = attempt < self.max_attempts and self._retryable(exc)
                 safe_message = str(exc).replace(secret, "[REDACTED]")
@@ -239,17 +265,26 @@ class JevClient:
                 raise JevError(f"Jev decision {call_id!r} failed: {safe_message}") from None
             event = {
                 **common, "status": "success", "attempt": attempt,
-                "response_model": response["model"], "scores": scores,
+                "response_model": response["model"], "answers": answers,
+                "scores": {name: answer["score"] for name, answer in answers.items()},
+                "confidences": {name: answer["confidence"] for name, answer in answers.items()},
                 "usage": response.get("usage", {}),
                 "latency_seconds": time.perf_counter() - attempt_started,
                 "elapsed_seconds": time.perf_counter() - started,
             }
             self.last_call_info = self.record_event(event)
-            return scores
+            return answers
         raise AssertionError("Unreachable retry state")
 
 
 _BULLET = re.compile(r"^\s*\[([^\]]+)\]\s*helpful=\d+\s*harmful=\d+\s*::\s*(.*)")
+
+SCORE_CRITERIA = (
+    "Unrelated to solving this question.",
+    "Only topically related or a generic reminder; provides no usable solving step.",
+    "Usable for a supporting step, but does not directly support the core formula or a key calculation.",
+    "Directly supports the core formula or a key calculation step for this question.",
+)
 
 
 class ReadSelector:
@@ -285,6 +320,7 @@ class ReadSelector:
         if len(set(ids)) != len(ids):
             raise ValueError("Playbook contains duplicate bullet IDs")
         scores: dict[str, float] = {}
+        confidences: dict[str, float] = {}
         request_ids = []
         if len(bullets) > self.k:
             for batch_index, start in enumerate(range(0, len(bullets), self.batch_size)):
@@ -292,25 +328,25 @@ class ReadSelector:
                               for bullet in bullets[start:start + self.batch_size]]
                 questions = {
                     f"relevance_{i}": {
-                        "type": "noul",
+                        "type": "score",
                         "instructions": (
-                            f"Does candidates[{i}] contain a formula, financial concept, "
-                            "unit conversion, or solving strategy relevant to the question? "
-                            "Judge relevance only; do not solve the question or verify arithmetic."
+                            f"Rate how much candidates[{i}] supports solving the question using the ordered criteria. "
+                            "Judge relevance and usability only; do not solve the question or verify arithmetic."
                         ),
-                        "criteria": {"true": "Relevant and potentially usable for this question",
-                                     "false": "Unrelated to solving this question"},
+                        "criteria": list(SCORE_CRITERIA),
                     }
                     for i in range(len(candidates))
                 }
                 request_id = f"{call_id}:read:{batch_index}"
-                batch_scores = self.client.decide(
+                batch_answers = self.client.decide(
                     {"question": question, "candidates": candidates}, questions,
                     call_id=request_id, stage=stage,
                 )
                 request_ids.append(request_id)
                 for i, candidate in enumerate(candidates):
-                    scores[candidate["id"]] = batch_scores[f"relevance_{i}"]
+                    answer = batch_answers[f"relevance_{i}"]
+                    scores[candidate["id"]] = answer["score"]
+                    confidences[candidate["id"]] = answer["confidence"]
             ranked = sorted(bullets, key=lambda bullet: (-scores[bullet["id"]], bullet["line_index"]))
         else:
             ranked = bullets
@@ -323,8 +359,10 @@ class ReadSelector:
         )
         metadata = {
             "policy": "jev_read_top_k", "call_id": call_id, "stage": stage,
+            "primitive": "score", "ranking": "score_desc_then_playbook_order",
             "k": self.k, "candidate_count": len(bullets), "selected_count": len(selected),
             "selected_ids": [bullet["id"] for bullet in selected], "scores": scores,
+            "confidences": confidences,
             "jev_call_ids": request_ids, "jev_calls": len(request_ids),
             "reason": "ranked" if request_ids else "all_entries_fit",
         }

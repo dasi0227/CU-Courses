@@ -17,7 +17,14 @@ from src.experiments.jev import (
 
 
 MODEL = "jev-1.13.0"
-QUESTIONS = {"relevant": {"type": "noul", "instructions": "Is the entry relevant?"}}
+CRITERIA = [
+    "Unrelated to solving this question.",
+    "Only topically related or a generic reminder; provides no usable solving step.",
+    "Usable for a supporting step, but does not directly support the core formula or a key calculation.",
+    "Directly supports the core formula or a key calculation step for this question.",
+]
+QUESTIONS = {"relevant": {"type": "score", "instructions": "Rate the entry's usefulness.",
+                          "criteria": CRITERIA}}
 PLAYBOOK = (
     "## FORMULAS AND CALCULATIONS\n"
     "[calc-00001] helpful=2 harmful=0 :: Current ratio = assets / liabilities.\n"
@@ -27,9 +34,12 @@ PLAYBOOK = (
 )
 
 
-def response(scores, **extra):
+def response(scores, confidences=None, **extra):
+    confidences = confidences or {}
     return {"model": MODEL,
-            "answers": {name: {"type": "noul", "noul": value} for name, value in scores.items()},
+            "answers": {name: {"type": "score", "score": value,
+                                "confidence": confidences.get(name, 0.8)}
+                        for name, value in scores.items()},
             "usage": {"input_tokens": 123, "output_tokens": 7}, **extra}
 
 
@@ -61,10 +71,11 @@ class JevClientTests(unittest.TestCase):
 
         def transport(request, timeout):
             captured.append((request, timeout))
-            return response({"relevant": 0.875})
+            return response({"relevant": 2.875}, {"relevant": 0.25})
 
         client = self.client(transport, timeout=4)
-        self.assertEqual(self.decide(client), {"relevant": 0.875})
+        self.assertEqual(self.decide(client), {
+            "relevant": {"type": "score", "score": 2.875, "confidence": 0.25}})
         request, timeout = captured[0]
         self.assertEqual(request.full_url, "https://api.typesafe.ai/v1/systemone")
         self.assertEqual(request.get_method(), "POST")
@@ -76,6 +87,10 @@ class JevClientTests(unittest.TestCase):
         self.assertEqual(timeout, 4)
         event = client.events[-1]
         self.assertEqual(event["response_model"], MODEL)
+        self.assertEqual(event["scores"], {"relevant": 2.875})
+        self.assertEqual(event["confidences"], {"relevant": 0.25})
+        self.assertEqual(event["answers"]["relevant"], {
+            "type": "score", "score": 2.875, "confidence": 0.25})
         self.assertEqual(event["usage"]["input_tokens"], 123)
         self.assertGreaterEqual(event["latency_seconds"], 0)
         self.assertNotIn("cost_usd", event)
@@ -97,12 +112,93 @@ class JevClientTests(unittest.TestCase):
             with self.subTest(options=options), self.assertRaises(ValueError):
                 JevClient(**options)
 
+    def test_fractional_score_and_optional_api_details_are_preserved(self):
+        payload = response({"relevant": 2.625}, {"relevant": 0.1})
+        payload["answers"]["relevant"].update({
+            "probabilities": {str(index): value for index, value in enumerate((0.0, 0.0, 0.375, 0.625))},
+            "legend": {str(index): level for index, level in enumerate(CRITERIA)},
+        })
+        client = self.client(Mock(return_value=payload))
+        self.assertEqual(self.decide(client), payload["answers"])
+        self.assertEqual(client.events[-1]["answers"], payload["answers"])
+        self.assertEqual(client.events[-1]["scores"]["relevant"], 2.625)
+
+    def test_malformed_optional_distribution_and_legend_are_rejected(self):
+        bad_details = [
+            {"probabilities": [0, 0, 0, 1]},
+            {"probabilities": {"0": 0.5, "1": 0.5}},
+            {"probabilities": {"0": False, "1": 0, "2": 0, "3": 1}},
+            {"probabilities": {"0": "0", "1": 0, "2": 0, "3": 1}},
+            {"probabilities": {"0": -0.01, "1": 0, "2": 0, "3": 1}},
+            {"probabilities": {"0": 1.01, "1": 0, "2": 0, "3": 1}},
+            {"probabilities": {"0": float("nan"), "1": 0, "2": 0, "3": 1}},
+            {"probabilities": {"0": float("inf"), "1": 0, "2": 0, "3": 1}},
+            {"legend": CRITERIA},
+            {"legend": {"0": "Only one level"}},
+            {"legend": {str(index): index for index in range(4)}},
+        ]
+        for details in bad_details:
+            with self.subTest(details=details):
+                payload = response({"relevant": 2.625})
+                payload["answers"]["relevant"].update(details)
+                transport = Mock(return_value=payload)
+                client = self.client(transport)
+                with self.assertRaises(JevError):
+                    self.decide(client)
+                self.assertEqual(transport.call_count, 1)
+                self.assertEqual(client.events[-1]["status"], "failed")
+
+    def test_optional_probabilities_total_is_not_validated_or_normalized(self):
+        distributions = [
+            {"0": 0, "1": 0.0, "2": 0.49, "3": 0.5},
+            {"0": 0, "1": 0.0, "2": 0.51, "3": 0.5},
+            {"0": 0, "1": 0.0, "2": 0, "3": 0},
+            {"0": 1, "1": 1.0, "2": 1, "3": 1},
+        ]
+        for probabilities in distributions:
+            with self.subTest(probabilities=probabilities), tempfile.TemporaryDirectory() as directory:
+                payload = response({"relevant": 2.625}, {"relevant": 0.125})
+                payload["answers"]["relevant"]["probabilities"] = probabilities
+                transport = Mock(return_value=payload)
+                audit = Path(directory) / "jev_audit.jsonl"
+                client = self.client(transport, audit_path=audit)
+                answers = self.decide(client)
+                self.assertEqual(transport.call_count, 1)
+                self.assertEqual(answers["relevant"]["score"], 2.625)
+                self.assertEqual(answers["relevant"]["confidence"], 0.125)
+                logged = json.loads(audit.read_text())["answers"]["relevant"]["probabilities"]
+                for values in (answers["relevant"]["probabilities"], logged):
+                    self.assertEqual(values, probabilities)
+                    for key, value in probabilities.items():
+                        self.assertIs(type(values[key]), type(value))
+                self.assertEqual(client.events[-1]["status"], "success")
+
+    def test_grade_endpoints_and_audit_file_keep_score_and_confidence(self):
+        for value, confidence in ((0, 0), (3, 1)):
+            with self.subTest(score=value), tempfile.TemporaryDirectory() as directory:
+                audit = Path(directory) / "jev_audit.jsonl"
+                client = self.client(Mock(return_value=response(
+                    {"relevant": value}, {"relevant": confidence})), audit_path=audit)
+                self.decide(client)
+                event = json.loads(audit.read_text())
+                self.assertEqual(event["answers"]["relevant"]["score"], value)
+                self.assertEqual(event["scores"]["relevant"], value)
+                self.assertEqual(event["confidences"]["relevant"], confidence)
+
     def test_bad_responses_fail_instead_of_inventing_or_clipping_scores(self):
-        bad = [response({}), response({"relevant": -0.1}), response({"relevant": 1.01}),
-               response({"relevant": True}), response({"relevant": "0.9"}),
+        bad = [response({}), response({"relevant": -0.1}), response({"relevant": 3.01}),
+               response({"relevant": True}), response({"relevant": "2.9"}),
                response({"relevant": float("nan")}),
-               response({"relevant": 0.8}, model="jev-1.14.0"),
-               {"model": MODEL, "answers": {"relevant": {"type": "score", "score": 0.8}}}]
+               response({"relevant": float("inf")}),
+               response({"relevant": 2.8}, model="jev-1.14.0"),
+               response({"relevant": 2.8, "unexpected": 1.0}),
+               {"model": MODEL, "answers": {"relevant": {"type": "noul", "noul": 0.8}}}]
+        for value in (-0.01, 1.01, True, "0.8", float("nan"), float("inf"), None):
+            bad.append(response({"relevant": 2.8}, {"relevant": value}))
+        for field in ("score", "confidence", "type"):
+            missing = response({"relevant": 2.8})
+            del missing["answers"]["relevant"][field]
+            bad.append(missing)
         for bad_response in bad:
             with self.subTest(response=bad_response):
                 transport = Mock(return_value=bad_response)
@@ -112,10 +208,28 @@ class JevClientTests(unittest.TestCase):
                 self.assertEqual(transport.call_count, 1)
                 self.assertEqual(client.events[-1]["status"], "failed")
 
+    def test_invalid_score_request_is_rejected_before_transport(self):
+        bad_questions = [
+            {"type": "noul", "instructions": "Rate this", "criteria": CRITERIA},
+            {"type": "score", "instructions": "Rate this"},
+            {"type": "score", "instructions": "Rate this", "criteria": {"0": "None"}},
+            {"type": "score", "instructions": "Rate this", "criteria": ["No", 2]},
+            {"type": "score", "instructions": "", "criteria": CRITERIA},
+        ]
+        for question in bad_questions:
+            with self.subTest(question=question):
+                transport = Mock()
+                with self.assertRaises(ValueError):
+                    self.client(transport).decide(
+                        {"question": "Current ratio?"}, {"relevant": question},
+                        call_id="bad-request", stage="test")
+                transport.assert_not_called()
+
     def test_transient_error_retries_once_and_records_both_attempts(self):
         transport = Mock(side_effect=[URLError("connection lost"), response({"relevant": 0.7})])
         client = self.client(transport)
-        self.assertEqual(self.decide(client), {"relevant": 0.7})
+        self.assertEqual(self.decide(client), {
+            "relevant": {"type": "score", "score": 0.7, "confidence": 0.8}})
         self.assertEqual(transport.call_count, 2)
         self.assertEqual([event["status"] for event in client.events], ["failed", "success"])
         self.assertTrue(client.events[0]["will_retry"])
@@ -170,16 +284,13 @@ class ReadSelectorTests(unittest.TestCase):
             captured.append(payload)
             self.assertEqual(set(payload["state"]), {"question", "candidates"})
             for index, question in enumerate(payload["questions"].values()):
+                self.assertEqual(question["type"], "score")
                 self.assertEqual(question["instructions"], (
-                    f"Does candidates[{index}] contain a formula, financial concept, "
-                    "unit conversion, or solving strategy relevant to the question? "
-                    "Judge relevance only; do not solve the question or verify arithmetic."
+                    f"Rate how much candidates[{index}] supports solving the question using the ordered criteria. "
+                    "Judge relevance and usability only; do not solve the question or verify arithmetic."
                 ))
-                self.assertEqual(question["criteria"], {
-                    "true": "Relevant and potentially usable for this question",
-                    "false": "Unrelated to solving this question",
-                })
-            by_id = {"calc-00001": 0.95, "calc-00002": 0.1, "err-00003": 0.8}
+                self.assertEqual(question["criteria"], CRITERIA)
+            by_id = {"calc-00001": 2.95, "calc-00002": 0.1, "err-00003": 2.8}
             scores = {name: by_id[candidate["id"]]
                       for name, candidate in zip(payload["questions"], payload["state"]["candidates"])}
             return response(scores)
@@ -195,7 +306,11 @@ class ReadSelectorTests(unittest.TestCase):
         self.assertNotIn("[calc-00002]", selected)
         self.assertEqual(metadata["selected_ids"], ["calc-00001", "err-00003"])
         self.assertEqual(metadata["jev_calls"], 2)
-        self.assertEqual(client.events[-1]["event"], "read_selection")
+        self.assertEqual(metadata["primitive"], "score")
+        self.assertEqual(metadata["ranking"], "score_desc_then_playbook_order")
+        self.assertEqual(metadata["scores"], {"calc-00001": 2.95, "calc-00002": 0.1, "err-00003": 2.8})
+        self.assertEqual(metadata["confidences"], {name: 0.8 for name in metadata["scores"]})
+        self.assertEqual(client.events[-1], {"event": "read_selection", **metadata})
 
     def test_ties_preserve_original_order(self):
         def transport(request, timeout):
@@ -203,10 +318,74 @@ class ReadSelectorTests(unittest.TestCase):
             return response({name: 0.5 for name in questions})
 
         client = JevClient(enabled=True, api_key_env="TEST_JEV_KEY", transport=transport)
-        selected, metadata = ReadSelector(client, 1).select(
+        selected, metadata = ReadSelector(client, 1, batch_size=1).select(
             PLAYBOOK, "A question", call_id="tie", stage="val")
         self.assertEqual(metadata["selected_ids"], ["calc-00001"])
         self.assertNotIn("[calc-00002]", selected)
+
+    def test_confidence_never_changes_score_ranking_or_cross_batch_ties(self):
+        values = {"calc-00001": (2.25, 0.01), "calc-00002": (2.25, 1.0),
+                  "err-00003": (2.75, 0.0)}
+
+        def transport(request, timeout):
+            payload = json.loads(request.data)
+            by_name = {name: values[candidate["id"]]
+                       for name, candidate in zip(payload["questions"], payload["state"]["candidates"])}
+            return response({name: pair[0] for name, pair in by_name.items()},
+                            {name: pair[1] for name, pair in by_name.items()})
+
+        client = JevClient(enabled=True, api_key_env="TEST_JEV_KEY", transport=transport)
+        selected, metadata = ReadSelector(client, 2, batch_size=1).select(
+            PLAYBOOK, "A question", call_id="confidence", stage="test")
+        self.assertEqual(metadata["selected_ids"], ["err-00003", "calc-00001"])
+        self.assertEqual(metadata["jev_calls"], 3)
+        self.assertEqual(metadata["scores"]["calc-00001"], 2.25)
+        self.assertEqual(metadata["confidences"]["calc-00002"], 1.0)
+        self.assertNotIn("[calc-00002]", selected)
+        self.assertLess(selected.index("[calc-00001]"), selected.index("[err-00003]"))
+
+    def test_top_ten_keeps_raw_scores_stable_cross_batch_ties_and_original_structure(self):
+        parts = ["Original preamble.\r\n"]
+        for index in range(15):
+            if index % 5 == 0:
+                parts.append(f"## SECTION {index // 5}\r\n")
+            parts.append(
+                f"[calc-{index:05d}] helpful={index} harmful=0 :: Formula {index}.\r\n"
+                f"  Original explanation {index}.\r\n")
+        book = "".join(parts)
+        values = [0.1, 2.001, 2.002, 2.003, 2.004, 2.005, 2.006, 2.007,
+                  2.008, 2.009, 2.003, 2.011, 2.012, 0.1, 2.003]
+        captured = []
+
+        def transport(request, timeout):
+            payload = json.loads(request.data)
+            captured.append(payload)
+            by_name = {name: int(candidate["id"].split("-")[-1])
+                       for name, candidate in zip(payload["questions"], payload["state"]["candidates"])}
+            payload = response({name: values[index] for name, index in by_name.items()},
+                               {name: index / 14 for name, index in by_name.items()})
+            for answer in payload["answers"].values():
+                # An inconsistent optional total must not stop or alter ranking.
+                answer["probabilities"] = {"0": 0, "1": 0.0, "2": 0.49, "3": 0.5}
+            return payload
+
+        client = JevClient(enabled=True, api_key_env="TEST_JEV_KEY", transport=transport)
+        selected, metadata = ReadSelector(client, 10, batch_size=4).select(
+            book, "Question", call_id="fractional-top-ten", stage="test")
+        expected = (12, 11, 9, 8, 7, 6, 5, 4, 3, 10)
+        self.assertEqual(metadata["selected_ids"], [f"calc-{index:05d}" for index in expected])
+        self.assertEqual(metadata["selected_count"], 10)
+        self.assertEqual(metadata["jev_calls"], 4)
+        self.assertEqual([len(item["state"]["candidates"]) for item in captured], [4, 4, 4, 3])
+        self.assertEqual(metadata["scores"], {f"calc-{index:05d}": value
+                                              for index, value in enumerate(values)})
+        self.assertGreater(metadata["confidences"]["calc-00014"], metadata["confidences"]["calc-00003"])
+        self.assertNotIn("[calc-00014]", selected)
+        selected_ids = {f"calc-{index:05d}" for index in expected}
+        expected_book = "".join(part for part in parts
+                                if not part.startswith("[calc-")
+                                or part.split("]", 1)[0][1:] in selected_ids)
+        self.assertEqual(selected, expected_book)
 
     def test_multiline_entries_are_selected_or_removed_as_a_whole(self):
         playbook = (
@@ -227,8 +406,11 @@ class ReadSelectorTests(unittest.TestCase):
     def test_empty_and_small_books_do_not_request_unneeded_decisions(self):
         transport = Mock(side_effect=AssertionError("No request needed"))
         client = JevClient(transport=transport)
-        for book in ("## OTHERS\n", PLAYBOOK):
-            selected, metadata = ReadSelector(client, 5).select(
+        ten_entries = "## FORMULAS\n" + "".join(
+            f"[calc-{index:05d}] helpful=0 harmful=0 :: Formula {index}.\n"
+            for index in range(10))
+        for book in ("## OTHERS\n", PLAYBOOK, ten_entries):
+            selected, metadata = ReadSelector(client, 10).select(
                 book, "Question", call_id="small", stage="test")
             self.assertEqual(selected, book)
             self.assertEqual(metadata["jev_calls"], 0)

@@ -1,0 +1,3336 @@
+{
+  "group": "C",
+  "trial": 2,
+  "status": "complete",
+  "mock": false,
+  "formal_metrics": true,
+  "fingerprint": "20399e74f0c8ae855cb628b12b2fc4af5dd7e116bb15da92c19b1aa92b27131f",
+  "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/C/02/predictions.jsonl",
+  "compatibility_source": {
+    "migration_id": "formula-history-to-abc-score-top10-v10-2026-10-23",
+    "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/history-to-abc-score-top10-v10.json",
+    "manifest_sha256": "217bd1f7a9bf3ff8d7013e6ea654f82d54083483c8eb8faa052e936231a8acc4",
+    "legacy_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json",
+    "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
+    "legacy_fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+    "target_fingerprint": "20399e74f0c8ae855cb628b12b2fc4af5dd7e116bb15da92c19b1aa92b27131f",
+    "origin_plans": {
+      "v7": {
+        "path": "plan.json",
+        "plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
+        "schema_version": 7,
+        "protocol": "formula-abcd-compact-artifacts-bailian-v7",
+        "fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+        "resolved_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json"
+      },
+      "v9": {
+        "path": "plan.v9.json",
+        "plan_sha256": "4160713ead8bd687286b200a67f310d8e134536abba2fc34fdf58e42f0d93164",
+        "schema_version": 9,
+        "protocol": "formula-abc-score-compact-artifacts-bailian-v9",
+        "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
+        "resolved_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.v9.json"
+      }
+    }
+  },
+  "b_checkpoint": {
+    "group": "B",
+    "trial": 2,
+    "path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/best_playbook.txt",
+    "sha256": "2f41032abdecc9a6538b8355082771debd799215f5b0effcdaf5e84191e4b259",
+    "original_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
+    "origin": {
+      "kind": "legacy_compatible",
+      "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
+      "result_sha256": "a79d56fc7ae24425c66ac51ae482f733aa549391723438069c0d80efe0dbf295",
+      "manifest_sha256": "217bd1f7a9bf3ff8d7013e6ea654f82d54083483c8eb8faa052e936231a8acc4",
+      "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
+      "migration_id": "formula-history-to-abc-score-top10-v10-2026-10-23",
+      "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/history-to-abc-score-top10-v10.json",
+      "source_plan_id": "v9",
+      "source_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.v9.json",
+      "source_plan_sha256": "4160713ead8bd687286b200a67f310d8e134536abba2fc34fdf58e42f0d93164",
+      "source_plan_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
+      "original_status": "complete"
+    },
+    "training_cost_included_in_C_incremental_usage": false,
+    "shared_learning_llm_usage": {
+      "successful_calls": 695,
+      "attempts": 701,
+      "prompt_tokens": 2894758,
+      "completion_tokens": 195794
+    },
+    "shared_learning_excludes_B_test": true
+  },
+  "selection_k": 10,
+  "selection_method": "fixed_top_k",
+  "selection_primitive": "score",
+  "selection_ranking": "score_desc_then_playbook_order",
+  "selection_confidence_used_for_ranking": false,
+  "playbook_sha256": "2f41032abdecc9a6538b8355082771debd799215f5b0effcdaf5e84191e4b259",
+  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/best_playbook.txt",
+  "test": {
+    "accuracy": 0.825,
+    "correct": 165,
+    "total": 200,
+    "no_answer": 0,
+    "api_success_count": 200,
+    "api_failure_count": 0,
+    "success_rate": 1.0,
+    "stage": "test"
+  },
+  "wall_seconds": 691.7876403340051,
+  "llm": {
+    "attempts": 202,
+    "successful_calls": 200,
+    "failed_attempts": 2,
+    "prompt_tokens": 256106,
+    "completion_tokens": 49834,
+    "usage_missing_calls": 0,
+    "mock": false,
+    "stages": {
+      "test": 202
+    },
+    "stage_usage": {
+      "test": {
+        "successful_calls": 200,
+        "attempts": 202,
+        "prompt_tokens": 256106,
+        "completion_tokens": 49834
+      }
+    }
+  },
+  "jev": {
+    "attempts": 800,
+    "successful_calls": 800,
+    "latency_seconds": 306.3445437532937,
+    "reported_usage": [
+      {
+        "input_tokens": 4930,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4977,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5110,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5157,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5337,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5275,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5322,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4929,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5109,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5289,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5274,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4945,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5125,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4926,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5106,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5271,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4934,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5114,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5279,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4960,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5140,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5320,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4956,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5136,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5316,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4953,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5133,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5313,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4931,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5111,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5276,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4934,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5114,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5279,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4963,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5143,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5323,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4973,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5153,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5333,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5318,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4964,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5144,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5324,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4933,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5113,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4958,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5138,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5318,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4927,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5107,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5272,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4952,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5132,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5312,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4944,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5124,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5304,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5289,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4947,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4975,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5155,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5127,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5307,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5335,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4931,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5320,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5111,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5276,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4934,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5114,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5279,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4963,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5143,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5323,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4933,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5113,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4930,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5110,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5275,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4945,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5125,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4958,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5138,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5318,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4929,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5109,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5289,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5274,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4952,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5132,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5312,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4952,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5132,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5312,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4934,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5114,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5279,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4937,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5117,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5282,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4944,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5124,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5304,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5289,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4960,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5140,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4927,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5320,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5107,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5272,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4976,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5156,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5336,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5321,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4923,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5103,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5268,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4954,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5134,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5314,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4933,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5113,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4948,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5128,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4958,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5138,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5318,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4948,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5128,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4955,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5135,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5315,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4948,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5128,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4930,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5110,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5275,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4934,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4955,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5114,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5135,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5315,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5279,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4952,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5132,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5312,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5297,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4933,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5113,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4960,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5140,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5320,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4931,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5111,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5276,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4947,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5127,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4931,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5307,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5111,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5276,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4947,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5127,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5307,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4947,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5127,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5307,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4927,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4956,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5107,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5136,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5316,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5272,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4965,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5145,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5325,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4926,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5106,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5271,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4933,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5113,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4944,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5124,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5304,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5289,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4927,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5107,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5272,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4946,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5126,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5306,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5291,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4918,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5098,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5278,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5263,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4955,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4964,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5135,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5144,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5315,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5324,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4948,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5128,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5308,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5293,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4932,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5112,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5292,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4958,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5138,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5277,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5318,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4938,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4930,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5110,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5118,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5298,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5283,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5275,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4988,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4956,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5168,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5136,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5348,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5316,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5333,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4942,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5122,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5287,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4943,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5123,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4979,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5159,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5303,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5339,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5324,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4940,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5120,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5300,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5285,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4949,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5129,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5309,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5294,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4945,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5125,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5305,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4969,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5149,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5329,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5314,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4935,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5115,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5280,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4951,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5131,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5311,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4936,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5116,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5296,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5281,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4962,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5142,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5322,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5307,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4928,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5108,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5288,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5273,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4941,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5121,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4930,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5301,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5110,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5286,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5290,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5275,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4981,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5161,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5341,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5326,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4950,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4939,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5130,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5119,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5310,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5299,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5295,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5284,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 4957,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5137,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5317,
+        "output_tokens": 354
+      },
+      {
+        "input_tokens": 5302,
+        "output_tokens": 354
+      }
+    ]
+  },
+  "errors": [
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_173",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_187",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    }
+  ],
+  "llm_usage_including_shared_learning": {
+    "successful_calls": 895,
+    "attempts": 903,
+    "prompt_tokens": 3150864,
+    "completion_tokens": 245628
+  }
+}

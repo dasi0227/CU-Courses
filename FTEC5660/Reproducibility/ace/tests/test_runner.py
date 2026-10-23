@@ -90,9 +90,9 @@ runpy.run_module('eval.finance.experiments', run_name='__main__')
             self.assertEqual(printed["groups"], list("ABC"))
             self.assertEqual(printed["required_keys_for_live_run"], ["DEEPSEEK_API_KEY", "TYPESAFE_API_KEY"])
             plan = read_json(output / "plan.json")
-            self.assertEqual(plan["schema_version"], 8)
-            self.assertEqual(plan["protocol"], "formula-abc-compact-artifacts-bailian-v8")
-            self.assertEqual(plan["config"]["jev"]["k"], 5)
+            self.assertEqual(plan["schema_version"], 10)
+            self.assertEqual(plan["protocol"], "formula-abc-score-top10-compact-artifacts-bailian-v10")
+            self.assertEqual(plan["config"]["jev"]["k"], 10)
             self.assertNotIn("k_candidates", plan["config"]["jev"])
             llm = plan["config"]["llm"]
             self.assertEqual(llm["api_provider"], "dashscope")
@@ -114,13 +114,13 @@ class MockProtocolTests(unittest.TestCase):
         original_response = Runtime._mock_response
 
         def expanded_book_response(runtime, role, call_id):
-            # Six learned entries make fixed top-5 exercise the scoring path.
+            # Twelve learned entries make fixed top-10 exercise the scoring path.
             response = json.loads(original_response(runtime, role, call_id))
             if role == "curator":
                 operation = response["operations"][0]
                 response["operations"] = [
                     {**operation, "content": f"{operation['content']} Rule {index}."}
-                    for index in range(3)
+                    for index in range(6)
                 ]
             return json.dumps(response)
 
@@ -159,6 +159,9 @@ class MockProtocolTests(unittest.TestCase):
         self.assertTrue(all((self.output / group / "01").is_dir() for group in "ABC"))
         self.assertFalse(any(self.output.glob("trial_*")))
         self.assertTrue(all(row["formal_metrics"] == "False" for row in summary))
+        self.assertTrue(all(row["aggregation_protocol"] == self.plan["protocol"] for row in summary))
+        self.assertEqual({row["group"]: row["selection_k"] for row in summary},
+                         {"A": "", "B": "", "C": "10"})
 
     def test_final_predictions_are_flat_and_agree_with_saved_metrics(self):
         for group, result in self.results.items():
@@ -246,17 +249,24 @@ class MockProtocolTests(unittest.TestCase):
         self.assertNotIn("chosen_k", c)
         events = read_jsonl(self.folder("C") / "jev_audit.jsonl")
         requests = [row for row in events if row["event"] == "jev_request"]
-        self.assertGreater(len(requests), 0, "the mock book must exceed fixed k=5")
+        self.assertGreater(len(requests), 0, "the mock book must exceed fixed k=10")
         self.assertTrue(all(row["stage"] == "test" for row in requests))
         for event in requests:
             self.assertEqual(set(event["state"]), {"question", "candidates"})
             self.assertNotIn("target", json.dumps(event["questions"]))
             self.assertEqual(event["model"], self.plan["config"]["jev"]["model"])
-        self.assertEqual(c["selection_k"], 5)
+            self.assertEqual({question["type"] for question in event["questions"].values()}, {"score"})
+        self.assertEqual(c["selection_k"], 10)
         self.assertEqual(c["selection_method"], "fixed_top_k")
+        self.assertEqual(c["selection_primitive"], "score")
+        self.assertEqual(c["selection_ranking"], "score_desc_then_playbook_order")
+        self.assertIs(c["selection_confidence_used_for_ranking"], False)
         selections = [row for row in events if row["event"] == "read_selection"]
         self.assertEqual(len(selections), len(calls))
-        self.assertTrue(all(row["k"] == 5 and row["selected_count"] == 5 for row in selections))
+        self.assertTrue(all(row["k"] == 10 and row["selected_count"] == 10 for row in selections))
+        self.assertTrue(all(set(row["scores"]) == set(row["confidences"]) for row in selections))
+        self.assertTrue(all(score == 3.0 for row in selections for score in row["scores"].values()))
+        self.assertTrue(all(confidence == .9 for row in selections for confidence in row["confidences"].values()))
         # The scored subset must be the actual context handed to DeepSeek.
         candidate_ids = {candidate["id"] for request in requests
                          for candidate in request["state"]["candidates"]}
@@ -285,8 +295,11 @@ class MockProtocolTests(unittest.TestCase):
             def fail_before_requests(*args, **kwargs):
                 persisted = read_json(output / "C" / "01" / "result.json")
                 self.assertEqual(persisted["status"], "running")
-                self.assertEqual(persisted["selection_k"], 5)
+                self.assertEqual(persisted["selection_k"], 10)
                 self.assertEqual(persisted["selection_method"], "fixed_top_k")
+                self.assertEqual(persisted["selection_primitive"], "score")
+                self.assertEqual(persisted["selection_ranking"], "score_desc_then_playbook_order")
+                self.assertIs(persisted["selection_confidence_used_for_ranking"], False)
                 self.assertEqual(persisted["b_checkpoint"]["sha256"], self.results["B"]["playbook_sha256"])
                 self.assertEqual(persisted["playbook_sha256"], persisted["b_checkpoint"]["sha256"])
                 self.assertEqual(Path(persisted["b_checkpoint"]["path"]).resolve(),
@@ -302,8 +315,11 @@ class MockProtocolTests(unittest.TestCase):
             self.assertEqual(len(observed), 1)
             failed = read_json(output / "C" / "01" / "result.json")
             self.assertEqual(failed["status"], "failed")
-            self.assertEqual(failed["selection_k"], 5)
+            self.assertEqual(failed["selection_k"], 10)
             self.assertEqual(failed["selection_method"], "fixed_top_k")
+            self.assertEqual(failed["selection_primitive"], "score")
+            self.assertEqual(failed["selection_ranking"], "score_desc_then_playbook_order")
+            self.assertIs(failed["selection_confidence_used_for_ranking"], False)
             self.assertEqual(failed["b_checkpoint"], observed[0]["b_checkpoint"])
             self.assertFalse((output / "C" / "01" / "frozen_selection.json").exists())
 
@@ -424,6 +440,27 @@ class MockProtocolTests(unittest.TestCase):
             self.assertEqual([(row["group"], row["completed_trials"]) for row in saved], [("A", "1")])
             self.assertFalse((output / "summary.json").exists())
 
+    def test_aggregation_excludes_failed_trials_and_rejects_an_old_c_selection_policy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "plan.json").write_text(json.dumps(self.plan), encoding="utf-8")
+            a_path = output / "A" / "01" / "result.json"
+            a_path.parent.mkdir(parents=True)
+            a_path.write_text(json.dumps({**self.results["A"], "status": "failed"}), encoding="utf-8")
+            self.assertEqual(runner.aggregate(output, self.plan), [])
+            self.assertFalse((output / "summary.csv").exists())
+            c_path = output / "C" / "01" / "result.json"
+            c_path.parent.mkdir(parents=True)
+            c_path.write_text(json.dumps({**self.results["C"], "selection_k": 5}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "selection policy"):
+                runner.aggregate(output, self.plan)
+            self.assertFalse((output / "summary.csv").exists())
+            c_path.write_text(json.dumps(self.results["C"]), encoding="utf-8")
+            rows = runner.aggregate(output, self.plan)
+            self.assertEqual([(row["group"], row["completed_trials"], row["selection_k"])
+                              for row in rows], [("C", 1, 10)])
+            self.assertEqual(rows[0]["aggregation_protocol"], self.plan["protocol"])
+
     def test_removed_groups_and_original_baseline_cannot_be_selected(self):
         from src.experiments import runtime, jev
         self.assertEqual(tuple(runner.GROUPS), tuple("ABC"))
@@ -437,7 +474,86 @@ class MockProtocolTests(unittest.TestCase):
                 run_group.assert_not_called()
 
 
+class SelectedScoreGeneratorTests(unittest.TestCase):
+    def test_score_ranked_top_ten_reaches_generator_and_confidence_does_not_break_ties(self):
+        from src.experiments.jev import JevClient, ReadSelector
+
+        # Tie groups cross request batches and have deliberately reversed
+        # confidence values; the handbook order must still determine each tie.
+        scores = {f"b{index}": score for index, score in enumerate((1, 3, 2, 3, 0, 2, 3, 1, 2, 3, 2, 1, 2, 2, 2))}
+        confidences = {f"b{index}": value for index, value in enumerate((.99, .1, .01, .2, 1, .05, 0, 1, .4, .3, .8, 1, .7, .6, 1))}
+        # This optional audit distribution totals 1.5 and disagrees with high
+        # returned scores. Neither its total nor its implied mean may alter rank.
+        probabilities = {"0": .75, "1": .75, "2": 0, "3": 0}
+        requests = []
+
+        def transport(request, timeout):
+            payload = json.loads(request.data)
+            requests.append(payload)
+            candidates = payload["state"]["candidates"]
+            return {"model": payload["model"], "answers": {
+                name: {"type": "score", "score": scores[candidates[index]["id"]],
+                       "confidence": confidences[candidates[index]["id"]],
+                       "probabilities": dict(probabilities)}
+                for index, name in enumerate(payload["questions"])
+            }}
+
+        class RecordingGenerator:
+            def __init__(self):
+                self.calls = []
+
+            def generate(self, **kwargs):
+                self.calls.append(kwargs)
+                return "answer", [], {"api_success": True}
+
+        client = JevClient(enabled=True, transport=transport)
+        delegate = RecordingGenerator()
+        generator = runner.SelectedGenerator(delegate, ReadSelector(client, 10, 4), "test")
+        book = "## FORMULAS & CALCULATIONS\n" + "".join(
+            f"[b{index}] helpful=1 harmful=0 :: Formula method {index}.\n" for index in range(15))
+        with offline_guards():
+            _, _, info = generator.generate(playbook=book, question="Compute a financial ratio.", call_id="case")
+        selection = info["selection"]
+        self.assertEqual(selection["selected_ids"], ["b1", "b3", "b6", "b9", "b2", "b5", "b8", "b10", "b12", "b13"])
+        self.assertEqual(selection["scores"], scores)
+        self.assertEqual(selection["confidences"], confidences)
+        self.assertEqual(len(requests), 4)
+        self.assertEqual(len(delegate.calls), 1)
+        passed = delegate.calls[0]
+        self.assertEqual(passed["question"], "Compute a financial ratio.")
+        selected = set(selection["selected_ids"])
+        for identifier in scores:
+            self.assertEqual(f"[{identifier}]" in passed["playbook"], identifier in selected)
+        self.assertIn("## FORMULAS & CALCULATIONS", passed["playbook"])
+        self.assertTrue(all(question["type"] == "score" for payload in requests
+                            for question in payload["questions"].values()))
+        self.assertNotIn("target", json.dumps(requests))
+        audit = [event for event in client.events if event["event"] == "read_selection"]
+        self.assertEqual(len(audit), 1)
+        self.assertEqual(audit[0]["scores"], scores)
+        self.assertEqual(audit[0]["confidences"], confidences)
+        request_events = [event for event in client.events if event["event"] == "jev_request"]
+        self.assertEqual(len(request_events), 4)
+        self.assertTrue(all(answer["probabilities"] == probabilities for event in request_events
+                            for answer in event["answers"].values()))
+
+
 class StagedExecutionTests(unittest.TestCase):
+    def test_direct_runner_rejects_invalid_trials_before_runtime_or_output_creation(self):
+        config = runner.load_config(ROOT / "configs/formula/smoke.json")
+        data = runner.prepare_data(config, ROOT)
+        plan = runner.build_plan(config, data, ["A"], mock=True)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "must-stay-absent"
+            for trial in (0, -1, config["repeats"] + 1, True, 1.0):
+                with self.subTest(trial=trial), offline_guards(), patch(
+                    "src.experiments.runtime.Runtime", side_effect=AssertionError("No runtime may be created"),
+                ) as runtime:
+                    with self.assertRaisesRegex(ValueError, "trial"):
+                        runner.run_group("A", trial, plan, data, output, mock=True)
+                    runtime.assert_not_called()
+                    self.assertFalse(output.exists())
+
     def test_three_trial_protocol_writes_only_the_39_planned_artifacts(self):
         config = runner.load_config(ROOT / "configs/formula/smoke.json")
         config["repeats"] = 3

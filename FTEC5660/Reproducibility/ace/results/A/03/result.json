@@ -1,0 +1,120 @@
+{
+  "group": "A",
+  "trial": 3,
+  "status": "failed",
+  "mock": false,
+  "formal_metrics": true,
+  "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
+  "predictions_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/A/03/predictions.jsonl",
+  "compatibility_source": {
+    "migration_id": "formula-small-v7-to-abc-score-v9-2026-10-23",
+    "manifest_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/configs/formula/compatibility/v7-small-to-abc-score-v9.json",
+    "manifest_sha256": "eb94629c5e707e9dea2e455bc281057980bb05e8cf40259ded366f64036af1fb",
+    "legacy_plan_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/plan.json",
+    "legacy_plan_sha256": "a8b3ddc139a7050cf2581ed52f66202572093e311a324babdbbf8c3ee7a681a9",
+    "legacy_fingerprint": "e9f093c3e1416b7b71f1fedbedde74ed43b12df91190bc09c467b5cedeb46435",
+    "target_fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362"
+  },
+  "playbook_sha256": "d0e7d0049bd539630f51db8d08fdff170ea2882267c960fbe843bede303e2249",
+  "playbook_source": "empty_playbook",
+  "test": {
+    "accuracy": 0.7,
+    "correct": 140,
+    "total": 200,
+    "no_answer": 1,
+    "api_success_count": 199,
+    "api_failure_count": 1,
+    "success_rate": 0.995,
+    "stage": "test"
+  },
+  "error_type": "RuntimeError",
+  "error": "test: API failures occurred; metrics retained, trial is incomplete",
+  "wall_seconds": 525.2914434169943,
+  "llm": {
+    "attempts": 203,
+    "successful_calls": 199,
+    "failed_attempts": 4,
+    "prompt_tokens": 88290,
+    "completion_tokens": 41507,
+    "usage_missing_calls": 0,
+    "mock": false,
+    "stages": {
+      "test": 203
+    },
+    "stage_usage": {
+      "test": {
+        "successful_calls": 199,
+        "attempts": 203,
+        "prompt_tokens": 88290,
+        "completion_tokens": 41507
+      }
+    }
+  },
+  "jev": {
+    "attempts": 0,
+    "successful_calls": 0,
+    "latency_seconds": 0,
+    "reported_usage": []
+  },
+  "errors": [
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_84",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_95",
+      "attempt": 1,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_84",
+      "attempt": 2,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "api",
+      "role": "generator",
+      "stage": "test",
+      "call_id": "test_eval_84",
+      "attempt": 3,
+      "error_type": "APITimeoutError",
+      "message": "Request timed out."
+    },
+    {
+      "kind": "evaluation",
+      "role": "generator",
+      "call_id": "test_eval_84",
+      "stage": "test",
+      "error_type": "EvaluationError",
+      "message": "Error evaluating sample 84: RuntimeError: generator call failed after bounded attempts (APITimeoutError)",
+      "sample_id": "test:000085"
+    },
+    {
+      "kind": "run",
+      "role": "runner",
+      "call_id": "A:03",
+      "stage": "setup",
+      "error_type": "RuntimeError",
+      "message": "test: API failures occurred; metrics retained, trial is incomplete"
+    }
+  ],
+  "llm_usage_including_shared_learning": {
+    "successful_calls": 199,
+    "attempts": 203,
+    "prompt_tokens": 88290,
+    "completion_tokens": 41507
+  }
+}

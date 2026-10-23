@@ -131,10 +131,10 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
     for name in ("base_url", "model", "api_key_env"):
         if not isinstance(jev.get(name), str) or not jev[name].strip():
             raise ValueError(f"jev.{name} must be a non-empty string")
-    if _integer(jev.get("k"), "jev.k") != 5:
-        raise ValueError("jev.k must be fixed at 5")
+    if _integer(jev.get("k"), "jev.k") != 10:
+        raise ValueError("jev.k must be fixed at 10")
     if "k_candidates" in jev:
-        raise ValueError("jev.k_candidates is not supported; C uses fixed top-5 without validation tuning")
+        raise ValueError("jev.k_candidates is not supported; C uses fixed top-10 without validation tuning")
     _integer(jev.get("batch_size"), "jev.batch_size")
     _number(jev.get("timeout"), "jev.timeout", 0.001)
 

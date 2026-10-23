@@ -4,34 +4,35 @@ Formula 复现与对照实验
 
 A：空手册 baseline。使用 ACE 预处理后的题目和 Generator 提示词，保持手册为空，直接回答测试题，不进行训练。
 B：3 轮 ACE。答错后最多进行 3 轮“反思、重新回答”，改对则提前停止；训练时逐题整理经验，用验证集选择最佳手册，最终固定手册测试。
-C：Jev 读取选择。复用同一 trial 的 B 最佳手册，使用现有固定 decision 指令根据当前测试题对条目相关性评分，固定读取前 5 条经验；手册不超过 5 条时读取全部，无需 Jev 评分。C 不重新训练、不改写手册，也不额外运行验证集选择 k，直接评测测试集。Jev 不生成答案，也不判断数值是否正确。
+C：Jev Score 读取选择。复用同一 trial 的 B 最佳手册，使用固定 decision 指令根据当前测试题对每条经验给出 0–3 Score 评分，按 score 降序读取前 10 条；同分保持手册原顺序，confidence 仅记录审计、不参与排序。手册不超过 10 条时读取全部，无需 Jev 评分。C 不重新训练、不改写手册，也不额外运行验证集选择 k，直接评测测试集。Jev 不生成答案，也不判断数值是否正确。评分等级固定为：0=无关；1=仅话题相关或泛泛提醒；2=辅助步骤可用；3=直接支持核心公式或关键计算步骤。
 
-对照关系：A/B 检验经验手册收益，B/C 检验 top-5 读取选择。三组测试时每题只生成一次。
+对照关系：A/B 检验经验手册收益，B/C 检验 top-10 读取选择。三组测试时每题只生成一次。
 
 数据与配置
 
 small：按 50 种公式分层抽取训练集每类 2 题、验证集每类 1 题，测试集保持完整；共 100/50/200 题，1 epoch，每 20 步验证，3 次重复。这是本次使用的缩减规模配置，不能宣称严格复现论文数值。
 paper：使用仓库的 500/300/200 题，5 epochs，每 100 步验证，3 次重复；仅保留为可选配置，本次不额外执行。名称表示数据规模与训练遍数对齐，B 的反思上限已按本次方案改为 3 轮，不再保留上游默认的 5 轮。当前采用 Terminus 更新版及百炼服务，不能视为与论文原版 V3.1 严格同模型、同服务的复现。
-smoke：训练/验证/测试各 2 题，1 epoch，每 2 步验证，1 次；与正式配置一致，C 固定 k=5。它只供离线流程检查，不能作为正式指标。
+smoke：训练/验证/测试各 2 题，1 epoch，每 2 步验证，1 次；与正式配置一致，C 固定 k=10。它只供离线流程检查，不能作为正式指标。
 
-原始 JSONL 保持不变，新目录的 plan.json.data（历史结果目录为 plan.v8.json.data）记录源文件 SHA-256、抽样种子、源行号和稳定样本 ID；三组统一使用现有的 ACE 题目预处理和 Generator 提示词。
+原始 JSONL 保持不变，新目录的 plan.json.data（历史结果目录为 plan.v10.json.data）记录源文件 SHA-256、抽样种子、源行号和稳定样本 ID；三组统一使用现有的 ACE 题目预处理和 Generator 提示词。
 每个正式 trial 只独立训练 B；C 只复用同 trial 的 B，不能跨 trial 或跨配置复用。三次重复使用相同数据划分和顺序，报告实际运行间变动。
-C 固定 k=5，不再额外回答验证集。small 每 trial 的 C 只对 200 道测试题各调用一次 Generator，共 200 次（不含异常重试），另有 Jev 相关性评分请求。B 的手册训练与验证是两组共享的前置投入。
+C 固定 k=10，不再额外回答验证集。small 每 trial 的 C 只对 200 道测试题各调用一次 Generator，共 200 次（不含异常重试），另有 Jev 相关性评分请求。B 的手册训练与验证是两组共享的前置投入。
 
 模型与环境
 
 三组统一通过阿里云百炼北京地域调用硅基流动提供的 siliconflow/deepseek-v3.1-terminus，api_provider=dashscope，region=cn-beijing，base_url=https://dashscope.aliyuncs.com/compatible-mode/v1。三个 ACE 角色共用同一模型和 Key，temperature=0，enable_thinking=false；OpenAI 兼容接口通过 extra_body 关闭思考。输出上限 4096 tokens，batch_size=1。
 Terminus 是 DeepSeek-V3.1 的更新版，服务商也从上游默认的 SambaNova 改为百炼入口下的硅基流动。报告需记录模型版本与服务商差异；在控制台开通模型并授权之前，配置存在并不代表账户已具有调用权限。
-Jev 固定模型 jev-1.13.0，端点 https://api.typesafe.ai/v1/systemone，相关性评分每批最多 20 条。所有配置固定 k=5，不接受 k_candidates 或验证集调参；每道题选中的经验可以不同。
+Jev 固定模型 jev-1.13.0，端点 https://api.typesafe.ai/v1/systemone，使用 Score 原语，评分每批最多 20 条。四档是评分锚点；官方 Score 返回概率加权均值，可为小数。返回值须为 0–3 有限数值 score 和 0–1 有限数值 confidence，按原始 score 排序，不取整；保留条目完整性、类型和范围校验，缺失、越界或类型错误均使运行失败，不补默认分、不裁剪分数、不回退为 Noul。probabilities 原样保存到审计，不要求总和等于 1，不据此重新计算 score；confidence 仅审计，不参与排序。所有配置固定 k=10，不接受 k_candidates 或验证集调参；每道题选中的经验可以不同。
 项目根目录 .env 使用 DEEPSEEK_API_KEY 和 TYPESAFE_API_KEY。前者只是本地变量名，值必须是百炼北京 Key，请求走百炼而非 DeepSeek 官方。A/B 只需百炼 Key，C 还需要 Typesafe Key。不要把密钥写入配置、日志或提交文件；此次改动不修改实际 .env。
 官方接口说明：https://help.aliyun.com/zh/model-studio/siliconflow-deepseek-api
+Score 原语说明：https://docs.typesafe.ai/primitives/score；criteria 是按 0 开始的有序字符串数组，顺序对应上述四档。
 
 运行入口
 
 在项目根目录使用：
 .venv/bin/python -m eval.finance.experiments
 
-默认等同 --dry-run，只将计划与样本清单写入计划文件，不调用 API；新目录使用 plan.json，已核验的 v7 历史结果目录使用 plan.v8.json。
+默认等同 --dry-run，只将计划与样本清单写入计划文件，不调用 API；新目录使用 plan.json，已核验的历史结果目录使用 plan.v10.json。
 --mock 默认使用 smoke 配置与离线替身，默认输出为并列的 results-mock/，不生成真实成绩；显式 --output 优先。
 只有显式 --execute 才会请求真实模型；它与 --mock、--dry-run 互斥。
 --config 指定 JSON；--groups 后用空格分隔 A B C；--trial 为 1 到 repeats，不指定则运行全部重复；--output 指定共享输出根目录，B、C 必须使用同一目录。
@@ -46,7 +47,7 @@ Jev 固定模型 jev-1.13.0，端点 https://api.typesafe.ai/v1/systemone，相�
 离线检查：
 .venv/bin/python -m eval.finance.experiments --mock
 
-以下命令仅作真实执行示例，此次没有执行：
+以下为真实执行命令示例，实际已完成次数和状态以 results/ 中的记录为准：
 .venv/bin/python -m eval.finance.experiments --execute --config configs/formula/small.json --groups A B
 .venv/bin/python -m eval.finance.experiments --execute --config configs/formula/small.json --groups C
 
@@ -56,7 +57,7 @@ Jev 固定模型 jev-1.13.0，端点 https://api.typesafe.ai/v1/systemone，相�
 
 结果文件（下列路径均相对于输出根目录）
 
-新输出目录保存以下 3 个公共文件；受保护的 v7 历史目录使用下述兼容文件名：
+新输出目录保存以下 3 个公共文件；受保护的历史目录使用下述兼容文件名：
 plan.json：整体实验配置、代码校验值与 plan.json.data 中的完整数据来源和抽样清单。
 invocations.jsonl：每次启动的组别、重复编号、模式和时间。
 summary.csv：各组准确率均值、样本方差、调用用量与耗时汇总；各次完整结果仍在对应 result.json。
@@ -64,30 +65,30 @@ summary.csv：各组准确率均值、样本方差、调用用量与耗时汇总
 各组的 01/02/03 目录均保存以下 3 个文件：
 llm_calls.jsonl：按行追加所有阶段的 DeepSeek 请求，完整保留角色、提示词、回答、Token、耗时和错误；使用 stage 与 call_id 定位单次调用。另以 processing_error 事件记录解析和 Curator 应用错误，这类事件不计作额外 API 请求。
 predictions.jsonl：逐题保存最终测试的样本 ID、预测、标准答案、正误与错误信息，直接放在各组重复目录下；不再复制原始回答、final_answer 或重复成功标记，原始回答通过 stage/call_id 关联 llm_calls.jsonl。
-result.json：本组本次的运行状态、test 中的测试指标、predictions_path 绝对路径、各阶段调用与 Token 汇总、耗时及 errors 中的 API、解析和 Curator 应用错误；不再嵌入完整逐题预测。B 的 training_config 保留训练入口实际参数和 effective_parameters，training 保留训练摘要。C 还保存 selection_k=5、selection_method=fixed_top_k、b_checkpoint 中的 B 手册路径与 SHA-256，以及共享 B 训练和验证用量；这些来源信息在测试开始前落盘。
+result.json：本组本次的运行状态、test 中的测试指标、predictions_path 绝对路径、各阶段调用与 Token 汇总、耗时及 errors 中的 API、解析和 Curator 应用错误；不再嵌入完整逐题预测。B 的 training_config 保留训练入口实际参数和 effective_parameters，training 保留训练摘要。C 还保存 selection_k=10、selection_method=fixed_top_k、b_checkpoint 中的 B 手册路径与 SHA-256，以及共享 B 训练和验证用量；这些来源信息在测试开始前落盘。
 
 B 再保存以下 2 个训练文件：
 training/train_results.json：合并逐题更新手册前后的答案和正误、实际反思轮数，各次验证的逐题预测、指标与手册大小，以及 best_checkpoint；small 正常完成时有 5 次验证。每个训练步骤后更新，失败时保留已完成记录和状态。
 training/best_playbook.txt：验证准确率提升时立即保存的最佳手册；C 直接读取同编号 B 的文件，并核对 SHA-256。
 
-C 额外保存 jev_audit.jsonl，记录 Jev 的评分输入、候选经验、相关性分数、选中条目、Token、耗时和错误，便于追溯 top-5 选择。
+C 额外保存 jev_audit.jsonl，记录 Score 请求及 0–3 分档、每个候选经验的原始 score、confidence 和 probabilities、排序依据、选中条目、Token、耗时和错误，便于追溯 top-10 选择；confidence 不参与排序。
 三次重复的三组全部正常完成后，共有 39 个常规输出文件：3 个公共文件、27 个各组共有文件、6 个 B 训练文件和 3 个 C 审计文件；历史兼容记录另计。
 
 不再生成独立 data_manifest.json、summary.json、test_metrics.json、evaluation_playbook.txt 或 frozen_selection.json，也不再生成独立请求 JSON、detailed_llm_logs、run_config.json、final_results.json、val_results.json、pre_train_post_train_results.json、bullet_usage_log.jsonl、curator_operations_diff.jsonl、final_playbook.txt 和 intermediate_playbooks 快照；需保留的配置、逐题训练与验证信息、错误和最佳手册已先并入上述文件。原始调用仍完整保存，必要时可据此复查经验引用和 Curator 操作。
 日志逐条追加、训练记录逐步保存；完整测试预测在该次评测完成后保存。这种持久化不等于自动断点续跑，现有已运行组和重复仍不会被覆盖。
-当前 schema_version=8，protocol=formula-abc-compact-artifacts-bailian-v8；旧组名、旧反思上限、旧目录布局或旧输出协议的结果不能直接混用。原 C（1 轮 ACE）已移除，原 D（Jev 读取选择）组统一命名为 C。
+当前 schema_version=10，protocol=formula-abc-score-top10-compact-artifacts-bailian-v10；旧组名、旧反思上限、旧目录布局或旧输出协议的结果不能直接混用。原 C（1 轮 ACE）已移除，原 D（Jev 读取选择）组统一命名为 C。
 
 历史结果兼容与保护
 
-configs/formula/compatibility/v7-small-to-abc-v8.json 是独立于结果目录的显式兼容记录，精确绑定本次核验的旧 plan.json 字节 SHA-256、原指纹、目标配置与源代码 SHA-256，以及既有 A/01、B/01 每个持久化文件的 SHA-256；不是对所有 v7 结果的通用豁免。
-只允许删除旧 C、将旧 D 改名 C，且 A/B 定义、small 数据、模型和提示词保持一致。每次复用或汇总都会重新核对配置、数据、源代码和文件摘要，漂移即拒绝；未明确列出的旧结果以及原 C（1 轮）不能作为新 C 接纳。
-已有 A/01、B/01 的 result.json、原指纹和其余文件保持原字节，原 results/plan.json、invocations.jsonl、summary.csv 也不覆盖或删除。兼容通过后，未来在该历史目录启动新运行时写 plan.v8.json、追加 invocations.v8.jsonl，汇总写 summary.v8.csv；全新输出目录仍使用 plan.json、invocations.jsonl、summary.csv。
-新计划、新调用记录、新结果和新汇总另记兼容来源；C 的 b_checkpoint 保留 B 的原指纹、手册 SHA-256 和来源证明。历史 A/B 可在核验通过后纳入 v8 汇总并供 C 复用，不改写历史元数据，不冒充原生 v8 结果，也不会自动重训。
-本次迁移只修改代码、配置、测试、说明和外部兼容记录，离线流程检查使用临时目录；实际 results/ 不写入。
+configs/formula/compatibility/history-to-abc-score-top10-v10.json 是独立于结果目录的显式兼容记录，分别绑定 v7 与 v9 历史计划的原始字节 SHA-256 和指纹、当前目标配置与源码 SHA-256，以及已核验的 A/01、A/02、A/03、B/01、B/02 各文件的 SHA-256；不是对整个旧协议的通用豁免。
+兼容范围限于列出的 A/B 历史结果。本次仅取消 Jev 概率总和校验，并将 C 固定读取条数由 5 改为 10；A/B 定义、B 训练逻辑、small 数据规模、模型和 Generator/Reflector/Curator 提示词保持不变。旧 v8/v9 兼容清单保留原样，当前清单分别核验各历史来源及其与当前设置的允许差异；每次复用或汇总都重查配置、数据、源码和文件摘要，漂移即拒绝。未列出的旧结果、原 C（1 轮）和失败的 C/01 不能作为新 C 来源。
+已有 A/B 的 result.json、原指纹、实际运行参数、恢复记录和其余文件保持原字节，原 results/plan.json、invocations.jsonl、summary.csv 及 v8/v9 版本文件也不覆盖或删除。兼容通过后，在该历史目录启动新运行时写 plan.v10.json、追加 invocations.v10.jsonl，汇总写 summary.v10.csv；全新输出目录仍使用 plan.json、invocations.jsonl、summary.csv。
+新计划、新调用记录、新结果和新汇总另记兼容来源；C 的 b_checkpoint 保留同编号 B 的原指纹、最佳手册 SHA-256 和来源证明，B/01 与 B/02 均须按真实来源验证。A/01、B/01、B/02 正常完成后可纳入正式汇总；A/02、A/03 保留 failed 状态与超时计错指标，不纳入正式完成汇总。兼容不改写历史元数据，不把旧结果冒充原生 v10 结果，也不会自动重训。
+失败 C/01 的原因和已落盘用量记于 docs/debug_notes.txt；保留该摘要后，按用户授权仅清理它的 interrupted 目录，供后续完整重跑使用。迁移阶段仅做离线检查，后续正式实验及失败状态以 results/ 中的真实记录为准。
 
 评测与结果解释
 
-B 固定验证集选出的手册，C 复用 B 的同一份最佳手册并预先固定 k=5；测试标签仅用于程序评分，不传给模型或 Jev。
+B 固定验证集选出的手册，C 复用 B 的同一份最佳手册并预先固定 k=10；测试标签仅用于程序评分，不传给模型或 Jev。
 三组统一使用数值 Exact Match，不额外放宽数值容差。分母固定为全部测试题，API 或解析失败保留记录并计错，不跳过样本提高准确率。
 正式配置汇总 3 次准确率的均值、样本方差，记录 API 完成率、各阶段调用数、输入/输出 Token、耗时、实际反思轮数和手册大小。
 百炼与 Jev 用量分开记录；Token、API 调用次数和延迟不是费用，需要明确计费规则或账单证据才能换算。

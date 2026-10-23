@@ -1,0 +1,5184 @@
+{
+  "status": "complete",
+  "steps": [
+    {
+      "epoch": 1,
+      "step": 1,
+      "sample_id": "train:000004",
+      "target": "0.69",
+      "pre_train_result": {
+        "final_answer": "0.69",
+        "is_correct": true,
+        "playbook_num_tokens": 61,
+        "playbook_length": 184,
+        "call_id": "train_e_1_s_1_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.69",
+        "is_correct": true,
+        "playbook_num_tokens": 142,
+        "playbook_length": 462,
+        "call_id": "train_e_1_s_1_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 2,
+      "sample_id": "train:000005",
+      "target": "0.06",
+      "pre_train_result": {
+        "final_answer": "5.50",
+        "is_correct": false,
+        "playbook_num_tokens": 142,
+        "playbook_length": 462,
+        "call_id": "train_e_1_s_2_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.06",
+        "is_correct": true,
+        "playbook_num_tokens": 212,
+        "playbook_length": 756,
+        "call_id": "train_e_1_s_2_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 3,
+      "sample_id": "train:000009",
+      "target": "5.0",
+      "pre_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 212,
+        "playbook_length": 756,
+        "call_id": "train_e_1_s_3_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 278,
+        "playbook_length": 1026,
+        "call_id": "train_e_1_s_3_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 4,
+      "sample_id": "train:000012",
+      "target": "40.0",
+      "pre_train_result": {
+        "final_answer": "0.40",
+        "is_correct": false,
+        "playbook_num_tokens": 278,
+        "playbook_length": 1026,
+        "call_id": "train_e_1_s_4_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "40.0",
+        "is_correct": true,
+        "playbook_num_tokens": 358,
+        "playbook_length": 1359,
+        "call_id": "train_e_1_s_4_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 5,
+      "sample_id": "train:000014",
+      "target": "3.0",
+      "pre_train_result": {
+        "final_answer": "3.0",
+        "is_correct": true,
+        "playbook_num_tokens": 358,
+        "playbook_length": 1359,
+        "call_id": "train_e_1_s_5_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "3.0",
+        "is_correct": true,
+        "playbook_num_tokens": 358,
+        "playbook_length": 1359,
+        "call_id": "train_e_1_s_5_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 6,
+      "sample_id": "train:000022",
+      "target": "27.5",
+      "pre_train_result": {
+        "final_answer": "27.50",
+        "is_correct": true,
+        "playbook_num_tokens": 358,
+        "playbook_length": 1359,
+        "call_id": "train_e_1_s_6_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "27.5",
+        "is_correct": true,
+        "playbook_num_tokens": 498,
+        "playbook_length": 1873,
+        "call_id": "train_e_1_s_6_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 7,
+      "sample_id": "train:000032",
+      "target": "50.0",
+      "pre_train_result": {
+        "final_answer": "50.0",
+        "is_correct": true,
+        "playbook_num_tokens": 498,
+        "playbook_length": 1873,
+        "call_id": "train_e_1_s_7_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "50.0",
+        "is_correct": true,
+        "playbook_num_tokens": 567,
+        "playbook_length": 2139,
+        "call_id": "train_e_1_s_7_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 8,
+      "sample_id": "train:000034",
+      "target": "340.0",
+      "pre_train_result": {
+        "final_answer": "340.0",
+        "is_correct": true,
+        "playbook_num_tokens": 567,
+        "playbook_length": 2139,
+        "call_id": "train_e_1_s_8_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "340.0",
+        "is_correct": true,
+        "playbook_num_tokens": 651,
+        "playbook_length": 2424,
+        "call_id": "train_e_1_s_8_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 9,
+      "sample_id": "train:000036",
+      "target": "10.0",
+      "pre_train_result": {
+        "final_answer": "10.0",
+        "is_correct": true,
+        "playbook_num_tokens": 651,
+        "playbook_length": 2424,
+        "call_id": "train_e_1_s_9_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "10.0",
+        "is_correct": true,
+        "playbook_num_tokens": 715,
+        "playbook_length": 2689,
+        "call_id": "train_e_1_s_9_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 10,
+      "sample_id": "train:000039",
+      "target": "3.0",
+      "pre_train_result": {
+        "final_answer": "3.00",
+        "is_correct": true,
+        "playbook_num_tokens": 715,
+        "playbook_length": 2689,
+        "call_id": "train_e_1_s_10_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "Insufficient information to calculate",
+        "is_correct": false,
+        "playbook_num_tokens": 799,
+        "playbook_length": 3146,
+        "call_id": "train_e_1_s_10_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 11,
+      "sample_id": "train:000046",
+      "target": "0.04",
+      "pre_train_result": {
+        "final_answer": "0.04",
+        "is_correct": true,
+        "playbook_num_tokens": 799,
+        "playbook_length": 3146,
+        "call_id": "train_e_1_s_11_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.04",
+        "is_correct": true,
+        "playbook_num_tokens": 879,
+        "playbook_length": 3460,
+        "call_id": "train_e_1_s_11_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 12,
+      "sample_id": "train:000054",
+      "target": "80000000.0",
+      "pre_train_result": {
+        "final_answer": "80000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 879,
+        "playbook_length": 3460,
+        "call_id": "train_e_1_s_12_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "80000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 965,
+        "playbook_length": 3817,
+        "call_id": "train_e_1_s_12_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 13,
+      "sample_id": "train:000055",
+      "target": "3.2",
+      "pre_train_result": {
+        "final_answer": "3.20",
+        "is_correct": true,
+        "playbook_num_tokens": 965,
+        "playbook_length": 3817,
+        "call_id": "train_e_1_s_13_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "3.2",
+        "is_correct": true,
+        "playbook_num_tokens": 1050,
+        "playbook_length": 4166,
+        "call_id": "train_e_1_s_13_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 14,
+      "sample_id": "train:000058",
+      "target": "2976.26",
+      "pre_train_result": {
+        "final_answer": "2977.73",
+        "is_correct": false,
+        "playbook_num_tokens": 1050,
+        "playbook_length": 4166,
+        "call_id": "train_e_1_s_14_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2976.26",
+        "is_correct": true,
+        "playbook_num_tokens": 1142,
+        "playbook_length": 4557,
+        "call_id": "train_e_1_s_14_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 15,
+      "sample_id": "train:000059",
+      "target": "0.05",
+      "pre_train_result": {
+        "final_answer": "5.32",
+        "is_correct": false,
+        "playbook_num_tokens": 1142,
+        "playbook_length": 4557,
+        "call_id": "train_e_1_s_15_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.0532",
+        "is_correct": false,
+        "playbook_num_tokens": 1242,
+        "playbook_length": 4976,
+        "call_id": "train_e_1_s_15_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 16,
+      "sample_id": "train:000063",
+      "target": "3.03",
+      "pre_train_result": {
+        "final_answer": "0.03",
+        "is_correct": false,
+        "playbook_num_tokens": 1242,
+        "playbook_length": 4976,
+        "call_id": "train_e_1_s_16_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "3.03",
+        "is_correct": true,
+        "playbook_num_tokens": 1332,
+        "playbook_length": 5367,
+        "call_id": "train_e_1_s_16_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 17,
+      "sample_id": "train:000071",
+      "target": "0.05",
+      "pre_train_result": {
+        "final_answer": "0.05",
+        "is_correct": true,
+        "playbook_num_tokens": 1332,
+        "playbook_length": 5367,
+        "call_id": "train_e_1_s_17_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "4.59",
+        "is_correct": false,
+        "playbook_num_tokens": 1332,
+        "playbook_length": 5367,
+        "call_id": "train_e_1_s_17_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 18,
+      "sample_id": "train:000076",
+      "target": "0.36",
+      "pre_train_result": {
+        "final_answer": "0.36",
+        "is_correct": true,
+        "playbook_num_tokens": 1332,
+        "playbook_length": 5367,
+        "call_id": "train_e_1_s_18_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.36",
+        "is_correct": true,
+        "playbook_num_tokens": 1416,
+        "playbook_length": 5664,
+        "call_id": "train_e_1_s_18_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 19,
+      "sample_id": "train:000089",
+      "target": "500000000.0",
+      "pre_train_result": {
+        "final_answer": "500000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1416,
+        "playbook_length": 5664,
+        "call_id": "train_e_1_s_19_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "500000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1416,
+        "playbook_length": 5664,
+        "call_id": "train_e_1_s_19_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 20,
+      "sample_id": "train:000090",
+      "target": "1.25",
+      "pre_train_result": {
+        "final_answer": "1.25",
+        "is_correct": true,
+        "playbook_num_tokens": 1416,
+        "playbook_length": 5664,
+        "call_id": "train_e_1_s_20_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.25",
+        "is_correct": true,
+        "playbook_num_tokens": 1487,
+        "playbook_length": 5957,
+        "call_id": "train_e_1_s_20_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 21,
+      "sample_id": "train:000091",
+      "target": "4.76",
+      "pre_train_result": {
+        "final_answer": "4.76",
+        "is_correct": true,
+        "playbook_num_tokens": 1487,
+        "playbook_length": 5957,
+        "call_id": "train_e_1_s_21_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "4.76",
+        "is_correct": true,
+        "playbook_num_tokens": 1580,
+        "playbook_length": 6378,
+        "call_id": "train_e_1_s_21_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 22,
+      "sample_id": "train:000093",
+      "target": "14869.85",
+      "pre_train_result": {
+        "final_answer": "14869.85",
+        "is_correct": true,
+        "playbook_num_tokens": 1580,
+        "playbook_length": 6378,
+        "call_id": "train_e_1_s_22_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "14869.86",
+        "is_correct": false,
+        "playbook_num_tokens": 1699,
+        "playbook_length": 6794,
+        "call_id": "train_e_1_s_22_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 23,
+      "sample_id": "train:000097",
+      "target": "20.0",
+      "pre_train_result": {
+        "final_answer": "20.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1699,
+        "playbook_length": 6794,
+        "call_id": "train_e_1_s_23_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "20.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1766,
+        "playbook_length": 7072,
+        "call_id": "train_e_1_s_23_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 24,
+      "sample_id": "train:000098",
+      "target": "4.0",
+      "pre_train_result": {
+        "final_answer": "4.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1766,
+        "playbook_length": 7072,
+        "call_id": "train_e_1_s_24_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "4.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1826,
+        "playbook_length": 7333,
+        "call_id": "train_e_1_s_24_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 25,
+      "sample_id": "train:000115",
+      "target": "0.85",
+      "pre_train_result": {
+        "final_answer": "0.85",
+        "is_correct": true,
+        "playbook_num_tokens": 1826,
+        "playbook_length": 7333,
+        "call_id": "train_e_1_s_25_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.85",
+        "is_correct": true,
+        "playbook_num_tokens": 1954,
+        "playbook_length": 7798,
+        "call_id": "train_e_1_s_25_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 26,
+      "sample_id": "train:000118",
+      "target": "750000000.0",
+      "pre_train_result": {
+        "final_answer": "750000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 1954,
+        "playbook_length": 7798,
+        "call_id": "train_e_1_s_26_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "750000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2025,
+        "playbook_length": 8133,
+        "call_id": "train_e_1_s_26_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 27,
+      "sample_id": "train:000121",
+      "target": "9100000000.0",
+      "pre_train_result": {
+        "final_answer": "9100000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2025,
+        "playbook_length": 8133,
+        "call_id": "train_e_1_s_27_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "9100000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2127,
+        "playbook_length": 8541,
+        "call_id": "train_e_1_s_27_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 28,
+      "sample_id": "train:000125",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2127,
+        "playbook_length": 8541,
+        "call_id": "train_e_1_s_28_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2205,
+        "playbook_length": 8879,
+        "call_id": "train_e_1_s_28_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 29,
+      "sample_id": "train:000131",
+      "target": "0.65",
+      "pre_train_result": {
+        "final_answer": "67.59",
+        "is_correct": false,
+        "playbook_num_tokens": 2205,
+        "playbook_length": 8879,
+        "call_id": "train_e_1_s_29_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "64.89",
+        "is_correct": false,
+        "playbook_num_tokens": 2328,
+        "playbook_length": 9447,
+        "call_id": "train_e_1_s_29_post_curate"
+      },
+      "reflection_rounds_used": 2,
+      "corrected_after_round": 2
+    },
+    {
+      "epoch": 1,
+      "step": 30,
+      "sample_id": "train:000134",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2328,
+        "playbook_length": 9447,
+        "call_id": "train_e_1_s_30_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2399,
+        "playbook_length": 9755,
+        "call_id": "train_e_1_s_30_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 31,
+      "sample_id": "train:000138",
+      "target": "487273.4",
+      "pre_train_result": {
+        "final_answer": "455395.70",
+        "is_correct": false,
+        "playbook_num_tokens": 2399,
+        "playbook_length": 9755,
+        "call_id": "train_e_1_s_31_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "455395.70",
+        "is_correct": false,
+        "playbook_num_tokens": 2471,
+        "playbook_length": 10145,
+        "call_id": "train_e_1_s_31_post_curate"
+      },
+      "reflection_rounds_used": 3,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 32,
+      "sample_id": "train:000141",
+      "target": "105000.0",
+      "pre_train_result": {
+        "final_answer": "105000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2471,
+        "playbook_length": 10145,
+        "call_id": "train_e_1_s_32_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "105000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2565,
+        "playbook_length": 10578,
+        "call_id": "train_e_1_s_32_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 33,
+      "sample_id": "train:000147",
+      "target": "1.2",
+      "pre_train_result": {
+        "final_answer": "1.20",
+        "is_correct": true,
+        "playbook_num_tokens": 2565,
+        "playbook_length": 10578,
+        "call_id": "train_e_1_s_33_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.2",
+        "is_correct": true,
+        "playbook_num_tokens": 2565,
+        "playbook_length": 10578,
+        "call_id": "train_e_1_s_33_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 34,
+      "sample_id": "train:000149",
+      "target": "0.03",
+      "pre_train_result": {
+        "final_answer": "0.03",
+        "is_correct": true,
+        "playbook_num_tokens": 2565,
+        "playbook_length": 10578,
+        "call_id": "train_e_1_s_34_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.03",
+        "is_correct": true,
+        "playbook_num_tokens": 2645,
+        "playbook_length": 10950,
+        "call_id": "train_e_1_s_34_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 35,
+      "sample_id": "train:000156",
+      "target": "40.0",
+      "pre_train_result": {
+        "final_answer": "40.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2645,
+        "playbook_length": 10950,
+        "call_id": "train_e_1_s_35_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "40.00",
+        "is_correct": true,
+        "playbook_num_tokens": 2645,
+        "playbook_length": 10950,
+        "call_id": "train_e_1_s_35_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 36,
+      "sample_id": "train:000157",
+      "target": "2653000.0",
+      "pre_train_result": {
+        "final_answer": "2653000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2645,
+        "playbook_length": 10950,
+        "call_id": "train_e_1_s_36_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2653000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2774,
+        "playbook_length": 11416,
+        "call_id": "train_e_1_s_36_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 37,
+      "sample_id": "train:000160",
+      "target": "-200000000.0",
+      "pre_train_result": {
+        "final_answer": "-200000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2774,
+        "playbook_length": 11416,
+        "call_id": "train_e_1_s_37_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "-200000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 2886,
+        "playbook_length": 11845,
+        "call_id": "train_e_1_s_37_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 38,
+      "sample_id": "train:000166",
+      "target": "180000000.0",
+      "pre_train_result": {
+        "final_answer": "90000000.0",
+        "is_correct": false,
+        "playbook_num_tokens": 2886,
+        "playbook_length": 11845,
+        "call_id": "train_e_1_s_38_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "180000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3111,
+        "playbook_length": 12919,
+        "call_id": "train_e_1_s_38_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 39,
+      "sample_id": "train:000178",
+      "target": "0.09",
+      "pre_train_result": {
+        "final_answer": "0.09",
+        "is_correct": true,
+        "playbook_num_tokens": 3111,
+        "playbook_length": 12919,
+        "call_id": "train_e_1_s_39_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.09",
+        "is_correct": true,
+        "playbook_num_tokens": 3111,
+        "playbook_length": 12919,
+        "call_id": "train_e_1_s_39_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 40,
+      "sample_id": "train:000180",
+      "target": "1.45",
+      "pre_train_result": {
+        "final_answer": "1.45",
+        "is_correct": true,
+        "playbook_num_tokens": 3111,
+        "playbook_length": 12919,
+        "call_id": "train_e_1_s_40_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.45",
+        "is_correct": true,
+        "playbook_num_tokens": 3219,
+        "playbook_length": 13418,
+        "call_id": "train_e_1_s_40_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 41,
+      "sample_id": "train:000185",
+      "target": "8.01",
+      "pre_train_result": {
+        "final_answer": "8.01",
+        "is_correct": true,
+        "playbook_num_tokens": 3219,
+        "playbook_length": 13418,
+        "call_id": "train_e_1_s_41_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "8.01",
+        "is_correct": true,
+        "playbook_num_tokens": 3317,
+        "playbook_length": 13787,
+        "call_id": "train_e_1_s_41_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 42,
+      "sample_id": "train:000186",
+      "target": "1.5",
+      "pre_train_result": {
+        "final_answer": "1.50",
+        "is_correct": true,
+        "playbook_num_tokens": 3317,
+        "playbook_length": 13787,
+        "call_id": "train_e_1_s_42_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.50",
+        "is_correct": true,
+        "playbook_num_tokens": 3407,
+        "playbook_length": 14228,
+        "call_id": "train_e_1_s_42_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 43,
+      "sample_id": "train:000187",
+      "target": "0.73",
+      "pre_train_result": {
+        "final_answer": "0.73",
+        "is_correct": true,
+        "playbook_num_tokens": 3407,
+        "playbook_length": 14228,
+        "call_id": "train_e_1_s_43_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "73.00",
+        "is_correct": false,
+        "playbook_num_tokens": 3580,
+        "playbook_length": 15090,
+        "call_id": "train_e_1_s_43_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 44,
+      "sample_id": "train:000194",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3580,
+        "playbook_length": 15090,
+        "call_id": "train_e_1_s_44_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3580,
+        "playbook_length": 15090,
+        "call_id": "train_e_1_s_44_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 45,
+      "sample_id": "train:000198",
+      "target": "0.21",
+      "pre_train_result": {
+        "final_answer": "0.19",
+        "is_correct": false,
+        "playbook_num_tokens": 3580,
+        "playbook_length": 15090,
+        "call_id": "train_e_1_s_45_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.21",
+        "is_correct": true,
+        "playbook_num_tokens": 3695,
+        "playbook_length": 15528,
+        "call_id": "train_e_1_s_45_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 46,
+      "sample_id": "train:000223",
+      "target": "59000.0",
+      "pre_train_result": {
+        "final_answer": "67000.0",
+        "is_correct": false,
+        "playbook_num_tokens": 3695,
+        "playbook_length": 15528,
+        "call_id": "train_e_1_s_46_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "59000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3829,
+        "playbook_length": 16091,
+        "call_id": "train_e_1_s_46_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 47,
+      "sample_id": "train:000224",
+      "target": "0.01",
+      "pre_train_result": {
+        "final_answer": "0.01",
+        "is_correct": true,
+        "playbook_num_tokens": 3829,
+        "playbook_length": 16091,
+        "call_id": "train_e_1_s_47_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.01",
+        "is_correct": true,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_47_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 48,
+      "sample_id": "train:000235",
+      "target": "25.0",
+      "pre_train_result": {
+        "final_answer": "25.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_48_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "25.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_48_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 49,
+      "sample_id": "train:000237",
+      "target": "240000.0",
+      "pre_train_result": {
+        "final_answer": "240000.00",
+        "is_correct": true,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_49_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "240000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_49_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 50,
+      "sample_id": "train:000239",
+      "target": "11.69",
+      "pre_train_result": {
+        "final_answer": "13.75",
+        "is_correct": false,
+        "playbook_num_tokens": 3957,
+        "playbook_length": 16639,
+        "call_id": "train_e_1_s_50_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "13.26",
+        "is_correct": false,
+        "playbook_num_tokens": 4064,
+        "playbook_length": 17129,
+        "call_id": "train_e_1_s_50_post_curate"
+      },
+      "reflection_rounds_used": 3,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 51,
+      "sample_id": "train:000241",
+      "target": "0.05",
+      "pre_train_result": {
+        "final_answer": "0.05",
+        "is_correct": true,
+        "playbook_num_tokens": 4064,
+        "playbook_length": 17129,
+        "call_id": "train_e_1_s_51_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.05",
+        "is_correct": true,
+        "playbook_num_tokens": 4064,
+        "playbook_length": 17129,
+        "call_id": "train_e_1_s_51_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 52,
+      "sample_id": "train:000244",
+      "target": "9000.0",
+      "pre_train_result": {
+        "final_answer": "9000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 4064,
+        "playbook_length": 17129,
+        "call_id": "train_e_1_s_52_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "9000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 4133,
+        "playbook_length": 17453,
+        "call_id": "train_e_1_s_52_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 53,
+      "sample_id": "train:000248",
+      "target": "424785.11",
+      "pre_train_result": {
+        "final_answer": "424785.10",
+        "is_correct": false,
+        "playbook_num_tokens": 4133,
+        "playbook_length": 17453,
+        "call_id": "train_e_1_s_53_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "424785.10",
+        "is_correct": false,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_53_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 54,
+      "sample_id": "train:000249",
+      "target": "0.11",
+      "pre_train_result": {
+        "final_answer": "0.11",
+        "is_correct": true,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_54_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.11",
+        "is_correct": true,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_54_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 55,
+      "sample_id": "train:000252",
+      "target": "5.0",
+      "pre_train_result": {
+        "final_answer": "5.00",
+        "is_correct": true,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_55_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5.00",
+        "is_correct": true,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_55_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 56,
+      "sample_id": "train:000254",
+      "target": "5.0",
+      "pre_train_result": {
+        "final_answer": "5.00",
+        "is_correct": true,
+        "playbook_num_tokens": 4209,
+        "playbook_length": 17866,
+        "call_id": "train_e_1_s_56_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 4304,
+        "playbook_length": 18326,
+        "call_id": "train_e_1_s_56_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 57,
+      "sample_id": "train:000256",
+      "target": "0.06",
+      "pre_train_result": {
+        "final_answer": "0.06",
+        "is_correct": true,
+        "playbook_num_tokens": 4304,
+        "playbook_length": 18326,
+        "call_id": "train_e_1_s_57_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.06",
+        "is_correct": true,
+        "playbook_num_tokens": 4432,
+        "playbook_length": 18781,
+        "call_id": "train_e_1_s_57_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 58,
+      "sample_id": "train:000262",
+      "target": "7162.69",
+      "pre_train_result": {
+        "final_answer": "7164.17",
+        "is_correct": false,
+        "playbook_num_tokens": 4432,
+        "playbook_length": 18781,
+        "call_id": "train_e_1_s_58_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "7162.69",
+        "is_correct": true,
+        "playbook_num_tokens": 4589,
+        "playbook_length": 19357,
+        "call_id": "train_e_1_s_58_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 59,
+      "sample_id": "train:000263",
+      "target": "1.5",
+      "pre_train_result": {
+        "final_answer": "1.5",
+        "is_correct": true,
+        "playbook_num_tokens": 4589,
+        "playbook_length": 19357,
+        "call_id": "train_e_1_s_59_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.50",
+        "is_correct": true,
+        "playbook_num_tokens": 4589,
+        "playbook_length": 19357,
+        "call_id": "train_e_1_s_59_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 60,
+      "sample_id": "train:000267",
+      "target": "7.27",
+      "pre_train_result": {
+        "final_answer": "7.27",
+        "is_correct": true,
+        "playbook_num_tokens": 4589,
+        "playbook_length": 19357,
+        "call_id": "train_e_1_s_60_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "7.27",
+        "is_correct": true,
+        "playbook_num_tokens": 4714,
+        "playbook_length": 19832,
+        "call_id": "train_e_1_s_60_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 61,
+      "sample_id": "train:000270",
+      "target": "0.2",
+      "pre_train_result": {
+        "final_answer": "20.0",
+        "is_correct": false,
+        "playbook_num_tokens": 4714,
+        "playbook_length": 19832,
+        "call_id": "train_e_1_s_61_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.20",
+        "is_correct": true,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_61_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 62,
+      "sample_id": "train:000276",
+      "target": "11.18",
+      "pre_train_result": {
+        "final_answer": "11.18",
+        "is_correct": true,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_62_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.11",
+        "is_correct": false,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_62_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 63,
+      "sample_id": "train:000281",
+      "target": "0.01",
+      "pre_train_result": {
+        "final_answer": "0.01",
+        "is_correct": true,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_63_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.01",
+        "is_correct": true,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_63_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 64,
+      "sample_id": "train:000288",
+      "target": "9.0",
+      "pre_train_result": {
+        "final_answer": "285.71",
+        "is_correct": false,
+        "playbook_num_tokens": 4801,
+        "playbook_length": 20242,
+        "call_id": "train_e_1_s_64_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "857.14",
+        "is_correct": false,
+        "playbook_num_tokens": 4958,
+        "playbook_length": 20879,
+        "call_id": "train_e_1_s_64_post_curate"
+      },
+      "reflection_rounds_used": 2,
+      "corrected_after_round": 2
+    },
+    {
+      "epoch": 1,
+      "step": 65,
+      "sample_id": "train:000290",
+      "target": "1.3",
+      "pre_train_result": {
+        "final_answer": "1.35",
+        "is_correct": false,
+        "playbook_num_tokens": 4958,
+        "playbook_length": 20879,
+        "call_id": "train_e_1_s_65_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.29",
+        "is_correct": false,
+        "playbook_num_tokens": 5301,
+        "playbook_length": 22401,
+        "call_id": "train_e_1_s_65_post_curate"
+      },
+      "reflection_rounds_used": 2,
+      "corrected_after_round": 2
+    },
+    {
+      "epoch": 1,
+      "step": 66,
+      "sample_id": "train:000296",
+      "target": "25.0",
+      "pre_train_result": {
+        "final_answer": "25.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5301,
+        "playbook_length": 22401,
+        "call_id": "train_e_1_s_66_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "25.00",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_66_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 67,
+      "sample_id": "train:000300",
+      "target": "70000.0",
+      "pre_train_result": {
+        "final_answer": "70000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_67_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "70000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_67_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 68,
+      "sample_id": "train:000302",
+      "target": "704.0",
+      "pre_train_result": {
+        "final_answer": "704.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_68_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "704.00",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_68_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 69,
+      "sample_id": "train:000330",
+      "target": "5.0",
+      "pre_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5416,
+        "playbook_length": 22887,
+        "call_id": "train_e_1_s_69_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_69_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 70,
+      "sample_id": "train:000331",
+      "target": "7.5",
+      "pre_train_result": {
+        "final_answer": "7.50",
+        "is_correct": true,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_70_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "7.50",
+        "is_correct": true,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_70_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 71,
+      "sample_id": "train:000333",
+      "target": "0.5",
+      "pre_train_result": {
+        "final_answer": "0.5",
+        "is_correct": true,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_71_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.50",
+        "is_correct": true,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_71_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 72,
+      "sample_id": "train:000338",
+      "target": "8.73",
+      "pre_train_result": {
+        "final_answer": "8.75",
+        "is_correct": false,
+        "playbook_num_tokens": 5488,
+        "playbook_length": 23214,
+        "call_id": "train_e_1_s_72_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "8.73",
+        "is_correct": true,
+        "playbook_num_tokens": 5594,
+        "playbook_length": 23672,
+        "call_id": "train_e_1_s_72_post_curate"
+      },
+      "reflection_rounds_used": 3,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 73,
+      "sample_id": "train:000348",
+      "target": "20.0",
+      "pre_train_result": {
+        "final_answer": "0.20",
+        "is_correct": false,
+        "playbook_num_tokens": 5594,
+        "playbook_length": 23672,
+        "call_id": "train_e_1_s_73_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "20.0",
+        "is_correct": true,
+        "playbook_num_tokens": 5683,
+        "playbook_length": 24057,
+        "call_id": "train_e_1_s_73_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 74,
+      "sample_id": "train:000353",
+      "target": "18.0",
+      "pre_train_result": {
+        "final_answer": "18.00",
+        "is_correct": true,
+        "playbook_num_tokens": 5683,
+        "playbook_length": 24057,
+        "call_id": "train_e_1_s_74_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "18.00",
+        "is_correct": true,
+        "playbook_num_tokens": 5771,
+        "playbook_length": 24416,
+        "call_id": "train_e_1_s_74_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 75,
+      "sample_id": "train:000355",
+      "target": "0.05",
+      "pre_train_result": {
+        "final_answer": "0.05",
+        "is_correct": true,
+        "playbook_num_tokens": 5771,
+        "playbook_length": 24416,
+        "call_id": "train_e_1_s_75_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.05",
+        "is_correct": true,
+        "playbook_num_tokens": 5849,
+        "playbook_length": 24736,
+        "call_id": "train_e_1_s_75_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 76,
+      "sample_id": "train:000368",
+      "target": "37814.74",
+      "pre_train_result": {
+        "final_answer": "37814.74",
+        "is_correct": true,
+        "playbook_num_tokens": 5849,
+        "playbook_length": 24736,
+        "call_id": "train_e_1_s_76_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "37814.74",
+        "is_correct": true,
+        "playbook_num_tokens": 5978,
+        "playbook_length": 25220,
+        "call_id": "train_e_1_s_76_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 77,
+      "sample_id": "train:000370",
+      "target": "0.1",
+      "pre_train_result": {
+        "final_answer": "10.00",
+        "is_correct": false,
+        "playbook_num_tokens": 5978,
+        "playbook_length": 25220,
+        "call_id": "train_e_1_s_77_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.10",
+        "is_correct": true,
+        "playbook_num_tokens": 6096,
+        "playbook_length": 25730,
+        "call_id": "train_e_1_s_77_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 78,
+      "sample_id": "train:000373",
+      "target": "4830.92",
+      "pre_train_result": {
+        "final_answer": "26642.86",
+        "is_correct": false,
+        "playbook_num_tokens": 6096,
+        "playbook_length": 25730,
+        "call_id": "train_e_1_s_78_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "26642.86",
+        "is_correct": false,
+        "playbook_num_tokens": 6199,
+        "playbook_length": 26171,
+        "call_id": "train_e_1_s_78_post_curate"
+      },
+      "reflection_rounds_used": 3,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 79,
+      "sample_id": "train:000394",
+      "target": "15.0",
+      "pre_train_result": {
+        "final_answer": "15.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6199,
+        "playbook_length": 26171,
+        "call_id": "train_e_1_s_79_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "15.00",
+        "is_correct": true,
+        "playbook_num_tokens": 6287,
+        "playbook_length": 26583,
+        "call_id": "train_e_1_s_79_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 80,
+      "sample_id": "train:000411",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6287,
+        "playbook_length": 26583,
+        "call_id": "train_e_1_s_80_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6287,
+        "playbook_length": 26583,
+        "call_id": "train_e_1_s_80_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 81,
+      "sample_id": "train:000414",
+      "target": "22.98",
+      "pre_train_result": {
+        "final_answer": "23.02",
+        "is_correct": false,
+        "playbook_num_tokens": 6287,
+        "playbook_length": 26583,
+        "call_id": "train_e_1_s_81_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "22.99",
+        "is_correct": false,
+        "playbook_num_tokens": 6380,
+        "playbook_length": 27028,
+        "call_id": "train_e_1_s_81_post_curate"
+      },
+      "reflection_rounds_used": 3,
+      "corrected_after_round": 3
+    },
+    {
+      "epoch": 1,
+      "step": 82,
+      "sample_id": "train:000415",
+      "target": "0.09",
+      "pre_train_result": {
+        "final_answer": "0.09",
+        "is_correct": true,
+        "playbook_num_tokens": 6380,
+        "playbook_length": 27028,
+        "call_id": "train_e_1_s_82_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.09",
+        "is_correct": true,
+        "playbook_num_tokens": 6475,
+        "playbook_length": 27424,
+        "call_id": "train_e_1_s_82_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 83,
+      "sample_id": "train:000416",
+      "target": "12.0",
+      "pre_train_result": {
+        "final_answer": "12.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6475,
+        "playbook_length": 27424,
+        "call_id": "train_e_1_s_83_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "12.00",
+        "is_correct": true,
+        "playbook_num_tokens": 6475,
+        "playbook_length": 27424,
+        "call_id": "train_e_1_s_83_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 84,
+      "sample_id": "train:000423",
+      "target": "3.33",
+      "pre_train_result": {
+        "final_answer": "3.33",
+        "is_correct": true,
+        "playbook_num_tokens": 6475,
+        "playbook_length": 27424,
+        "call_id": "train_e_1_s_84_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "3.33",
+        "is_correct": true,
+        "playbook_num_tokens": 6584,
+        "playbook_length": 27940,
+        "call_id": "train_e_1_s_84_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 85,
+      "sample_id": "train:000429",
+      "target": "36.0",
+      "pre_train_result": {
+        "final_answer": "36.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6584,
+        "playbook_length": 27940,
+        "call_id": "train_e_1_s_85_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "36.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6701,
+        "playbook_length": 28362,
+        "call_id": "train_e_1_s_85_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 86,
+      "sample_id": "train:000430",
+      "target": "2687.83",
+      "pre_train_result": {
+        "final_answer": "2687.83",
+        "is_correct": true,
+        "playbook_num_tokens": 6701,
+        "playbook_length": 28362,
+        "call_id": "train_e_1_s_86_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2687.83",
+        "is_correct": true,
+        "playbook_num_tokens": 6701,
+        "playbook_length": 28362,
+        "call_id": "train_e_1_s_86_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 87,
+      "sample_id": "train:000437",
+      "target": "5300000000000.0",
+      "pre_train_result": {
+        "final_answer": "5300000000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6701,
+        "playbook_length": 28362,
+        "call_id": "train_e_1_s_87_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5300000000000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_87_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 88,
+      "sample_id": "train:000439",
+      "target": "1.75",
+      "pre_train_result": {
+        "final_answer": "1.75",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_88_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.75",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_88_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 89,
+      "sample_id": "train:000446",
+      "target": "1500000.0",
+      "pre_train_result": {
+        "final_answer": "1500000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_89_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1500000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_89_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 90,
+      "sample_id": "train:000447",
+      "target": "200000.0",
+      "pre_train_result": {
+        "final_answer": "200000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6788,
+        "playbook_length": 28778,
+        "call_id": "train_e_1_s_90_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "200000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6883,
+        "playbook_length": 29169,
+        "call_id": "train_e_1_s_90_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 91,
+      "sample_id": "train:000453",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6883,
+        "playbook_length": 29169,
+        "call_id": "train_e_1_s_91_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 6973,
+        "playbook_length": 29614,
+        "call_id": "train_e_1_s_91_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 92,
+      "sample_id": "train:000459",
+      "target": "18.33",
+      "pre_train_result": {
+        "final_answer": "18.33",
+        "is_correct": true,
+        "playbook_num_tokens": 6973,
+        "playbook_length": 29614,
+        "call_id": "train_e_1_s_92_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "18.33",
+        "is_correct": true,
+        "playbook_num_tokens": 6973,
+        "playbook_length": 29614,
+        "call_id": "train_e_1_s_92_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 93,
+      "sample_id": "train:000460",
+      "target": "322.92",
+      "pre_train_result": {
+        "final_answer": "322.92",
+        "is_correct": true,
+        "playbook_num_tokens": 6973,
+        "playbook_length": 29614,
+        "call_id": "train_e_1_s_93_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "322.92",
+        "is_correct": true,
+        "playbook_num_tokens": 7060,
+        "playbook_length": 30034,
+        "call_id": "train_e_1_s_93_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 94,
+      "sample_id": "train:000461",
+      "target": "13.9",
+      "pre_train_result": {
+        "final_answer": "13.86",
+        "is_correct": false,
+        "playbook_num_tokens": 7060,
+        "playbook_length": 30034,
+        "call_id": "train_e_1_s_94_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "14.03",
+        "is_correct": false,
+        "playbook_num_tokens": 7181,
+        "playbook_length": 30580,
+        "call_id": "train_e_1_s_94_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 95,
+      "sample_id": "train:000478",
+      "target": "816000.0",
+      "pre_train_result": {
+        "final_answer": "816000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 7181,
+        "playbook_length": 30580,
+        "call_id": "train_e_1_s_95_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "816000.0",
+        "is_correct": true,
+        "playbook_num_tokens": 7181,
+        "playbook_length": 30580,
+        "call_id": "train_e_1_s_95_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 96,
+      "sample_id": "train:000486",
+      "target": "1.5",
+      "pre_train_result": {
+        "final_answer": "-1.50",
+        "is_correct": false,
+        "playbook_num_tokens": 7181,
+        "playbook_length": 30580,
+        "call_id": "train_e_1_s_96_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "1.5",
+        "is_correct": true,
+        "playbook_num_tokens": 7407,
+        "playbook_length": 31598,
+        "call_id": "train_e_1_s_96_post_curate"
+      },
+      "reflection_rounds_used": 1,
+      "corrected_after_round": 1
+    },
+    {
+      "epoch": 1,
+      "step": 97,
+      "sample_id": "train:000489",
+      "target": "2.0",
+      "pre_train_result": {
+        "final_answer": "2.0",
+        "is_correct": true,
+        "playbook_num_tokens": 7407,
+        "playbook_length": 31598,
+        "call_id": "train_e_1_s_97_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "2.00",
+        "is_correct": true,
+        "playbook_num_tokens": 7502,
+        "playbook_length": 32071,
+        "call_id": "train_e_1_s_97_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 98,
+      "sample_id": "train:000491",
+      "target": "0.2",
+      "pre_train_result": {
+        "final_answer": "0.20",
+        "is_correct": true,
+        "playbook_num_tokens": 7502,
+        "playbook_length": 32071,
+        "call_id": "train_e_1_s_98_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.20",
+        "is_correct": true,
+        "playbook_num_tokens": 7599,
+        "playbook_length": 32504,
+        "call_id": "train_e_1_s_98_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 99,
+      "sample_id": "train:000493",
+      "target": "0.5",
+      "pre_train_result": {
+        "final_answer": "0.5",
+        "is_correct": true,
+        "playbook_num_tokens": 7599,
+        "playbook_length": 32504,
+        "call_id": "train_e_1_s_99_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "0.5",
+        "is_correct": true,
+        "playbook_num_tokens": 7599,
+        "playbook_length": 32504,
+        "call_id": "train_e_1_s_99_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    },
+    {
+      "epoch": 1,
+      "step": 100,
+      "sample_id": "train:000497",
+      "target": "5.0",
+      "pre_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 7599,
+        "playbook_length": 32504,
+        "call_id": "train_e_1_s_100_gen_initial"
+      },
+      "post_train_result": {
+        "final_answer": "5.0",
+        "is_correct": true,
+        "playbook_num_tokens": 7599,
+        "playbook_length": 32504,
+        "call_id": "train_e_1_s_100_post_curate"
+      },
+      "reflection_rounds_used": 0,
+      "corrected_after_round": null
+    }
+  ],
+  "checkpoints": [
+    {
+      "epoch": 1,
+      "step": 20,
+      "stage": "validation_e_1_s_20",
+      "train_result": {
+        "pre_train_accuracy": 0.75,
+        "post_train_accuracy": 0.85
+      },
+      "validation": {
+        "accuracy": 0.76,
+        "correct": 38,
+        "total": 50,
+        "no_answer": 0,
+        "api_success_count": 50,
+        "api_failure_count": 0,
+        "success_rate": 1.0,
+        "stage": "validation_e_1_s_20"
+      },
+      "predictions": [
+        {
+          "index": 0,
+          "sample_id": "val:000001",
+          "call_id": "test_eval_0",
+          "stage": "validation_e_1_s_20",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 1,
+          "sample_id": "val:000005",
+          "call_id": "test_eval_1",
+          "stage": "validation_e_1_s_20",
+          "prediction": "259000.0",
+          "target": "259000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 2,
+          "sample_id": "val:000013",
+          "call_id": "test_eval_2",
+          "stage": "validation_e_1_s_20",
+          "prediction": "20.0",
+          "target": "20.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 3,
+          "sample_id": "val:000024",
+          "call_id": "test_eval_3",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1.58",
+          "target": "1.58",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 4,
+          "sample_id": "val:000026",
+          "call_id": "test_eval_4",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 5,
+          "sample_id": "val:000029",
+          "call_id": "test_eval_5",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1000000.0",
+          "target": "1000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 6,
+          "sample_id": "val:000038",
+          "call_id": "test_eval_6",
+          "stage": "validation_e_1_s_20",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 7,
+          "sample_id": "val:000041",
+          "call_id": "test_eval_7",
+          "stage": "validation_e_1_s_20",
+          "prediction": "33.33",
+          "target": "33.33",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 8,
+          "sample_id": "val:000044",
+          "call_id": "test_eval_8",
+          "stage": "validation_e_1_s_20",
+          "prediction": "2.0",
+          "target": "2.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 9,
+          "sample_id": "val:000047",
+          "call_id": "test_eval_9",
+          "stage": "validation_e_1_s_20",
+          "prediction": "3.00",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 10,
+          "sample_id": "val:000049",
+          "call_id": "test_eval_10",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.05",
+          "target": "5.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 11,
+          "sample_id": "val:000053",
+          "call_id": "test_eval_11",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1.43",
+          "target": "1.43",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 12,
+          "sample_id": "val:000061",
+          "call_id": "test_eval_12",
+          "stage": "validation_e_1_s_20",
+          "prediction": "302.76",
+          "target": "21317.91",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 13,
+          "sample_id": "val:000064",
+          "call_id": "test_eval_13",
+          "stage": "validation_e_1_s_20",
+          "prediction": "965000.0",
+          "target": "965000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 14,
+          "sample_id": "val:000068",
+          "call_id": "test_eval_14",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.25",
+          "target": "0.25",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 15,
+          "sample_id": "val:000072",
+          "call_id": "test_eval_15",
+          "stage": "validation_e_1_s_20",
+          "prediction": "14.29",
+          "target": "14.29",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 16,
+          "sample_id": "val:000073",
+          "call_id": "test_eval_16",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 17,
+          "sample_id": "val:000079",
+          "call_id": "test_eval_17",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.03",
+          "target": "99.1",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 18,
+          "sample_id": "val:000093",
+          "call_id": "test_eval_18",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1.50",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 19,
+          "sample_id": "val:000095",
+          "call_id": "test_eval_19",
+          "stage": "validation_e_1_s_20",
+          "prediction": "156.43",
+          "target": "1.56",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 20,
+          "sample_id": "val:000110",
+          "call_id": "test_eval_20",
+          "stage": "validation_e_1_s_20",
+          "prediction": "7.69",
+          "target": "7.69",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 21,
+          "sample_id": "val:000118",
+          "call_id": "test_eval_21",
+          "stage": "validation_e_1_s_20",
+          "prediction": "8775.0",
+          "target": "8775.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 22,
+          "sample_id": "val:000120",
+          "call_id": "test_eval_22",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 23,
+          "sample_id": "val:000127",
+          "call_id": "test_eval_23",
+          "stage": "validation_e_1_s_20",
+          "prediction": "-200000000.0",
+          "target": "-200000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 24,
+          "sample_id": "val:000168",
+          "call_id": "test_eval_24",
+          "stage": "validation_e_1_s_20",
+          "prediction": "6800000000.0",
+          "target": "6800000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 25,
+          "sample_id": "val:000173",
+          "call_id": "test_eval_25",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.12",
+          "target": "0.12",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 26,
+          "sample_id": "val:000175",
+          "call_id": "test_eval_26",
+          "stage": "validation_e_1_s_20",
+          "prediction": "7.5",
+          "target": "7.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 27,
+          "sample_id": "val:000177",
+          "call_id": "test_eval_27",
+          "stage": "validation_e_1_s_20",
+          "prediction": "25.0",
+          "target": "25.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 28,
+          "sample_id": "val:000185",
+          "call_id": "test_eval_28",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 29,
+          "sample_id": "val:000200",
+          "call_id": "test_eval_29",
+          "stage": "validation_e_1_s_20",
+          "prediction": "30695.66",
+          "target": "30695.66",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 30,
+          "sample_id": "val:000204",
+          "call_id": "test_eval_30",
+          "stage": "validation_e_1_s_20",
+          "prediction": "400.0",
+          "target": "4.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 31,
+          "sample_id": "val:000206",
+          "call_id": "test_eval_31",
+          "stage": "validation_e_1_s_20",
+          "prediction": "15.0",
+          "target": "15.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 32,
+          "sample_id": "val:000211",
+          "call_id": "test_eval_32",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1117.38",
+          "target": "1117.38",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 33,
+          "sample_id": "val:000212",
+          "call_id": "test_eval_33",
+          "stage": "validation_e_1_s_20",
+          "prediction": "16.16",
+          "target": "0.16",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 34,
+          "sample_id": "val:000218",
+          "call_id": "test_eval_34",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.5",
+          "target": "0.01",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 35,
+          "sample_id": "val:000219",
+          "call_id": "test_eval_35",
+          "stage": "validation_e_1_s_20",
+          "prediction": "10.0",
+          "target": "10.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 36,
+          "sample_id": "val:000220",
+          "call_id": "test_eval_36",
+          "stage": "validation_e_1_s_20",
+          "prediction": "15000.0",
+          "target": "0.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 37,
+          "sample_id": "val:000225",
+          "call_id": "test_eval_37",
+          "stage": "validation_e_1_s_20",
+          "prediction": "9.2",
+          "target": "9.2",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 38,
+          "sample_id": "val:000227",
+          "call_id": "test_eval_38",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1000.00, 961.54",
+          "target": "260.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 39,
+          "sample_id": "val:000239",
+          "call_id": "test_eval_39",
+          "stage": "validation_e_1_s_20",
+          "prediction": "1.6",
+          "target": "1.6",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 40,
+          "sample_id": "val:000246",
+          "call_id": "test_eval_40",
+          "stage": "validation_e_1_s_20",
+          "prediction": "3.0",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 41,
+          "sample_id": "val:000263",
+          "call_id": "test_eval_41",
+          "stage": "validation_e_1_s_20",
+          "prediction": "53000.0",
+          "target": "53000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 42,
+          "sample_id": "val:000268",
+          "call_id": "test_eval_42",
+          "stage": "validation_e_1_s_20",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 43,
+          "sample_id": "val:000271",
+          "call_id": "test_eval_43",
+          "stage": "validation_e_1_s_20",
+          "prediction": "30.00",
+          "target": "30.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 44,
+          "sample_id": "val:000273",
+          "call_id": "test_eval_44",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.01",
+          "target": "0.08",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 45,
+          "sample_id": "val:000279",
+          "call_id": "test_eval_45",
+          "stage": "validation_e_1_s_20",
+          "prediction": "50000.00",
+          "target": "71904.75",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 46,
+          "sample_id": "val:000282",
+          "call_id": "test_eval_46",
+          "stage": "validation_e_1_s_20",
+          "prediction": "35000.0",
+          "target": "35000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 47,
+          "sample_id": "val:000284",
+          "call_id": "test_eval_47",
+          "stage": "validation_e_1_s_20",
+          "prediction": "6.00",
+          "target": "0.06",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 48,
+          "sample_id": "val:000298",
+          "call_id": "test_eval_48",
+          "stage": "validation_e_1_s_20",
+          "prediction": "350000000.0",
+          "target": "350000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 49,
+          "sample_id": "val:000299",
+          "call_id": "test_eval_49",
+          "stage": "validation_e_1_s_20",
+          "prediction": "0.4",
+          "target": "0.4",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        }
+      ],
+      "playbook_num_tokens": 1487,
+      "playbook_length": 5957,
+      "playbook_stats": {
+        "total_bullets": 18,
+        "high_performing": 0,
+        "problematic": 1,
+        "unused": 15,
+        "by_section": {
+          "FORMULAS & CALCULATIONS": {
+            "count": 17,
+            "helpful": 2,
+            "harmful": 1
+          },
+          "COMMON MISTAKES TO AVOID": {
+            "count": 1,
+            "helpful": 0,
+            "harmful": 0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "step": 40,
+      "stage": "validation_e_1_s_40",
+      "train_result": {
+        "pre_train_accuracy": 0.8,
+        "post_train_accuracy": 0.85
+      },
+      "validation": {
+        "accuracy": 0.76,
+        "correct": 38,
+        "total": 50,
+        "no_answer": 0,
+        "api_success_count": 50,
+        "api_failure_count": 0,
+        "success_rate": 1.0,
+        "stage": "validation_e_1_s_40"
+      },
+      "predictions": [
+        {
+          "index": 0,
+          "sample_id": "val:000001",
+          "call_id": "test_eval_0",
+          "stage": "validation_e_1_s_40",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 1,
+          "sample_id": "val:000005",
+          "call_id": "test_eval_1",
+          "stage": "validation_e_1_s_40",
+          "prediction": "259000.0",
+          "target": "259000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 2,
+          "sample_id": "val:000013",
+          "call_id": "test_eval_2",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.20",
+          "target": "20.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 3,
+          "sample_id": "val:000024",
+          "call_id": "test_eval_3",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1.58",
+          "target": "1.58",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 4,
+          "sample_id": "val:000026",
+          "call_id": "test_eval_4",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 5,
+          "sample_id": "val:000029",
+          "call_id": "test_eval_5",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1000000.0",
+          "target": "1000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 6,
+          "sample_id": "val:000038",
+          "call_id": "test_eval_6",
+          "stage": "validation_e_1_s_40",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 7,
+          "sample_id": "val:000041",
+          "call_id": "test_eval_7",
+          "stage": "validation_e_1_s_40",
+          "prediction": "33.33",
+          "target": "33.33",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 8,
+          "sample_id": "val:000044",
+          "call_id": "test_eval_8",
+          "stage": "validation_e_1_s_40",
+          "prediction": "2.00",
+          "target": "2.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 9,
+          "sample_id": "val:000047",
+          "call_id": "test_eval_9",
+          "stage": "validation_e_1_s_40",
+          "prediction": "3.00",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 10,
+          "sample_id": "val:000049",
+          "call_id": "test_eval_10",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.05",
+          "target": "5.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 11,
+          "sample_id": "val:000053",
+          "call_id": "test_eval_11",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1.43",
+          "target": "1.43",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 12,
+          "sample_id": "val:000061",
+          "call_id": "test_eval_12",
+          "stage": "validation_e_1_s_40",
+          "prediction": "302.80",
+          "target": "21317.91",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 13,
+          "sample_id": "val:000064",
+          "call_id": "test_eval_13",
+          "stage": "validation_e_1_s_40",
+          "prediction": "965000.0",
+          "target": "965000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 14,
+          "sample_id": "val:000068",
+          "call_id": "test_eval_14",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.25",
+          "target": "0.25",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 15,
+          "sample_id": "val:000072",
+          "call_id": "test_eval_15",
+          "stage": "validation_e_1_s_40",
+          "prediction": "14.29",
+          "target": "14.29",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 16,
+          "sample_id": "val:000073",
+          "call_id": "test_eval_16",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 17,
+          "sample_id": "val:000079",
+          "call_id": "test_eval_17",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.03",
+          "target": "99.1",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 18,
+          "sample_id": "val:000093",
+          "call_id": "test_eval_18",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 19,
+          "sample_id": "val:000095",
+          "call_id": "test_eval_19",
+          "stage": "validation_e_1_s_40",
+          "prediction": "161.03",
+          "target": "1.56",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 20,
+          "sample_id": "val:000110",
+          "call_id": "test_eval_20",
+          "stage": "validation_e_1_s_40",
+          "prediction": "7.71",
+          "target": "7.69",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 21,
+          "sample_id": "val:000118",
+          "call_id": "test_eval_21",
+          "stage": "validation_e_1_s_40",
+          "prediction": "8775.0",
+          "target": "8775.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 22,
+          "sample_id": "val:000120",
+          "call_id": "test_eval_22",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 23,
+          "sample_id": "val:000127",
+          "call_id": "test_eval_23",
+          "stage": "validation_e_1_s_40",
+          "prediction": "-200000000.0",
+          "target": "-200000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 24,
+          "sample_id": "val:000168",
+          "call_id": "test_eval_24",
+          "stage": "validation_e_1_s_40",
+          "prediction": "6800000000.0",
+          "target": "6800000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 25,
+          "sample_id": "val:000173",
+          "call_id": "test_eval_25",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.12",
+          "target": "0.12",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 26,
+          "sample_id": "val:000175",
+          "call_id": "test_eval_26",
+          "stage": "validation_e_1_s_40",
+          "prediction": "7.5",
+          "target": "7.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 27,
+          "sample_id": "val:000177",
+          "call_id": "test_eval_27",
+          "stage": "validation_e_1_s_40",
+          "prediction": "25.0",
+          "target": "25.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 28,
+          "sample_id": "val:000185",
+          "call_id": "test_eval_28",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 29,
+          "sample_id": "val:000200",
+          "call_id": "test_eval_29",
+          "stage": "validation_e_1_s_40",
+          "prediction": "30695.66",
+          "target": "30695.66",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 30,
+          "sample_id": "val:000204",
+          "call_id": "test_eval_30",
+          "stage": "validation_e_1_s_40",
+          "prediction": "400.0",
+          "target": "4.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 31,
+          "sample_id": "val:000206",
+          "call_id": "test_eval_31",
+          "stage": "validation_e_1_s_40",
+          "prediction": "15.0",
+          "target": "15.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 32,
+          "sample_id": "val:000211",
+          "call_id": "test_eval_32",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1117.38",
+          "target": "1117.38",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 33,
+          "sample_id": "val:000212",
+          "call_id": "test_eval_33",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.16",
+          "target": "0.16",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 34,
+          "sample_id": "val:000218",
+          "call_id": "test_eval_34",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.005",
+          "target": "0.01",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 35,
+          "sample_id": "val:000219",
+          "call_id": "test_eval_35",
+          "stage": "validation_e_1_s_40",
+          "prediction": "10.0",
+          "target": "10.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 36,
+          "sample_id": "val:000220",
+          "call_id": "test_eval_36",
+          "stage": "validation_e_1_s_40",
+          "prediction": "15000.00",
+          "target": "0.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 37,
+          "sample_id": "val:000225",
+          "call_id": "test_eval_37",
+          "stage": "validation_e_1_s_40",
+          "prediction": "9.20",
+          "target": "9.2",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 38,
+          "sample_id": "val:000227",
+          "call_id": "test_eval_38",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1000.0, 961.54",
+          "target": "260.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 39,
+          "sample_id": "val:000239",
+          "call_id": "test_eval_39",
+          "stage": "validation_e_1_s_40",
+          "prediction": "1.60",
+          "target": "1.6",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 40,
+          "sample_id": "val:000246",
+          "call_id": "test_eval_40",
+          "stage": "validation_e_1_s_40",
+          "prediction": "3.0",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 41,
+          "sample_id": "val:000263",
+          "call_id": "test_eval_41",
+          "stage": "validation_e_1_s_40",
+          "prediction": "53000.0",
+          "target": "53000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 42,
+          "sample_id": "val:000268",
+          "call_id": "test_eval_42",
+          "stage": "validation_e_1_s_40",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 43,
+          "sample_id": "val:000271",
+          "call_id": "test_eval_43",
+          "stage": "validation_e_1_s_40",
+          "prediction": "30.00",
+          "target": "30.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 44,
+          "sample_id": "val:000273",
+          "call_id": "test_eval_44",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.01",
+          "target": "0.08",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 45,
+          "sample_id": "val:000279",
+          "call_id": "test_eval_45",
+          "stage": "validation_e_1_s_40",
+          "prediction": "50000.00",
+          "target": "71904.75",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 46,
+          "sample_id": "val:000282",
+          "call_id": "test_eval_46",
+          "stage": "validation_e_1_s_40",
+          "prediction": "35000.0",
+          "target": "35000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 47,
+          "sample_id": "val:000284",
+          "call_id": "test_eval_47",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.06",
+          "target": "0.06",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 48,
+          "sample_id": "val:000298",
+          "call_id": "test_eval_48",
+          "stage": "validation_e_1_s_40",
+          "prediction": "350000000.0",
+          "target": "350000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 49,
+          "sample_id": "val:000299",
+          "call_id": "test_eval_49",
+          "stage": "validation_e_1_s_40",
+          "prediction": "0.4",
+          "target": "0.4",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        }
+      ],
+      "playbook_num_tokens": 3219,
+      "playbook_length": 13418,
+      "playbook_stats": {
+        "total_bullets": 36,
+        "high_performing": 0,
+        "problematic": 1,
+        "unused": 32,
+        "by_section": {
+          "FORMULAS & CALCULATIONS": {
+            "count": 34,
+            "helpful": 5,
+            "harmful": 1
+          },
+          "COMMON MISTAKES TO AVOID": {
+            "count": 2,
+            "helpful": 0,
+            "harmful": 0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "step": 60,
+      "stage": "validation_e_1_s_60",
+      "train_result": {
+        "pre_train_accuracy": 0.7833333333333333,
+        "post_train_accuracy": 0.85
+      },
+      "validation": {
+        "accuracy": 0.8,
+        "correct": 40,
+        "total": 50,
+        "no_answer": 0,
+        "api_success_count": 50,
+        "api_failure_count": 0,
+        "success_rate": 1.0,
+        "stage": "validation_e_1_s_60"
+      },
+      "predictions": [
+        {
+          "index": 0,
+          "sample_id": "val:000001",
+          "call_id": "test_eval_0",
+          "stage": "validation_e_1_s_60",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 1,
+          "sample_id": "val:000005",
+          "call_id": "test_eval_1",
+          "stage": "validation_e_1_s_60",
+          "prediction": "259000.0",
+          "target": "259000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 2,
+          "sample_id": "val:000013",
+          "call_id": "test_eval_2",
+          "stage": "validation_e_1_s_60",
+          "prediction": "20.00",
+          "target": "20.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 3,
+          "sample_id": "val:000024",
+          "call_id": "test_eval_3",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1.58",
+          "target": "1.58",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 4,
+          "sample_id": "val:000026",
+          "call_id": "test_eval_4",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 5,
+          "sample_id": "val:000029",
+          "call_id": "test_eval_5",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1000000.0",
+          "target": "1000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 6,
+          "sample_id": "val:000038",
+          "call_id": "test_eval_6",
+          "stage": "validation_e_1_s_60",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 7,
+          "sample_id": "val:000041",
+          "call_id": "test_eval_7",
+          "stage": "validation_e_1_s_60",
+          "prediction": "33.33",
+          "target": "33.33",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 8,
+          "sample_id": "val:000044",
+          "call_id": "test_eval_8",
+          "stage": "validation_e_1_s_60",
+          "prediction": "2.0",
+          "target": "2.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 9,
+          "sample_id": "val:000047",
+          "call_id": "test_eval_9",
+          "stage": "validation_e_1_s_60",
+          "prediction": "3.00",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 10,
+          "sample_id": "val:000049",
+          "call_id": "test_eval_10",
+          "stage": "validation_e_1_s_60",
+          "prediction": "5.00",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 11,
+          "sample_id": "val:000053",
+          "call_id": "test_eval_11",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1.43",
+          "target": "1.43",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 12,
+          "sample_id": "val:000061",
+          "call_id": "test_eval_12",
+          "stage": "validation_e_1_s_60",
+          "prediction": "293.05",
+          "target": "21317.91",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 13,
+          "sample_id": "val:000064",
+          "call_id": "test_eval_13",
+          "stage": "validation_e_1_s_60",
+          "prediction": "965000.0",
+          "target": "965000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 14,
+          "sample_id": "val:000068",
+          "call_id": "test_eval_14",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.25",
+          "target": "0.25",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 15,
+          "sample_id": "val:000072",
+          "call_id": "test_eval_15",
+          "stage": "validation_e_1_s_60",
+          "prediction": "14.29",
+          "target": "14.29",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 16,
+          "sample_id": "val:000073",
+          "call_id": "test_eval_16",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 17,
+          "sample_id": "val:000079",
+          "call_id": "test_eval_17",
+          "stage": "validation_e_1_s_60",
+          "prediction": "2.72",
+          "target": "99.1",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 18,
+          "sample_id": "val:000093",
+          "call_id": "test_eval_18",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 19,
+          "sample_id": "val:000095",
+          "call_id": "test_eval_19",
+          "stage": "validation_e_1_s_60",
+          "prediction": "161.03",
+          "target": "1.56",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 20,
+          "sample_id": "val:000110",
+          "call_id": "test_eval_20",
+          "stage": "validation_e_1_s_60",
+          "prediction": "7.67",
+          "target": "7.69",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 21,
+          "sample_id": "val:000118",
+          "call_id": "test_eval_21",
+          "stage": "validation_e_1_s_60",
+          "prediction": "8775.0",
+          "target": "8775.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 22,
+          "sample_id": "val:000120",
+          "call_id": "test_eval_22",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 23,
+          "sample_id": "val:000127",
+          "call_id": "test_eval_23",
+          "stage": "validation_e_1_s_60",
+          "prediction": "-200000000.0",
+          "target": "-200000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 24,
+          "sample_id": "val:000168",
+          "call_id": "test_eval_24",
+          "stage": "validation_e_1_s_60",
+          "prediction": "6800000000.0",
+          "target": "6800000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 25,
+          "sample_id": "val:000173",
+          "call_id": "test_eval_25",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.12",
+          "target": "0.12",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 26,
+          "sample_id": "val:000175",
+          "call_id": "test_eval_26",
+          "stage": "validation_e_1_s_60",
+          "prediction": "7.50",
+          "target": "7.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 27,
+          "sample_id": "val:000177",
+          "call_id": "test_eval_27",
+          "stage": "validation_e_1_s_60",
+          "prediction": "25.0",
+          "target": "25.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 28,
+          "sample_id": "val:000185",
+          "call_id": "test_eval_28",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 29,
+          "sample_id": "val:000200",
+          "call_id": "test_eval_29",
+          "stage": "validation_e_1_s_60",
+          "prediction": "30695.66",
+          "target": "30695.66",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 30,
+          "sample_id": "val:000204",
+          "call_id": "test_eval_30",
+          "stage": "validation_e_1_s_60",
+          "prediction": "4.0",
+          "target": "4.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 31,
+          "sample_id": "val:000206",
+          "call_id": "test_eval_31",
+          "stage": "validation_e_1_s_60",
+          "prediction": "15.00",
+          "target": "15.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 32,
+          "sample_id": "val:000211",
+          "call_id": "test_eval_32",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1117.38",
+          "target": "1117.38",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 33,
+          "sample_id": "val:000212",
+          "call_id": "test_eval_33",
+          "stage": "validation_e_1_s_60",
+          "prediction": "16.16",
+          "target": "0.16",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 34,
+          "sample_id": "val:000218",
+          "call_id": "test_eval_34",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.01",
+          "target": "0.01",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 35,
+          "sample_id": "val:000219",
+          "call_id": "test_eval_35",
+          "stage": "validation_e_1_s_60",
+          "prediction": "10.0",
+          "target": "10.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 36,
+          "sample_id": "val:000220",
+          "call_id": "test_eval_36",
+          "stage": "validation_e_1_s_60",
+          "prediction": "15000.0",
+          "target": "0.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 37,
+          "sample_id": "val:000225",
+          "call_id": "test_eval_37",
+          "stage": "validation_e_1_s_60",
+          "prediction": "9.2",
+          "target": "9.2",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 38,
+          "sample_id": "val:000227",
+          "call_id": "test_eval_38",
+          "stage": "validation_e_1_s_60",
+          "prediction": "Initial: 250.0, Final: 260.0",
+          "target": "260.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 39,
+          "sample_id": "val:000239",
+          "call_id": "test_eval_39",
+          "stage": "validation_e_1_s_60",
+          "prediction": "1.60",
+          "target": "1.6",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 40,
+          "sample_id": "val:000246",
+          "call_id": "test_eval_40",
+          "stage": "validation_e_1_s_60",
+          "prediction": "3.0",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 41,
+          "sample_id": "val:000263",
+          "call_id": "test_eval_41",
+          "stage": "validation_e_1_s_60",
+          "prediction": "53000.0",
+          "target": "53000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 42,
+          "sample_id": "val:000268",
+          "call_id": "test_eval_42",
+          "stage": "validation_e_1_s_60",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 43,
+          "sample_id": "val:000271",
+          "call_id": "test_eval_43",
+          "stage": "validation_e_1_s_60",
+          "prediction": "30.00",
+          "target": "30.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 44,
+          "sample_id": "val:000273",
+          "call_id": "test_eval_44",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.01",
+          "target": "0.08",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 45,
+          "sample_id": "val:000279",
+          "call_id": "test_eval_45",
+          "stage": "validation_e_1_s_60",
+          "prediction": "71854.80",
+          "target": "71904.75",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 46,
+          "sample_id": "val:000282",
+          "call_id": "test_eval_46",
+          "stage": "validation_e_1_s_60",
+          "prediction": "35000.0",
+          "target": "35000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 47,
+          "sample_id": "val:000284",
+          "call_id": "test_eval_47",
+          "stage": "validation_e_1_s_60",
+          "prediction": "6.00",
+          "target": "0.06",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 48,
+          "sample_id": "val:000298",
+          "call_id": "test_eval_48",
+          "stage": "validation_e_1_s_60",
+          "prediction": "350000000.0",
+          "target": "350000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 49,
+          "sample_id": "val:000299",
+          "call_id": "test_eval_49",
+          "stage": "validation_e_1_s_60",
+          "prediction": "0.4",
+          "target": "0.4",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        }
+      ],
+      "playbook_num_tokens": 4714,
+      "playbook_length": 19832,
+      "playbook_stats": {
+        "total_bullets": 50,
+        "high_performing": 0,
+        "problematic": 1,
+        "unused": 43,
+        "by_section": {
+          "FORMULAS & CALCULATIONS": {
+            "count": 45,
+            "helpful": 11,
+            "harmful": 1
+          },
+          "COMMON MISTAKES TO AVOID": {
+            "count": 4,
+            "helpful": 0,
+            "harmful": 0
+          },
+          "PROBLEM-SOLVING HEURISTICS": {
+            "count": 1,
+            "helpful": 0,
+            "harmful": 0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "step": 80,
+      "stage": "validation_e_1_s_80",
+      "train_result": {
+        "pre_train_accuracy": 0.75,
+        "post_train_accuracy": 0.8375
+      },
+      "validation": {
+        "accuracy": 0.82,
+        "correct": 41,
+        "total": 50,
+        "no_answer": 0,
+        "api_success_count": 50,
+        "api_failure_count": 0,
+        "success_rate": 1.0,
+        "stage": "validation_e_1_s_80"
+      },
+      "predictions": [
+        {
+          "index": 0,
+          "sample_id": "val:000001",
+          "call_id": "test_eval_0",
+          "stage": "validation_e_1_s_80",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 1,
+          "sample_id": "val:000005",
+          "call_id": "test_eval_1",
+          "stage": "validation_e_1_s_80",
+          "prediction": "259000.0",
+          "target": "259000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 2,
+          "sample_id": "val:000013",
+          "call_id": "test_eval_2",
+          "stage": "validation_e_1_s_80",
+          "prediction": "20.0",
+          "target": "20.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 3,
+          "sample_id": "val:000024",
+          "call_id": "test_eval_3",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1.58",
+          "target": "1.58",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 4,
+          "sample_id": "val:000026",
+          "call_id": "test_eval_4",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 5,
+          "sample_id": "val:000029",
+          "call_id": "test_eval_5",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1000000.0",
+          "target": "1000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 6,
+          "sample_id": "val:000038",
+          "call_id": "test_eval_6",
+          "stage": "validation_e_1_s_80",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 7,
+          "sample_id": "val:000041",
+          "call_id": "test_eval_7",
+          "stage": "validation_e_1_s_80",
+          "prediction": "33.33",
+          "target": "33.33",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 8,
+          "sample_id": "val:000044",
+          "call_id": "test_eval_8",
+          "stage": "validation_e_1_s_80",
+          "prediction": "2.0",
+          "target": "2.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 9,
+          "sample_id": "val:000047",
+          "call_id": "test_eval_9",
+          "stage": "validation_e_1_s_80",
+          "prediction": "3.00",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 10,
+          "sample_id": "val:000049",
+          "call_id": "test_eval_10",
+          "stage": "validation_e_1_s_80",
+          "prediction": "5.00",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 11,
+          "sample_id": "val:000053",
+          "call_id": "test_eval_11",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1.43",
+          "target": "1.43",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 12,
+          "sample_id": "val:000061",
+          "call_id": "test_eval_12",
+          "stage": "validation_e_1_s_80",
+          "prediction": "302.77",
+          "target": "21317.91",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 13,
+          "sample_id": "val:000064",
+          "call_id": "test_eval_13",
+          "stage": "validation_e_1_s_80",
+          "prediction": "965000.0",
+          "target": "965000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 14,
+          "sample_id": "val:000068",
+          "call_id": "test_eval_14",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.25",
+          "target": "0.25",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 15,
+          "sample_id": "val:000072",
+          "call_id": "test_eval_15",
+          "stage": "validation_e_1_s_80",
+          "prediction": "14.29",
+          "target": "14.29",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 16,
+          "sample_id": "val:000073",
+          "call_id": "test_eval_16",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 17,
+          "sample_id": "val:000079",
+          "call_id": "test_eval_17",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.03",
+          "target": "99.1",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 18,
+          "sample_id": "val:000093",
+          "call_id": "test_eval_18",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1.50",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 19,
+          "sample_id": "val:000095",
+          "call_id": "test_eval_19",
+          "stage": "validation_e_1_s_80",
+          "prediction": "161.00",
+          "target": "1.56",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 20,
+          "sample_id": "val:000110",
+          "call_id": "test_eval_20",
+          "stage": "validation_e_1_s_80",
+          "prediction": "7.68",
+          "target": "7.69",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 21,
+          "sample_id": "val:000118",
+          "call_id": "test_eval_21",
+          "stage": "validation_e_1_s_80",
+          "prediction": "8775.0",
+          "target": "8775.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 22,
+          "sample_id": "val:000120",
+          "call_id": "test_eval_22",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 23,
+          "sample_id": "val:000127",
+          "call_id": "test_eval_23",
+          "stage": "validation_e_1_s_80",
+          "prediction": "-200000000.0",
+          "target": "-200000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 24,
+          "sample_id": "val:000168",
+          "call_id": "test_eval_24",
+          "stage": "validation_e_1_s_80",
+          "prediction": "6800000000.0",
+          "target": "6800000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 25,
+          "sample_id": "val:000173",
+          "call_id": "test_eval_25",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.12",
+          "target": "0.12",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 26,
+          "sample_id": "val:000175",
+          "call_id": "test_eval_26",
+          "stage": "validation_e_1_s_80",
+          "prediction": "7.50",
+          "target": "7.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 27,
+          "sample_id": "val:000177",
+          "call_id": "test_eval_27",
+          "stage": "validation_e_1_s_80",
+          "prediction": "25.0",
+          "target": "25.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 28,
+          "sample_id": "val:000185",
+          "call_id": "test_eval_28",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 29,
+          "sample_id": "val:000200",
+          "call_id": "test_eval_29",
+          "stage": "validation_e_1_s_80",
+          "prediction": "30695.66",
+          "target": "30695.66",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 30,
+          "sample_id": "val:000204",
+          "call_id": "test_eval_30",
+          "stage": "validation_e_1_s_80",
+          "prediction": "4.0",
+          "target": "4.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 31,
+          "sample_id": "val:000206",
+          "call_id": "test_eval_31",
+          "stage": "validation_e_1_s_80",
+          "prediction": "15.0",
+          "target": "15.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 32,
+          "sample_id": "val:000211",
+          "call_id": "test_eval_32",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1117.38",
+          "target": "1117.38",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 33,
+          "sample_id": "val:000212",
+          "call_id": "test_eval_33",
+          "stage": "validation_e_1_s_80",
+          "prediction": "16.10",
+          "target": "0.16",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 34,
+          "sample_id": "val:000218",
+          "call_id": "test_eval_34",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.01",
+          "target": "0.01",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 35,
+          "sample_id": "val:000219",
+          "call_id": "test_eval_35",
+          "stage": "validation_e_1_s_80",
+          "prediction": "10.0",
+          "target": "10.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 36,
+          "sample_id": "val:000220",
+          "call_id": "test_eval_36",
+          "stage": "validation_e_1_s_80",
+          "prediction": "15000.0",
+          "target": "0.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 37,
+          "sample_id": "val:000225",
+          "call_id": "test_eval_37",
+          "stage": "validation_e_1_s_80",
+          "prediction": "9.2",
+          "target": "9.2",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 38,
+          "sample_id": "val:000227",
+          "call_id": "test_eval_38",
+          "stage": "validation_e_1_s_80",
+          "prediction": "62.50, 65.00",
+          "target": "260.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 39,
+          "sample_id": "val:000239",
+          "call_id": "test_eval_39",
+          "stage": "validation_e_1_s_80",
+          "prediction": "1.60",
+          "target": "1.6",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 40,
+          "sample_id": "val:000246",
+          "call_id": "test_eval_40",
+          "stage": "validation_e_1_s_80",
+          "prediction": "3.0",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 41,
+          "sample_id": "val:000263",
+          "call_id": "test_eval_41",
+          "stage": "validation_e_1_s_80",
+          "prediction": "53000.0",
+          "target": "53000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 42,
+          "sample_id": "val:000268",
+          "call_id": "test_eval_42",
+          "stage": "validation_e_1_s_80",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 43,
+          "sample_id": "val:000271",
+          "call_id": "test_eval_43",
+          "stage": "validation_e_1_s_80",
+          "prediction": "30.00",
+          "target": "30.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 44,
+          "sample_id": "val:000273",
+          "call_id": "test_eval_44",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.01",
+          "target": "0.08",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 45,
+          "sample_id": "val:000279",
+          "call_id": "test_eval_45",
+          "stage": "validation_e_1_s_80",
+          "prediction": "51850.0",
+          "target": "71904.75",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 46,
+          "sample_id": "val:000282",
+          "call_id": "test_eval_46",
+          "stage": "validation_e_1_s_80",
+          "prediction": "35000.0",
+          "target": "35000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 47,
+          "sample_id": "val:000284",
+          "call_id": "test_eval_47",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.06",
+          "target": "0.06",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 48,
+          "sample_id": "val:000298",
+          "call_id": "test_eval_48",
+          "stage": "validation_e_1_s_80",
+          "prediction": "350000000.0",
+          "target": "350000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 49,
+          "sample_id": "val:000299",
+          "call_id": "test_eval_49",
+          "stage": "validation_e_1_s_80",
+          "prediction": "0.4",
+          "target": "0.4",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        }
+      ],
+      "playbook_num_tokens": 6287,
+      "playbook_length": 26583,
+      "playbook_stats": {
+        "total_bullets": 65,
+        "high_performing": 2,
+        "problematic": 3,
+        "unused": 52,
+        "by_section": {
+          "FORMULAS & CALCULATIONS": {
+            "count": 59,
+            "helpful": 28,
+            "harmful": 3
+          },
+          "COMMON MISTAKES TO AVOID": {
+            "count": 5,
+            "helpful": 0,
+            "harmful": 1
+          },
+          "PROBLEM-SOLVING HEURISTICS": {
+            "count": 1,
+            "helpful": 0,
+            "harmful": 0
+          }
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "step": 100,
+      "stage": "validation_e_1_s_100",
+      "train_result": {
+        "pre_train_accuracy": 0.77,
+        "post_train_accuracy": 0.85
+      },
+      "validation": {
+        "accuracy": 0.82,
+        "correct": 41,
+        "total": 50,
+        "no_answer": 0,
+        "api_success_count": 50,
+        "api_failure_count": 0,
+        "success_rate": 1.0,
+        "stage": "validation_e_1_s_100"
+      },
+      "predictions": [
+        {
+          "index": 0,
+          "sample_id": "val:000001",
+          "call_id": "test_eval_0",
+          "stage": "validation_e_1_s_100",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 1,
+          "sample_id": "val:000005",
+          "call_id": "test_eval_1",
+          "stage": "validation_e_1_s_100",
+          "prediction": "259000.0",
+          "target": "259000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 2,
+          "sample_id": "val:000013",
+          "call_id": "test_eval_2",
+          "stage": "validation_e_1_s_100",
+          "prediction": "20.0",
+          "target": "20.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 3,
+          "sample_id": "val:000024",
+          "call_id": "test_eval_3",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1.58",
+          "target": "1.58",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 4,
+          "sample_id": "val:000026",
+          "call_id": "test_eval_4",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 5,
+          "sample_id": "val:000029",
+          "call_id": "test_eval_5",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1000000.0",
+          "target": "1000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 6,
+          "sample_id": "val:000038",
+          "call_id": "test_eval_6",
+          "stage": "validation_e_1_s_100",
+          "prediction": "5.00",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 7,
+          "sample_id": "val:000041",
+          "call_id": "test_eval_7",
+          "stage": "validation_e_1_s_100",
+          "prediction": "33.33",
+          "target": "33.33",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 8,
+          "sample_id": "val:000044",
+          "call_id": "test_eval_8",
+          "stage": "validation_e_1_s_100",
+          "prediction": "2.0",
+          "target": "2.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 9,
+          "sample_id": "val:000047",
+          "call_id": "test_eval_9",
+          "stage": "validation_e_1_s_100",
+          "prediction": "3.00",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 10,
+          "sample_id": "val:000049",
+          "call_id": "test_eval_10",
+          "stage": "validation_e_1_s_100",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 11,
+          "sample_id": "val:000053",
+          "call_id": "test_eval_11",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1.43",
+          "target": "1.43",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 12,
+          "sample_id": "val:000061",
+          "call_id": "test_eval_12",
+          "stage": "validation_e_1_s_100",
+          "prediction": "302.80",
+          "target": "21317.91",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 13,
+          "sample_id": "val:000064",
+          "call_id": "test_eval_13",
+          "stage": "validation_e_1_s_100",
+          "prediction": "965000.0",
+          "target": "965000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 14,
+          "sample_id": "val:000068",
+          "call_id": "test_eval_14",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.25",
+          "target": "0.25",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 15,
+          "sample_id": "val:000072",
+          "call_id": "test_eval_15",
+          "stage": "validation_e_1_s_100",
+          "prediction": "14.29",
+          "target": "14.29",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 16,
+          "sample_id": "val:000073",
+          "call_id": "test_eval_16",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 17,
+          "sample_id": "val:000079",
+          "call_id": "test_eval_17",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.03",
+          "target": "99.1",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 18,
+          "sample_id": "val:000093",
+          "call_id": "test_eval_18",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 19,
+          "sample_id": "val:000095",
+          "call_id": "test_eval_19",
+          "stage": "validation_e_1_s_100",
+          "prediction": "160.98",
+          "target": "1.56",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 20,
+          "sample_id": "val:000110",
+          "call_id": "test_eval_20",
+          "stage": "validation_e_1_s_100",
+          "prediction": "7.71",
+          "target": "7.69",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 21,
+          "sample_id": "val:000118",
+          "call_id": "test_eval_21",
+          "stage": "validation_e_1_s_100",
+          "prediction": "8775.0",
+          "target": "8775.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 22,
+          "sample_id": "val:000120",
+          "call_id": "test_eval_22",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1.5",
+          "target": "1.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 23,
+          "sample_id": "val:000127",
+          "call_id": "test_eval_23",
+          "stage": "validation_e_1_s_100",
+          "prediction": "-200000000.0",
+          "target": "-200000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 24,
+          "sample_id": "val:000168",
+          "call_id": "test_eval_24",
+          "stage": "validation_e_1_s_100",
+          "prediction": "6800000000.0",
+          "target": "6800000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 25,
+          "sample_id": "val:000173",
+          "call_id": "test_eval_25",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.12",
+          "target": "0.12",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 26,
+          "sample_id": "val:000175",
+          "call_id": "test_eval_26",
+          "stage": "validation_e_1_s_100",
+          "prediction": "7.5",
+          "target": "7.5",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 27,
+          "sample_id": "val:000177",
+          "call_id": "test_eval_27",
+          "stage": "validation_e_1_s_100",
+          "prediction": "25.0",
+          "target": "25.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 28,
+          "sample_id": "val:000185",
+          "call_id": "test_eval_28",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.05",
+          "target": "0.05",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 29,
+          "sample_id": "val:000200",
+          "call_id": "test_eval_29",
+          "stage": "validation_e_1_s_100",
+          "prediction": "30695.66",
+          "target": "30695.66",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 30,
+          "sample_id": "val:000204",
+          "call_id": "test_eval_30",
+          "stage": "validation_e_1_s_100",
+          "prediction": "4.0",
+          "target": "4.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 31,
+          "sample_id": "val:000206",
+          "call_id": "test_eval_31",
+          "stage": "validation_e_1_s_100",
+          "prediction": "15.0",
+          "target": "15.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 32,
+          "sample_id": "val:000211",
+          "call_id": "test_eval_32",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1117.38",
+          "target": "1117.38",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 33,
+          "sample_id": "val:000212",
+          "call_id": "test_eval_33",
+          "stage": "validation_e_1_s_100",
+          "prediction": "16.16",
+          "target": "0.16",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 34,
+          "sample_id": "val:000218",
+          "call_id": "test_eval_34",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.01",
+          "target": "0.01",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 35,
+          "sample_id": "val:000219",
+          "call_id": "test_eval_35",
+          "stage": "validation_e_1_s_100",
+          "prediction": "10.0",
+          "target": "10.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 36,
+          "sample_id": "val:000220",
+          "call_id": "test_eval_36",
+          "stage": "validation_e_1_s_100",
+          "prediction": "15000.0",
+          "target": "0.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 37,
+          "sample_id": "val:000225",
+          "call_id": "test_eval_37",
+          "stage": "validation_e_1_s_100",
+          "prediction": "9.20",
+          "target": "9.2",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 38,
+          "sample_id": "val:000227",
+          "call_id": "test_eval_38",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1000.0, 961.54",
+          "target": "260.0",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 39,
+          "sample_id": "val:000239",
+          "call_id": "test_eval_39",
+          "stage": "validation_e_1_s_100",
+          "prediction": "1.60",
+          "target": "1.6",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 40,
+          "sample_id": "val:000246",
+          "call_id": "test_eval_40",
+          "stage": "validation_e_1_s_100",
+          "prediction": "3.0",
+          "target": "3.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 41,
+          "sample_id": "val:000263",
+          "call_id": "test_eval_41",
+          "stage": "validation_e_1_s_100",
+          "prediction": "53000.0",
+          "target": "53000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 42,
+          "sample_id": "val:000268",
+          "call_id": "test_eval_42",
+          "stage": "validation_e_1_s_100",
+          "prediction": "5.0",
+          "target": "5.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 43,
+          "sample_id": "val:000271",
+          "call_id": "test_eval_43",
+          "stage": "validation_e_1_s_100",
+          "prediction": "30.0",
+          "target": "30.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 44,
+          "sample_id": "val:000273",
+          "call_id": "test_eval_44",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.01",
+          "target": "0.08",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 45,
+          "sample_id": "val:000279",
+          "call_id": "test_eval_45",
+          "stage": "validation_e_1_s_100",
+          "prediction": "71897.80",
+          "target": "71904.75",
+          "is_correct": false,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 46,
+          "sample_id": "val:000282",
+          "call_id": "test_eval_46",
+          "stage": "validation_e_1_s_100",
+          "prediction": "35000.0",
+          "target": "35000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 47,
+          "sample_id": "val:000284",
+          "call_id": "test_eval_47",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.06",
+          "target": "0.06",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 48,
+          "sample_id": "val:000298",
+          "call_id": "test_eval_48",
+          "stage": "validation_e_1_s_100",
+          "prediction": "350000000.0",
+          "target": "350000000.0",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        },
+        {
+          "index": 49,
+          "sample_id": "val:000299",
+          "call_id": "test_eval_49",
+          "stage": "validation_e_1_s_100",
+          "prediction": "0.4",
+          "target": "0.4",
+          "is_correct": true,
+          "api_success": true,
+          "error": null
+        }
+      ],
+      "playbook_num_tokens": 7599,
+      "playbook_length": 32504,
+      "playbook_stats": {
+        "total_bullets": 78,
+        "high_performing": 2,
+        "problematic": 4,
+        "unused": 60,
+        "by_section": {
+          "FORMULAS & CALCULATIONS": {
+            "count": 70,
+            "helpful": 39,
+            "harmful": 4
+          },
+          "COMMON MISTAKES TO AVOID": {
+            "count": 6,
+            "helpful": 0,
+            "harmful": 2
+          },
+          "PROBLEM-SOLVING HEURISTICS": {
+            "count": 2,
+            "helpful": 0,
+            "harmful": 0
+          }
+        }
+      }
+    }
+  ],
+  "best_accuracy": 0.82,
+  "best_checkpoint": {
+    "epoch": 1,
+    "step": 80,
+    "stage": "validation_e_1_s_80",
+    "playbook_sha256": "842b20a8a055390ebc57aa4adfe7b04045b3e4056e7058d84f155ff3da9f3ad8"
+  }
+}

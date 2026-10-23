@@ -44,7 +44,7 @@ class FormulaDataTests(unittest.TestCase):
                 self.assertEqual(config["jev"]["api_key_env"], "TYPESAFE_API_KEY")
                 self.assertEqual(config["jev"]["model"], "jev-1.13.0")
                 self.assertEqual(config["jev"]["base_url"], "https://api.typesafe.ai/v1/systemone")
-                self.assertEqual(config["jev"]["k"], 5)
+                self.assertEqual(config["jev"]["k"], 10)
                 self.assertNotIn("k_candidates", config["jev"])
 
     def test_bailian_shared_and_beijing_workspace_endpoints_are_valid(self):
@@ -119,9 +119,10 @@ class FormulaDataTests(unittest.TestCase):
             ("repeats below assignment minimum", lambda c: c.update(repeats=2)),
             ("boolean is not integer seed", lambda c: c.update(seed=True)),
             ("non-positive k", lambda c: c["jev"].update(k=0)),
-            ("k must remain fixed at five", lambda c: c["jev"].update(k=4)),
+            ("k must remain fixed at ten", lambda c: c["jev"].update(k=4)),
+            ("old top-five k is rejected", lambda c: c["jev"].update(k=5)),
             ("old k tuning is rejected", lambda c: c["jev"].update(k_candidates=[3, 5, 10])),
-            ("single k candidate is still tuning configuration", lambda c: c["jev"].update(k_candidates=[5])),
+            ("single k candidate is still tuning configuration", lambda c: c["jev"].update(k_candidates=[10])),
             ("negative retry count", lambda c: c["llm"].update(retries=-1)),
             ("zero request timeout", lambda c: c["llm"].update(timeout=0)),
             ("wrong provider", lambda c: c["llm"].update(api_provider="sambanova")),
