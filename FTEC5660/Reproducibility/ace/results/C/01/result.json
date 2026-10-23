@@ -7,7 +7,7 @@
   "b_checkpoint": {
     "group": "B",
     "trial": 1,
-    "path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/best_playbook.txt",
+    "path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/best_playbook.txt",
     "training_cost_included_in_C_incremental_usage": false,
     "shared_learning_llm_usage": {
       "successful_calls": 694,
@@ -22,7 +22,7 @@
   "selection_primitive": "score",
   "selection_ranking": "score_desc_then_playbook_order",
   "selection_confidence_used_for_ranking": false,
-  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/training/best_playbook.txt",
+  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/01/best_playbook.txt",
   "test": {
     "accuracy": 0.775,
     "correct": 155,

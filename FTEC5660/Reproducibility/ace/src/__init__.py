@@ -52,13 +52,13 @@ def __getattr__(name):
         value = import_module('.ace', __name__).ACE
     elif name == 'ACEBatch':
         value = import_module('.ace_batch', __name__).ACEBatch
-    elif name in ('Generator', 'Reflector', 'Curator', 'BulletpointAnalyzer'):
+    elif name in ('Generator', 'Reflector', 'Curator'):
         value = getattr(import_module('.core', __name__), name)
     else:
         raise AttributeError(name)
     globals()[name] = value
     return value
 
-__all__ = ['ACE', 'ACEBatch', 'Generator', 'Reflector', 'Curator', 'BulletpointAnalyzer']
+__all__ = ['ACE', 'ACEBatch', 'Generator', 'Reflector', 'Curator']
 
 __version__ = "1.0.0"

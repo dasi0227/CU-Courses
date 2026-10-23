@@ -137,7 +137,7 @@ def b_checkpoint(output_root, trial, plan):
     if result.get('status') != 'complete':
         raise ValueError('C requires a completed B trial')
     check_completed_result(result, 'B', trial)
-    path = folder / 'training' / 'best_playbook.txt'
+    path = folder / 'best_playbook.txt'
     text = path.read_text(encoding='utf-8')
     if not text.strip():
         raise ValueError('B best playbook is empty')
@@ -181,17 +181,14 @@ def run_group(group, trial, plan, data, output_root):
             stack.enter_context(runtime.installed())
             engine = ACE(api_provider=config['llm']['api_provider'],
                          generator_model=config['llm']['model'], reflector_model=config['llm']['model'],
-                         curator_model=config['llm']['model'], max_tokens=config['llm']['max_tokens'],
-                         use_bulletpoint_analyzer=False)
+                         curator_model=config['llm']['model'], max_tokens=config['llm']['max_tokens'])
             book = engine.playbook
             generator = engine.generator
             if group == 'C':
                 client = jev_client(config['jev'], folder)
             if group == 'B':
-                training_dir = folder / 'training'
                 def fixed_paths(save_dir, task_name, mode):
-                    training_dir.mkdir(parents=True, exist_ok=True)
-                    return str(training_dir), None, None, str(training_dir)
+                    return str(folder), None, None, str(folder)
                 engine._setup_paths = fixed_paths
                 # Route training validation through the same fixed-denominator evaluator.
                 ace_module = importlib.import_module('src.ace')
@@ -209,9 +206,9 @@ def run_group(group, trial, plan, data, output_root):
                 stack.enter_context(patch.object(ace_module, 'evaluate_test_set', validation))
                 runtime.stage = 'training'
                 ace_config = {**config['training'],
-                              'task_name': 'formula', 'save_dir': str(training_dir), 'test_workers': workers,
+                              'task_name': 'formula', 'save_dir': str(folder), 'test_workers': workers,
                               'json_mode': False, 'no_ground_truth': False,
-                              'playbook_token_budget': 80000, 'use_bulletpoint_analyzer': False,
+                              'playbook_token_budget': 80000,
                               'compact_artifacts': True}
                 result['training_config'] = {
                     'task_name': 'formula', 'mode': 'offline',
@@ -221,7 +218,7 @@ def run_group(group, trial, plan, data, output_root):
                     'config': ace_config,
                     'effective_parameters': engine._extract_config_params(ace_config),
                 }
-                result['training_results_path'] = str(training_dir / 'train_results.json')
+                result['training_results_path'] = str(folder / 'train_results.json')
                 write_json(folder / 'result.json', result)
                 training = engine.run('offline', selected['train'], selected['val'], [], processor, ace_config)
                 result['training'] = training
@@ -236,7 +233,7 @@ def run_group(group, trial, plan, data, output_root):
                               selection_confidence_used_for_ranking=False)
                 generator = SelectedGenerator(generator, ReadSelector(client, k, config['jev']['batch_size']), 'test')
             result['playbook_source'] = (
-                str(folder / 'training' / 'best_playbook.txt') if group == 'B' else
+                str(folder / 'best_playbook.txt') if group == 'B' else
                 result['b_checkpoint']['path'] if group == 'C' else 'empty_playbook'
             )
             # Persist the fixed selection policy and checkpoint lineage before

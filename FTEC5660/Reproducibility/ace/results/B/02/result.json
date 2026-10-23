@@ -18,7 +18,7 @@
       "batch_size": 1,
       "max_num_rounds": 3,
       "task_name": "formula",
-      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training",
+      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02",
       "test_workers": 4,
       "json_mode": false,
       "no_ground_truth": false,
@@ -36,14 +36,14 @@
       "task_name": "formula",
       "use_json_mode": false,
       "no_ground_truth": false,
-      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training",
+      "save_dir": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02",
       "test_workers": 4,
       "use_bulletpoint_analyzer": false,
       "bulletpoint_analyzer_threshold": 0.9,
       "compact_artifacts": true
     }
   },
-  "training_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/train_results.json",
+  "training_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/train_results.json",
   "training": {
     "training_results": {
       "best_validation_accuracy": 0.88,
@@ -54,10 +54,10 @@
       },
       "steps_completed": 100,
       "checkpoints_completed": 5,
-      "train_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/train_results.json"
+      "train_results_path": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/train_results.json"
     }
   },
-  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/training/best_playbook.txt",
+  "playbook_source": "/Users/wyw/Desktop/Courses/FTEC5660/Reproducibility/ace/results/B/02/best_playbook.txt",
   "test": {
     "accuracy": 0.835,
     "correct": 167,

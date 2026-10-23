@@ -62,8 +62,8 @@ predictions.jsonl：逐题保存最终测试的样本 ID、预测、标准答案
 result.json：本组本次的运行状态、test 中的测试指标、predictions_path 绝对路径、各阶段调用与 Token 汇总、耗时及 errors 中的 API、解析和 Curator 应用错误；不再嵌入完整逐题预测。B 的 training_config 保留训练入口实际参数和 effective_parameters，training 保留训练摘要。C 还保存 selection_k=10、selection_method=fixed_top_k、b_checkpoint 中的 B 组编号与手册路径，以及共享 B 训练和验证用量；这些信息在测试开始前落盘。
 
 B 再保存以下 2 个训练文件：
-training/train_results.json：合并逐题更新手册前后的答案和正误、实际反思轮数，各次验证的逐题预测、指标与手册大小，以及 best_checkpoint；small 正常完成时有 5 次验证。每个训练步骤后更新，失败时保留已完成记录和状态。
-training/best_playbook.txt：验证准确率提升时立即保存的最佳手册；C 直接读取正常完成的同编号 B 的文件。
+train_results.json：直接保存在 B 的各次实验目录，合并逐题更新手册前后的答案和正误、实际反思轮数，各次验证的逐题预测、指标与手册大小，以及 best_checkpoint；small 正常完成时有 5 次验证。每个训练步骤后更新，失败时保留已完成记录和状态。
+best_playbook.txt：直接保存在 B 的各次实验目录，验证准确率提升时立即保存的最佳手册；C 直接读取正常完成的同编号 B 的文件。
 
 C 额外保存 jev_audit.jsonl，记录 Score 请求及 0–3 分档、每个候选经验的原始 score、confidence 和 probabilities、排序依据、选中条目、Token、耗时和错误，便于追溯 top-10 选择；confidence 不参与排序。
 三次重复的三组全部正常完成后，共有 38 个输出文件：2 个公共文件、27 个各组共有文件、6 个 B 训练文件和 3 个 C 审计文件。不生成版本化计划、版本化汇总或 invocations 文件。

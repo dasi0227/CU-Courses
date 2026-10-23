@@ -15,7 +15,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple, Optional, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .core import Generator, Reflector, Curator, BulletpointAnalyzer
+from .core import Generator, Reflector, Curator
 from .common.playbook_utils import *
 from .common.logger import *
 from .common.utils import *
@@ -36,9 +36,7 @@ class ACEBatch:
         reflector_model: str,
         curator_model: str,
         max_tokens: int = 4096,
-        initial_playbook: Optional[str] = None,
-        use_bulletpoint_analyzer: bool = False,
-        bulletpoint_analyzer_threshold: float = 0.90
+        initial_playbook: Optional[str] = None
     ):
         """
         Initialize the ACE system.
@@ -50,8 +48,6 @@ class ACEBatch:
             curator_model: Model name for curator
             max_tokens: Maximum tokens for LLM calls
             initial_playbook: Initial playbook content (optional)
-            use_bulletpoint_analyzer: Whether to use bulletpoint analyzer for deduplication
-            bulletpoint_analyzer_threshold: Similarity threshold for bulletpoint analyzer (0-1)
         """
         # Initialize API clients
         generator_client, reflector_client, curator_client = initialize_clients(api_provider)
@@ -61,20 +57,6 @@ class ACEBatch:
         self.generator = Generator(generator_client, api_provider, generator_model, max_tokens)
         self.reflector = Reflector(reflector_client, api_provider, reflector_model, max_tokens)
         self.curator = Curator(curator_client, api_provider, curator_model, max_tokens)
-        
-        # Initialize bulletpoint analyzer if requested and available
-        self.use_bulletpoint_analyzer = use_bulletpoint_analyzer
-        self.bulletpoint_analyzer_threshold = bulletpoint_analyzer_threshold
-        
-        if use_bulletpoint_analyzer:
-            self.bulletpoint_analyzer = BulletpointAnalyzer(
-                curator_client, 
-                curator_model, 
-                max_tokens
-            )
-            print(f"✓ BulletpointAnalyzer initialized (threshold={bulletpoint_analyzer_threshold})")
-        else:
-            self.bulletpoint_analyzer = None
         
         # Store configuration
         self.generator_client = generator_client
@@ -148,8 +130,6 @@ class ACEBatch:
             'no_ground_truth': config.get('no_ground_truth', False),
             'save_dir': config.get('save_dir', './results'),
             'test_workers': config.get('test_workers', 20),
-            'use_bulletpoint_analyzer': config.get('use_bulletpoint_analyzer', False),
-            'bulletpoint_analyzer_threshold': config.get('bulletpoint_analyzer_threshold', 0.90),
             'batch_size': batch_size,
             'curator_batch_size': cbs,
             'curator_num_groups': curator_num_groups,
@@ -920,14 +900,6 @@ class ACEBatch:
         else:
             self.playbook = base_playbook
             print(f"\n  Playbook unchanged by curator reducer: {count_tokens(self.playbook)} tokens")
-
-        if self.use_bulletpoint_analyzer and self.bulletpoint_analyzer:
-            print(f"  Running BulletpointAnalyzer (threshold={self.bulletpoint_analyzer_threshold})...")
-            self.playbook = self.bulletpoint_analyzer.analyze(
-                playbook=self.playbook,
-                threshold=self.bulletpoint_analyzer_threshold,
-                merge=True,
-            )
 
         # ================================================================
         # PHASE 3: Parallel Post-Curator Generation
