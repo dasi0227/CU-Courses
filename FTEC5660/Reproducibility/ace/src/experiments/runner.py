@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 from contextlib import ExitStack
 import csv
-from datetime import datetime, timezone
 import hashlib
 import importlib
 import json
@@ -44,7 +43,7 @@ def build_plan(config, data, groups, mock=False):
     codes = source_hashes(PROJECT_ROOT)
     fingerprint = digest({'config': config, 'data': data['manifest'], 'source': codes, 'mock': mock})
     return {
-        'schema_version': 10, 'protocol': 'formula-abc-score-top10-compact-artifacts-bailian-v10',
+        'schema_version': 11, 'protocol': 'formula-abc-score-top10-final-results-bailian-v11',
         'fingerprint': fingerprint, 'mode': 'mock' if mock else 'live',
         'formal_metrics': not mock and config['profile'] != 'smoke',
         'config': config, 'data': data['manifest'], 'source_sha256': codes,
@@ -293,12 +292,10 @@ def run_group(group, trial, plan, data, output_root, *, mock=False):
 
 
 def compatibility_reference(compatibility):
-    """Record migration provenance without copying whole data manifests."""
-    reference = {key: compatibility[key] for key in (
-        'migration_id', 'manifest_path', 'manifest_sha256', 'legacy_plan_path',
-        'legacy_plan_sha256', 'legacy_fingerprint', 'target_fingerprint')}
-    reference['origin_plans'] = compatibility['origin_plans']
-    return reference
+    """Point to the source information merged into the shared plan."""
+    return {'kind': 'consolidated_plan',
+            'provenance_sha256': compatibility['provenance_sha256'],
+            'target_fingerprint': compatibility['target_fingerprint']}
 
 
 def aggregate(output_root, plan):
@@ -353,14 +350,14 @@ def aggregate(output_root, plan):
                           'mean_jev_calls': statistics.mean(row['jev']['successful_calls'] for row in rows),
                           'result_fingerprints': json.dumps(sorted({row['fingerprint'] for row in rows})),
                           'compatibility_sources': json.dumps(
-                              [origin for _, origin in entries if origin['kind'] == 'legacy_compatible'],
+                              [origin for _, origin in entries if origin['kind'] != 'current'],
                               ensure_ascii=False, sort_keys=True),
                           'mock': plan['mode'] == 'mock',
                           'formal_metrics': plan['formal_metrics'] and len(rows) == plan['config']['repeats']})
     if summaries:
-        summary_name = storage_names(output_root, plan, compatibility)[2]
+        summary_name = storage_names(output_root, plan, compatibility)[1]
         with (output_root / summary_name).open('w', encoding='utf-8', newline='') as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(summaries[0]))
+            writer = csv.DictWriter(handle, fieldnames=list(summaries[0]), lineterminator='\n')
             writer.writeheader()
             writer.writerows(summaries)
     return summaries
@@ -390,7 +387,6 @@ def main(argv=None):
         parser.error('--trial is outside 1..repeats')
     data = prepare_data(config, PROJECT_ROOT)
     plan = build_plan(config, data, groups, args.mock)
-    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     default_output = PROJECT_ROOT / config['output_dir']
     if args.mock:
         default_output = default_output.with_name(default_output.name + '-mock')
@@ -400,15 +396,17 @@ def main(argv=None):
         names = storage_names(output, plan, compatibility)
     except ValueError as exc:
         parser.error(str(exc))
-    if compatibility:
-        plan['compatibility'] = compatibility_reference(compatibility)
     plan_path = output / names[0]
     if plan_path.exists():
         existing = json.loads(plan_path.read_text(encoding='utf-8'))
         if any(existing.get(key) != plan.get(key) for key in (
             'schema_version', 'protocol', 'fingerprint', 'mode', 'formal_metrics',
-            'config', 'data', 'source_sha256', 'compatibility')):
+            'config', 'data', 'source_sha256')):
             parser.error('Output directory belongs to a different config/data/source/mode fingerprint')
+        # Retain the verified provenance without rewriting an existing plan.
+        for key in ('provenance', 'provenance_sha256'):
+            if key in existing:
+                plan[key] = existing[key]
     if args.execute or args.mock:
         # Preflight every selected output/dependency before any paid request.
         for trial in trials:
@@ -426,12 +424,6 @@ def main(argv=None):
     output.mkdir(parents=True, exist_ok=True)
     if not plan_path.exists():
         write_json(plan_path, plan)
-    if args.execute or args.mock:
-        with (output / names[1]).open('a', encoding='utf-8') as handle:
-            handle.write(json.dumps({'timestamp_utc': stamp, 'groups': groups, 'trials': trials,
-                                     'mode': 'mock' if args.mock else 'execute',
-                                     'fingerprint': plan['fingerprint'],
-                                     'compatibility_source': plan.get('compatibility')}) + '\n')
     print(json.dumps({'mode': 'mock' if args.mock else 'execute' if args.execute else 'dry-run',
                       'groups': groups, 'trials': trials,
                       'samples': {split: len(data[split]) for split in ('train', 'val', 'test')},
@@ -442,7 +434,8 @@ def main(argv=None):
                       'jev_model': config['jev']['model'] if 'C' in groups else None,
                       'required_keys_for_live_run': plan['required_keys'], 'output': str(output),
                       'plan_path': str(plan_path),
-                      'compatibility_source': plan.get('compatibility')}, ensure_ascii=False, indent=2))
+                      'compatibility_source': compatibility_reference(compatibility)
+                                              if compatibility else None}, ensure_ascii=False, indent=2))
     if not (args.execute or args.mock):
         return 0
     try:

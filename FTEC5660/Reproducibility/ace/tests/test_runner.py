@@ -90,8 +90,8 @@ runpy.run_module('eval.finance.experiments', run_name='__main__')
             self.assertEqual(printed["groups"], list("ABC"))
             self.assertEqual(printed["required_keys_for_live_run"], ["DEEPSEEK_API_KEY", "TYPESAFE_API_KEY"])
             plan = read_json(output / "plan.json")
-            self.assertEqual(plan["schema_version"], 10)
-            self.assertEqual(plan["protocol"], "formula-abc-score-top10-compact-artifacts-bailian-v10")
+            self.assertEqual(plan["schema_version"], 11)
+            self.assertEqual(plan["protocol"], "formula-abc-score-top10-final-results-bailian-v11")
             self.assertEqual(plan["config"]["jev"]["k"], 10)
             self.assertNotIn("k_candidates", plan["config"]["jev"])
             llm = plan["config"]["llm"]
@@ -162,6 +162,8 @@ class MockProtocolTests(unittest.TestCase):
         self.assertTrue(all(row["aggregation_protocol"] == self.plan["protocol"] for row in summary))
         self.assertEqual({row["group"]: row["selection_k"] for row in summary},
                          {"A": "", "B": "", "C": "10"})
+        self.assertEqual({path.name for path in self.output.iterdir()},
+                         {"plan.json", "summary.csv", "A", "B", "C"})
 
     def test_final_predictions_are_flat_and_agree_with_saved_metrics(self):
         for group, result in self.results.items():
@@ -361,15 +363,16 @@ class MockProtocolTests(unittest.TestCase):
             self.assertNotIn("offline-placeholder", raw)
 
     def test_completed_output_cannot_be_overwritten(self):
-        result_path = self.folder("B") / "result.json"
-        before = result_path.read_bytes()
+        before = {str(path.relative_to(self.output)): path.read_bytes()
+                  for path in self.output.rglob("*") if path.is_file()}
         captured = io.StringIO()
         with offline_guards(), redirect_stdout(captured), redirect_stderr(captured), patch.object(runner, "run_group") as run_group:
             with self.assertRaises(SystemExit) as failure:
                 runner.main(["--mock", "--groups", "B", "--output", str(self.output)])
         self.assertEqual(failure.exception.code, 2)
         run_group.assert_not_called()
-        self.assertEqual(result_path.read_bytes(), before)
+        self.assertEqual({str(path.relative_to(self.output)): path.read_bytes()
+                          for path in self.output.rglob("*") if path.is_file()}, before)
 
     def test_standalone_c_missing_b_fails_before_any_trial_or_model_work(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -539,6 +542,24 @@ class SelectedScoreGeneratorTests(unittest.TestCase):
 
 
 class StagedExecutionTests(unittest.TestCase):
+    def test_execute_entry_with_stubbed_work_writes_only_the_unified_plan(self):
+        # Exercise the paid-execution entry point without creating clients or
+        # running a trial. It must not create an invocation/history sidecar.
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "results"
+            captured = io.StringIO()
+            with offline_guards(), redirect_stdout(captured), redirect_stderr(captured), patch.object(
+                runner, "run_group",
+            ) as run_group, patch.object(runner, "aggregate") as aggregate:
+                self.assertEqual(runner.main([
+                    "--execute", "--groups", "A", "--trial", "1", "--output", str(output),
+                ]), 0)
+            run_group.assert_called_once()
+            aggregate.assert_called_once()
+            self.assertEqual({path.name for path in output.iterdir()}, {"plan.json"})
+            self.assertEqual(read_json(output / "plan.json")["mode"], "live")
+            self.assertEqual(json.loads(captured.getvalue())["mode"], "execute")
+
     def test_direct_runner_rejects_invalid_trials_before_runtime_or_output_creation(self):
         config = runner.load_config(ROOT / "configs/formula/smoke.json")
         data = runner.prepare_data(config, ROOT)
@@ -554,7 +575,7 @@ class StagedExecutionTests(unittest.TestCase):
                     runtime.assert_not_called()
                     self.assertFalse(output.exists())
 
-    def test_three_trial_protocol_writes_only_the_39_planned_artifacts(self):
+    def test_three_trial_protocol_writes_only_the_38_planned_artifacts(self):
         config = runner.load_config(ROOT / "configs/formula/smoke.json")
         config["repeats"] = 3
         with tempfile.TemporaryDirectory() as directory:
@@ -563,7 +584,7 @@ class StagedExecutionTests(unittest.TestCase):
             output = Path(directory) / "results"
             with offline_guards(), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
                 self.assertEqual(runner.main(["--mock", "--config", str(config_path), "--output", str(output)]), 0)
-            expected = {"plan.json", "invocations.jsonl", "summary.csv"}
+            expected = {"plan.json", "summary.csv"}
             for group in "ABC":
                 for trial in ("01", "02", "03"):
                     prefix = f"{group}/{trial}"
@@ -576,7 +597,9 @@ class StagedExecutionTests(unittest.TestCase):
                         expected.add(f"{prefix}/jev_audit.jsonl")
             actual = {str(path.relative_to(output)) for path in output.rglob("*") if path.is_file()}
             self.assertEqual(actual, expected)
-            self.assertEqual(len(actual), 39)
+            self.assertEqual(len(actual), 38)
+            self.assertEqual({path.name for path in output.iterdir()},
+                             {"plan.json", "summary.csv", "A", "B", "C"})
             self.assertEqual({row["group"]: row["completed_trials"] for row in read_summary(output)},
                              {group: "3" for group in "ABC"})
             for trial in ("01", "02", "03"):
@@ -615,6 +638,9 @@ class StagedExecutionTests(unittest.TestCase):
                     self.assertFalse((output / "A" / trial / "evaluation" / "test" / "predictions.jsonl").exists())
                 summary = read_summary(output)
                 self.assertEqual([(row["group"], row["completed_trials"]) for row in summary], [("A", "3")])
+                original_a_files = {str(path.relative_to(output / "A")): path.read_bytes()
+                                    for path in (output / "A").rglob("*") if path.is_file()}
+                original_plan = (output / "plan.json").read_bytes()
                 self.assertEqual(runner.main(common + ["--groups", "B", "--trial", "2"]), 0)
                 self.assertEqual(runner.main(common + ["--groups", "C", "--trial", "2"]), 0)
                 c = read_json(output / "C" / "02" / "result.json")
@@ -630,6 +656,12 @@ class StagedExecutionTests(unittest.TestCase):
                 self.assertFalse((output / "C" / "01").exists())
                 self.assertEqual(original_a, {trial: (output / "A" / trial / "result.json").read_bytes()
                                               for trial in original_a})
+                self.assertEqual(original_a_files,
+                                 {str(path.relative_to(output / "A")): path.read_bytes()
+                                  for path in (output / "A").rglob("*") if path.is_file()})
+                self.assertEqual((output / "plan.json").read_bytes(), original_plan)
+                self.assertEqual({path.name for path in output.iterdir()},
+                                 {"plan.json", "summary.csv", "A", "B", "C"})
                 summary = read_summary(output)
                 self.assertEqual({row["group"]: int(row["completed_trials"]) for row in summary},
                                  {"A": 3, "B": 1, "C": 1})

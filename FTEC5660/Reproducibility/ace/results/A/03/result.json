@@ -1,7 +1,7 @@
 {
   "group": "A",
   "trial": 3,
-  "status": "failed",
+  "status": "complete",
   "mock": false,
   "formal_metrics": true,
   "fingerprint": "e3a08883171837e06f3bda3159c62ab232b3660b57baf93e8b9d879f34b01362",
@@ -18,35 +18,32 @@
   "playbook_sha256": "d0e7d0049bd539630f51db8d08fdff170ea2882267c960fbe843bede303e2249",
   "playbook_source": "empty_playbook",
   "test": {
-    "accuracy": 0.7,
-    "correct": 140,
+    "accuracy": 0.705,
+    "correct": 141,
     "total": 200,
-    "no_answer": 1,
-    "api_success_count": 199,
-    "api_failure_count": 1,
-    "success_rate": 0.995,
+    "no_answer": 0,
+    "api_success_count": 200,
+    "api_failure_count": 0,
+    "success_rate": 1.0,
     "stage": "test"
   },
-  "error_type": "RuntimeError",
-  "error": "test: API failures occurred; metrics retained, trial is incomplete",
-  "wall_seconds": 525.2914434169943,
+  "wall_seconds": 674.8253033749934,
   "llm": {
-    "attempts": 203,
-    "successful_calls": 199,
-    "failed_attempts": 4,
-    "prompt_tokens": 88290,
-    "completion_tokens": 41507,
+    "attempts": 204,
+    "successful_calls": 200,
+    "prompt_tokens": 88727,
+    "completion_tokens": 45305,
     "usage_missing_calls": 0,
     "mock": false,
     "stages": {
-      "test": 203
+      "test": 204
     },
     "stage_usage": {
       "test": {
-        "successful_calls": 199,
-        "attempts": 203,
-        "prompt_tokens": 88290,
-        "completion_tokens": 41507
+        "successful_calls": 200,
+        "attempts": 204,
+        "prompt_tokens": 88727,
+        "completion_tokens": 45305
       }
     }
   },
@@ -56,65 +53,16 @@
     "latency_seconds": 0,
     "reported_usage": []
   },
-  "errors": [
-    {
-      "kind": "api",
-      "role": "generator",
-      "stage": "test",
-      "call_id": "test_eval_84",
-      "attempt": 1,
-      "error_type": "APITimeoutError",
-      "message": "Request timed out."
-    },
-    {
-      "kind": "api",
-      "role": "generator",
-      "stage": "test",
-      "call_id": "test_eval_95",
-      "attempt": 1,
-      "error_type": "APITimeoutError",
-      "message": "Request timed out."
-    },
-    {
-      "kind": "api",
-      "role": "generator",
-      "stage": "test",
-      "call_id": "test_eval_84",
-      "attempt": 2,
-      "error_type": "APITimeoutError",
-      "message": "Request timed out."
-    },
-    {
-      "kind": "api",
-      "role": "generator",
-      "stage": "test",
-      "call_id": "test_eval_84",
-      "attempt": 3,
-      "error_type": "APITimeoutError",
-      "message": "Request timed out."
-    },
-    {
-      "kind": "evaluation",
-      "role": "generator",
-      "call_id": "test_eval_84",
-      "stage": "test",
-      "error_type": "EvaluationError",
-      "message": "Error evaluating sample 84: RuntimeError: generator call failed after bounded attempts (APITimeoutError)",
-      "sample_id": "test:000085"
-    },
-    {
-      "kind": "run",
-      "role": "runner",
-      "call_id": "A:03",
-      "stage": "setup",
-      "error_type": "RuntimeError",
-      "message": "test: API failures occurred; metrics retained, trial is incomplete"
-    }
-  ],
   "llm_usage_including_shared_learning": {
-    "successful_calls": 199,
-    "attempts": 203,
-    "prompt_tokens": 88290,
-    "completion_tokens": 41507
+    "successful_calls": 200,
+    "attempts": 204,
+    "prompt_tokens": 88727,
+    "completion_tokens": 45305
+  },
+  "artifact_view": "final_predictions",
+  "final_llm_usage": {
+    "successful_calls": 200,
+    "prompt_tokens": 88727,
+    "completion_tokens": 45305
   }
 }

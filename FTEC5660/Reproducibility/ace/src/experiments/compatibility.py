@@ -1,8 +1,7 @@
-"""Immutable, reviewed provenance from historical plans to ABC Score top-10.
+"""Validate final ABC snapshots using provenance embedded in one plan.json.
 
-Compatibility binds each preserved result to its actual source plan and bytes.
-Failed historical trials are validated and preserved but cannot provide a
-completed result or B checkpoint.  All functions are local and read only.
+Original plan and manifest texts remain content bound inside the unified plan.
+Their paths identify historical documents; validation never opens those paths.
 """
 from __future__ import annotations
 
@@ -12,15 +11,12 @@ import json
 from pathlib import Path
 import re
 
-from .data import PROJECT_ROOT
-
-
-MANIFEST_PATH = PROJECT_ROOT / 'configs/formula/compatibility/history-to-abc-score-top10-v10.json'
-TARGET_SCHEMA_VERSION = 10
-TARGET_PROTOCOL = 'formula-abc-score-top10-compact-artifacts-bailian-v10'
+TARGET_SCHEMA_VERSION = 11
+TARGET_PROTOCOL = 'formula-abc-score-top10-final-results-bailian-v11'
 HISTORICAL_PROTOCOLS = {
     7: 'formula-abcd-compact-artifacts-bailian-v7',
     9: 'formula-abc-score-compact-artifacts-bailian-v9',
+    10: 'formula-abc-score-top10-compact-artifacts-bailian-v10',
 }
 SOURCE_CHANGE_ALLOWLIST = frozenset({
     'src/experiments/data.py', 'src/experiments/runner.py',
@@ -31,6 +27,7 @@ ARTIFACT_FILES = {
     'A': frozenset({'result.json', 'llm_calls.jsonl', 'predictions.jsonl'}),
     'B': frozenset({'result.json', 'llm_calls.jsonl', 'predictions.jsonl',
                     'training/train_results.json', 'training/best_playbook.txt'}),
+    'C': frozenset({'result.json', 'llm_calls.jsonl', 'predictions.jsonl', 'jev_audit.jsonl'}),
 }
 PLAN_FIELDS = ('schema_version', 'protocol', 'fingerprint', 'config', 'data',
                'source_sha256', 'mode', 'formal_metrics')
@@ -112,14 +109,83 @@ def _check_result_metadata(result, group, trial, plan, accepted_statuses=('compl
              'result formal-metrics provenance does not match the plan')
 
 
-def _check_entry(root, key, entry, old_plan, target_plan):
+def read_provenance_document(context, path, expected_sha):
+    """Read a hash-bound historical document from memory, never its old path."""
+    _require(isinstance(context, dict) and context.get('kind') == 'consolidated_plan',
+             'consolidated provenance context is required')
+    _require(isinstance(path, (str, Path)) and Path(path).is_absolute()
+             and _valid_sha(expected_sha), 'historical document requires an absolute identity and SHA256')
+    documents = context.get('documents')
+    _require(isinstance(documents, dict), 'embedded historical documents are required')
+    document = documents.get(expected_sha)
+    _require(isinstance(document, dict) and document.get('original_path') == str(path),
+             'historical document path and SHA are not explicitly recorded')
+    raw = document.get('json_text')
+    _require(isinstance(raw, str) and hashlib.sha256(raw.encode('utf-8')).hexdigest() == expected_sha,
+             'embedded historical document bytes changed')
+    try:
+        value = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ValueError('Compatibility validation failed: embedded historical document is invalid JSON') from exc
+    _require(isinstance(value, dict), 'embedded historical document must be a JSON object')
+    return value
+
+
+def _check_recorded_reference(root, context, reference, source_plan):
+    """Verify an immutable old reference using embedded historical documents."""
+    _require(isinstance(reference, dict), 'recorded compatibility source must be an object')
+    manifest = read_provenance_document(context, reference.get('manifest_path'),
+                                        reference.get('manifest_sha256'))
+    _require(manifest.get('migration_id') == reference.get('migration_id'),
+             'recorded compatibility migration changed')
+    target = manifest.get('target')
+    _require(isinstance(target, dict)
+             and all(target.get(field) == source_plan.get(field) for field in PLAN_FIELDS)
+             and reference.get('target_fingerprint') == source_plan['fingerprint'],
+             'recorded compatibility target does not match the actual source plan')
+    legacy_path = reference.get('legacy_plan_path')
+    legacy = read_provenance_document(context, legacy_path, reference.get('legacy_plan_sha256'))
+    _check_plan_digest(legacy)
+    _require(legacy_path == str((root / 'plan.json').resolve())
+             and reference.get('legacy_fingerprint') == legacy['fingerprint'],
+             'recorded compatibility root plan changed')
+    if 'origin_plans' in reference:
+        origins = manifest.get('origin_plans')
+        _require(isinstance(origins, dict) and isinstance(reference['origin_plans'], dict)
+                 and set(reference['origin_plans']) == set(origins),
+                 'recorded compatibility origin plans changed')
+        for origin_id, binding in origins.items():
+            _require(isinstance(binding, dict) and _plain_relative(binding.get('path')),
+                     'recorded compatibility source plan binding is invalid')
+            recorded = reference['origin_plans'][origin_id]
+            source_path = str((root / binding['path']).resolve())
+            old = read_provenance_document(context, source_path, binding.get('plan_sha256'))
+            _check_plan_digest(old)
+            _require(isinstance(recorded, dict)
+                     and recorded == {**binding, 'resolved_path': source_path}
+                     and all(binding.get(field) == old.get(field)
+                             for field in ('schema_version', 'protocol', 'fingerprint')),
+                     'recorded compatibility source plan identity changed')
+    else:
+        binding = manifest.get('legacy')
+        _require(isinstance(binding, dict)
+                 and binding.get('plan_sha256') == reference['legacy_plan_sha256']
+                 and binding.get('fingerprint') == legacy['fingerprint'],
+                 'recorded compatibility legacy binding changed')
+    return manifest
+
+
+def _check_entry(root, key, entry, old_plan, target_plan, context):
     _require(isinstance(entry, dict), f'invalid preserved result entry: {key}')
     group, trial = entry.get('group'), entry.get('trial')
     _require(isinstance(group, str) and group in ARTIFACT_FILES and type(trial) is int and trial >= 1,
-             'only explicitly listed historical A/B trials may be preserved')
+             'only explicitly listed historical A/B/C trials may be preserved')
+    _require(group != 'C' or old_plan.get('schema_version') == 10,
+             'only native v10 Score top-10 C trials may be preserved')
     _require(key == f'{group}/{trial:02d}', 'preserved result path must match group/trial')
-    _require(entry.get('original_status') in ('complete', 'failed'),
-             'historical status must explicitly preserve complete or failed')
+    status_field = 'snapshot_status'
+    _require(entry.get(status_field) == 'complete',
+             'preserved final snapshot must be complete')
     _require(entry.get('original_fingerprint') == old_plan['fingerprint'],
              'preserved result fingerprint must match the historical plan')
     files = entry.get('files_sha256')
@@ -138,9 +204,11 @@ def _check_entry(root, key, entry, old_plan, target_plan):
         path = _plain_child(folder, name)
         _require(path.is_file() and _file_sha(path) == sha, f'preserved artifact changed: {key}/{name}')
     result = _read_json(folder / 'result.json')
-    _require(result.get('status') == entry['original_status'], 'historical result status changed')
-    _check_result_metadata(result, group, trial, target_plan, (entry['original_status'],))
+    _require(result.get('status') == entry[status_field], 'historical result status changed')
+    _check_result_metadata(result, group, trial, target_plan, (entry[status_field],))
     _require(result.get('fingerprint') == old_plan['fingerprint'], f'historical fingerprint changed: {key}')
+    if result.get('compatibility_source') is not None:
+        _check_recorded_reference(root, context, result['compatibility_source'], old_plan)
     if group == 'B':
         book_sha = files['training/best_playbook.txt']
         _require(result.get('playbook_sha256') == book_sha, 'historical B playbook hash does not match result')
@@ -148,7 +216,75 @@ def _check_entry(root, key, entry, old_plan, target_plan):
         best = training.get('best_checkpoint')
         if isinstance(best, dict) and 'playbook_sha256' in best:
             _require(best['playbook_sha256'] == book_sha, 'historical B best checkpoint hash does not match')
+    if group == 'C':
+        _require(result.get('selection_k') == 10 and result.get('selection_primitive') == 'score'
+                 and result.get('selection_ranking') == 'score_desc_then_playbook_order'
+                 and result.get('selection_confidence_used_for_ranking') is False,
+                 'historical C must retain the Score top-10 selection policy')
     return result
+
+
+def _check_c_lineage(root, key, result, preserved, checked_results, checked_plans, context):
+    trial = result['trial']
+    b_key = f'B/{trial:02d}'
+    _require(b_key in preserved and b_key in checked_results,
+             f'preserved {key} requires its explicitly preserved paired B trial')
+    b_entry, b_result = preserved[b_key], checked_results[b_key]
+    _require(b_result.get('status') == 'complete', 'historical C requires a completed paired B')
+    checkpoint = result.get('b_checkpoint')
+    _require(isinstance(checkpoint, dict) and checkpoint.get('group') == 'B'
+             and type(checkpoint.get('trial')) is int and checkpoint['trial'] == trial,
+             'historical C must retain its same-number B checkpoint')
+    book_path = _plain_child(root, f'{b_key}/training/best_playbook.txt')
+    book_sha = b_entry['files_sha256']['training/best_playbook.txt']
+    _require(checkpoint.get('path') == result.get('playbook_source') == str(book_path.resolve())
+             and checkpoint.get('sha256') == result.get('playbook_sha256') == book_sha
+             and b_result.get('playbook_sha256') == book_sha,
+             'historical C paired B playbook source or SHA changed')
+    b_plan = checked_plans[b_entry['origin_id']]
+    _require(checkpoint.get('original_fingerprint') == b_result['fingerprint'] == b_plan['fingerprint'],
+             'historical C paired B original fingerprint changed')
+    origin = checkpoint.get('origin')
+    _require(isinstance(origin, dict) and origin.get('fingerprint') == b_result['fingerprint']
+             and origin.get('result_sha256') == b_entry['files_sha256']['result.json'],
+             'historical C paired B result origin changed')
+    if origin.get('kind') == 'current':
+        _require(b_result['fingerprint'] == result['fingerprint'],
+                 'historical C native B checkpoint must share its actual v10 fingerprint')
+    else:
+        _require(origin.get('kind') == 'legacy_compatible', 'unrecognized historical C checkpoint origin')
+        c_plan = checked_plans[preserved[key]['origin_id']]
+        _require(isinstance(result.get('compatibility_source'), dict),
+                 'historical C legacy checkpoint requires its recorded compatibility source')
+        old_manifest = _check_recorded_reference(root, context, result['compatibility_source'], c_plan)
+        _require(origin.get('manifest_path') == result['compatibility_source']['manifest_path']
+                 and origin.get('manifest_sha256') == result['compatibility_source']['manifest_sha256']
+                 and origin.get('migration_id') == old_manifest.get('migration_id')
+                 and origin.get('legacy_plan_sha256') == result['compatibility_source']['legacy_plan_sha256']
+                 and origin.get('original_status') == 'complete',
+                 'historical C checkpoint compatibility reference changed')
+        source_id = origin.get('source_plan_id')
+        old_binding = old_manifest.get('origin_plans', {}).get(source_id)
+        _require(isinstance(old_binding, dict), 'historical C checkpoint source plan is unlisted')
+        _require(_plain_relative(old_binding.get('path')), 'historical C source plan path is invalid')
+        source_path = str((root / old_binding['path']).resolve())
+        source = read_provenance_document(context, source_path, old_binding.get('plan_sha256'))
+        _require(origin.get('source_plan_path') == source_path
+                 and origin.get('source_plan_sha256') == old_binding.get('plan_sha256')
+                 and origin.get('source_plan_fingerprint') == old_binding.get('fingerprint')
+                     == b_plan['fingerprint'] == source.get('fingerprint'),
+                 'historical C checkpoint source plan changed')
+        old_entry = old_manifest.get('preserved_results', {}).get(b_key)
+        _require(isinstance(old_entry, dict) and old_entry.get('files_sha256') == b_entry['files_sha256']
+                 and old_entry.get('original_fingerprint') == b_result['fingerprint'],
+                 'historical C original B training artifacts changed')
+    stages = [usage for stage, usage in b_result['llm']['stage_usage'].items() if stage != 'test']
+    expected_usage = {field: sum(stage[field] for stage in stages)
+                      for field in ('successful_calls', 'attempts', 'prompt_tokens', 'completion_tokens')}
+    _require(checkpoint.get('shared_learning_llm_usage') == expected_usage
+             and checkpoint.get('training_cost_included_in_C_incremental_usage') is False
+             and checkpoint.get('shared_learning_excludes_B_test') is True,
+             'historical C paired B training usage changed')
 
 
 def _converted_config(old_plan):
@@ -156,6 +292,11 @@ def _converted_config(old_plan):
     converted = copy.deepcopy(old_plan['config'])
     groups = converted.get('groups')
     schema = old_plan.get('schema_version')
+    if schema == 10:
+        _require(isinstance(groups, dict) and set(groups) == set('ABC')
+                 and converted.get('jev', {}).get('k') == 10,
+                 'historical v10 must retain its ABC Score top-10 configuration')
+        return converted
     if schema == 7:
         _require(isinstance(groups, dict) and set(groups) == set('ABCD'),
                  'historical v7 groups must be ABCD')
@@ -174,57 +315,61 @@ def _converted_config(old_plan):
     return converted
 
 
-def load_compatibility(output_root, plan, manifest_path=None):
-    """Validate all exact source plans and preserved artifacts without writes.
-
-    Return provenance for a historical root, or ``None`` for an empty root or
-    a matching native root.  Historic fingerprints and recovery metadata are
-    immutable inputs, never replaced by the target fingerprint.
-    """
+def load_compatibility(output_root, plan):
+    """Validate a native or consolidated plan and every preserved final file."""
     root = Path(output_root)
     plan_path = root / 'plan.json'
     _require(not plan_path.is_symlink(), 'root plan must not be a symlink')
     _check_plan_digest(plan)
     _require(plan.get('schema_version') == TARGET_SCHEMA_VERSION
              and plan.get('protocol') == TARGET_PROTOCOL,
-             'current target must be the reviewed ABC Score top-10 v10 protocol')
+             'current target must use the ABC final-results v11 protocol')
     _require(type(plan.get('formal_metrics')) is bool, 'plan formal_metrics must be a boolean')
     if not plan_path.exists():
         return None
     existing = _read_json(plan_path)
-    if existing.get('schema_version') == plan.get('schema_version'):
-        _check_current_plan(existing, plan)
+    _check_current_plan(existing, plan)
+    provenance = existing.get('provenance')
+    if provenance is None:
+        _require('provenance_sha256' not in existing, 'provenance hash requires provenance')
         return None
-    _require(type(existing.get('schema_version')) is int
-             and existing.get('protocol') == HISTORICAL_PROTOCOLS.get(existing.get('schema_version')),
-             'unrecognized historical plan protocol')
-    path = Path(manifest_path) if manifest_path is not None else MANIFEST_PATH
-    manifest = _read_json(path)
-    _require(manifest.get('schema_version') == 2, 'unrecognized compatibility manifest schema')
-    _require(isinstance(manifest.get('migration_id'), str) and bool(manifest['migration_id'].strip()),
-             'compatibility migration_id must be a nonempty string')
-    target = manifest.get('target')
-    _require(isinstance(target, dict) and all(target.get(field) == plan.get(field) for field in PLAN_FIELDS),
-             'target configuration, data, source, mode or protocol changed after review')
-    origins = manifest.get('origin_plans')
+    _require(isinstance(provenance, dict) and provenance.get('schema_version') == 1,
+             'unrecognized consolidated provenance schema')
+    _require(existing.get('provenance_sha256') == _digest(provenance),
+             'consolidated provenance digest changed')
+    origins = provenance.get('origin_plans')
     _require(isinstance(origins, dict) and bool(origins), 'explicit historical origin plans are required')
-    source_changes = manifest.get('source_changes')
+    manifests = provenance.get('recorded_manifests')
+    _require(isinstance(manifests, dict), 'recorded manifests must be embedded objects')
+    documents = {}
+    for sha, document in manifests.items():
+        _require(_valid_sha(sha) and isinstance(document, dict), 'invalid recorded manifest document')
+        documents[sha] = copy.deepcopy(document)
+    for binding in origins.values():
+        _require(isinstance(binding, dict), 'invalid historical origin binding')
+        sha = binding.get('plan_sha256')
+        _require(_valid_sha(sha), 'historical plan requires its exact original SHA256')
+        document = {field: binding.get(field) for field in ('original_path', 'json_text')}
+        _require(sha not in documents or documents[sha] == document,
+                 'one historical document SHA has conflicting identities')
+        documents[sha] = document
+    context = {
+        'kind': 'consolidated_plan', 'target_fingerprint': plan['fingerprint'],
+        'provenance_sha256': existing['provenance_sha256'],
+        'origin_plans': copy.deepcopy(origins), 'documents': documents,
+    }
+    for sha, document in documents.items():
+        read_provenance_document(context, document.get('original_path'), sha)
+    source_changes = provenance.get('source_changes')
     _require(isinstance(source_changes, dict) and set(source_changes) == set(origins),
              'source change review must bind every origin plan exactly')
-    checked_plans, context_origins = {}, {}
-    seen_paths = set()
-    root_origin = None
+    checked_plans, seen_identities = {}, set()
     for origin_id, binding in origins.items():
-        _require(isinstance(origin_id, str) and bool(origin_id.strip()) and isinstance(binding, dict),
-                 'invalid historical origin identifier or binding')
-        origin_path = _plain_child(root, binding.get('path'))
-        resolved = str(origin_path.resolve())
-        _require(resolved not in seen_paths, 'duplicate historical origin plan path')
-        seen_paths.add(resolved)
-        _require(_valid_sha(binding.get('plan_sha256')) and origin_path.is_file()
-                 and _file_sha(origin_path) == binding['plan_sha256'],
-                 'historical plan bytes changed')
-        old = _read_json(origin_path)
+        _require(isinstance(origin_id, str) and bool(origin_id.strip()), 'invalid historical origin identifier')
+        identity = (binding.get('original_path'), binding['plan_sha256'])
+        _require(identity not in seen_identities, 'duplicate historical plan identity')
+        seen_identities.add(identity)
+        old = read_provenance_document(context, *identity)
         _check_plan_digest(old)
         schema = old.get('schema_version')
         _require(type(schema) is int and schema in HISTORICAL_PROTOCOLS
@@ -232,9 +377,9 @@ def load_compatibility(output_root, plan, manifest_path=None):
                  'unrecognized historical plan protocol')
         _require(all(binding.get(field) == old.get(field)
                      for field in ('schema_version', 'protocol', 'fingerprint')),
-                 'historical plan identity does not match the manifest')
+                 'historical plan identity does not match its embedded document')
         _require(_converted_config(old) == plan['config'],
-                 'only removing old C/renaming D and fixed top-5 to top-10 is compatible')
+                 'only removing old C/renaming D, fixed top-5 to top-10, and final result snapshots are compatible')
         _require(old['data'] == plan['data'] and old['mode'] == plan['mode']
                  and type(old.get('formal_metrics')) is bool
                  and old['formal_metrics'] == plan['formal_metrics'],
@@ -246,37 +391,30 @@ def load_compatibility(output_root, plan, manifest_path=None):
         _require(source_changes[origin_id] == changes,
                  'source change review does not match the exact source diff')
         checked_plans[origin_id] = old
-        context_origins[origin_id] = {**copy.deepcopy(binding), 'resolved_path': resolved}
-        if origin_path == plan_path:
-            root_origin = origin_id
-    _require(root_origin is not None, 'root historical plan must be explicitly bound')
-    preserved = manifest.get('preserved_results')
-    _require(isinstance(preserved, dict) and bool(preserved), 'explicit preserved artifact entries are required')
-    used_origins = set()
+    preserved = provenance.get('preserved_results')
+    expected = {f'{group}/{trial:02d}' for group in ARTIFACT_FILES
+                for trial in range(1, plan['config']['repeats'] + 1)}
+    _require(isinstance(preserved, dict) and set(preserved) == expected,
+             'consolidated provenance must bind every final A/B/C trial exactly')
+    context['preserved_results'] = copy.deepcopy(preserved)
+    checked_results, used_origins = {}, set()
     for key, entry in preserved.items():
-        _require(isinstance(entry, dict) and isinstance(entry.get('origin_id'), str)
-                 and entry['origin_id'] in checked_plans,
+        _require(isinstance(entry, dict) and entry.get('origin_id') in checked_plans,
                  'preserved result must name an explicitly reviewed origin plan')
         origin_id = entry['origin_id']
-        _check_entry(root, key, entry, checked_plans[origin_id], plan)
+        checked_results[key] = _check_entry(root, key, entry, checked_plans[origin_id], plan, context)
         used_origins.add(origin_id)
     _require(used_origins == set(checked_plans), 'every origin plan must bind preserved results')
-    return {
-        'migration_id': manifest['migration_id'],
-        'manifest_path': str(path.resolve()), 'manifest_sha256': _file_sha(path),
-        'legacy_plan_path': str(plan_path.resolve()), 'legacy_plan_sha256': _file_sha(plan_path),
-        'legacy_fingerprint': existing['fingerprint'], 'target_fingerprint': plan['fingerprint'],
-        'origin_plans': context_origins, 'root_origin_id': root_origin,
-        'preserved_results': copy.deepcopy(preserved),
-    }
+    for key, result in checked_results.items():
+        if result['group'] == 'C':
+            _check_c_lineage(root, key, result, preserved, checked_results, checked_plans, context)
+    return context
 
 
 def validate_result_origin(output_root, group, trial, plan, result, compatibility=None):
-    """Verify native or explicitly preserved provenance without modifying it."""
+    """Verify current or preserved origins while retaining real fingerprints."""
     root = Path(output_root)
-    # Re-read the bindings instead of trusting a context retained across reads.
-    context = load_compatibility(root, plan,
-                                 compatibility.get('manifest_path') if compatibility is not None else None)
+    context = load_compatibility(root, plan)
     if compatibility is not None:
         _require(context == compatibility, 'compatibility context changed after validation')
     _check_result_metadata(result, group, trial, plan)
@@ -287,27 +425,22 @@ def validate_result_origin(output_root, group, trial, plan, result, compatibilit
     if fingerprint == plan['fingerprint']:
         return {'kind': 'current', 'fingerprint': fingerprint, 'result_sha256': _file_sha(path)}
     _require(context is not None and group in ARTIFACT_FILES,
-             'result fingerprint is not current or explicitly compatible')
+             'result fingerprint is not current or explicitly preserved')
     key = f'{group}/{trial:02d}'
     entry = context['preserved_results'].get(key)
     _require(entry is not None, f'historical result is not explicitly preserved: {key}')
     binding = context['origin_plans'][entry['origin_id']]
     _require(fingerprint == binding['fingerprint'] == entry['original_fingerprint'],
              'historical result fingerprint does not match its preserved origin')
-    return {'kind': 'legacy_compatible', 'fingerprint': fingerprint,
-            'result_sha256': _file_sha(path), 'manifest_sha256': context['manifest_sha256'],
-            'legacy_plan_sha256': context['legacy_plan_sha256'],
-            'migration_id': context['migration_id'], 'manifest_path': context['manifest_path'],
-            'source_plan_id': entry['origin_id'], 'source_plan_path': binding['resolved_path'],
-            'source_plan_sha256': binding['plan_sha256'],
+    return {'kind': 'preserved', 'fingerprint': fingerprint, 'result_sha256': _file_sha(path),
+            'source_plan_id': entry['origin_id'], 'source_plan_sha256': binding['plan_sha256'],
             'source_plan_fingerprint': binding['fingerprint'],
-            'original_status': entry['original_status']}
+            'provenance_sha256': context['provenance_sha256']}
 
 
 def storage_names(output_root, plan, compatibility):
-    """Use distinct root bookkeeping files when preserving a legacy plan."""
+    """All runs use the same two root management files."""
     if compatibility is not None:
         _require(compatibility.get('target_fingerprint') == plan.get('fingerprint'),
                  'storage context target does not match the plan')
-        return 'plan.v10.json', 'invocations.v10.jsonl', 'summary.v10.csv'
-    return 'plan.json', 'invocations.jsonl', 'summary.csv'
+    return 'plan.json', 'summary.csv'
