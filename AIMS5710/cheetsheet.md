@@ -156,26 +156,71 @@ $y_{n,h,w,c}=\gamma_c\frac{x_{n,h,w,c}-\mu_c}{\sqrt{v_c+\epsilon}}+\beta_c$，$y
 
 Partial Convolution：$y_{i,j}=\frac{K}{N_{i,j}}\sum_{(u,v)\in\Omega}w_{u,v}x_{i+u,j+v}m_{i+u,j+v}+b,N_{i,j}=\sum_{(u,v)\in\Omega}m_{i+u,j+v}>0$ → Valid Input Only
 Submanifold Sparse Convolution：$y_{i,j}=\sum_{(u,v)\in\Omega}w_{u,v}x_{i+u,j+v}m_{i+u,j+v}+b,m_{i,j}=1$ → Active Input Only
-
-
+VGG：Stacked Small Convolutional Kernels → Expand Receptive Field Using Less Parameters
+NiN：Pointwise Convolution for Channel Mixing → Fuse Features Across Channels Instead of Fully Connected Layers
+GoogLeNet：Multi-Scale Convolutions → Concatenate Feature Map to Capture Multi-Scale Features
+ResNet：Residual Skip Connections → Improve Gradient Flow & Enable Deeper Networks
+DenseNet：Dense Connections → Enhance Feature Reuse and Improve Gradient Flow
+ResNeXt：Grouped Convolutions → Improve Representation with Efficient Computation
+MobileNet：Depthwise Separable Convolutions → Reduce Parameters and Reduce Computation
+EfficientNet：Compound Scaling of Depth, Width & Resolution → Improve Accuracy–Efficiency Trade-off
 
 #### RNN
 
 ##### Sequence Probability Factorization
 
 Probability Chain Rule：$P(x_{1:T})=P(x_1)\prod_{t=2}^{T}P(x_t\mid x_{1:t-1})$
+First-Order Markov Assumption：\[ P(x_{1:T})=P(x_1)\prod_{t=2}^{T}P(x_t\mid x_{t-1}) \]
+Second-Order Markov Assumption：\[ P(x_{1:T})=P(x_1,x_2)\prod_{t=3}^{T}P(x_t\mid x_{t-2},x_{t-1}) \]
+Hidden Markov Model：$P(x_{1:T},h_{1:T}\mid\theta)=P(h_1)\prod_{t=2}^{T}P(h_t\mid h_{t-1})\prod_{t=1}^{T}P(x_t\mid h_t)$
+Transition Distribution：\[ P(h_t\mid h_{1:t-1})=P(h_t\mid h_{t-1}) \]
+Emission Distribution：\[ P(x_t\mid h_{1:t},x_{1:t-1})=P(x_t\mid h_t) \]
 
+##### Vanilla Recurrent Neural Network
 
+Forward Recurrence：$a_t=W_xx_t+W_hh_{t-1}+b_h$，\[ h_t=\tanh(a_t) \]，\[ z_t=W_zh_t+b_z \]，\[ p_t=\operatorname{softmax}(z_t) \]
+Parameter Count：$H(I+H+1)+O(H+1)$
 
+##### Backward Propagation Through Time
 
+\[ \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c} \]，$L=\sum_{t=1}^{T}\ell_t$
 
+\[ \delta_t=\frac{\partial L}{\partial a_t}=\frac{\partial L}{\partial h_t}\frac{\partial h_t}{\partial a_t}=(\frac{\partial L}{\partial z_t}\frac{\partial z_t}{\partial h_t}+\frac{\partial L}{\partial a_{t+1}}\frac{\partial a_{t+1}}{\partial h_t})\frac{\partial h_t}{\partial a_t}=\left(W_z^T(p_t-y_t)+W_h^T\delta_{t+1}\right)\odot(1-h_t^2)\]
 
+\[ \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top\]，\[ \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top \]，$\nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top$
 
+\[\nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t) \]，$\nabla_{b_h}L=\sum_{t=1}^{T}\delta_t$
 
+$J_t=\frac{\partial h_t}{\partial h_{t-1}} \to \frac{\partial h_T}{\partial h_t}=J_TJ_{T-1}\cdots J_{t+1}$：Repeated Jacobian Multiplication → Vanishing / Exploding Gradients
 
+##### Long Short-Term Memory
 
+Forget Gate：\[ f_t=\sigma(W_f[x_t;h_{t-1}]+b_f) \] → control how much Old Memory to Retain
+Input Gate：\[ i_t=\sigma(W_i[x_t;h_{t-1}]+b_i) \] → control how much New Information to Write
+Output Gate：\[ o_t=\sigma(W_o[x_t;h_{t-1}]+b_o) \] → control how much New Memory to Expose
+Candidate Cell State：\[ \tilde c_t=\tanh(W_c[x_t;h_{t-1}]+b_c) \] → compute the New Information
+Cell State Update：\[ c_t=f_t\odot c_{t-1}+i_t\odot\tilde c_t \] → compute the New Memory
+Hidden State：\[ h_t=o_t\odot\tanh(c_t) \] → produce the Representation
+$\left.\frac{\partial c_t}{\partial c_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(f_t) \to \left.\frac{\partial c_T}{\partial c_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(f_k)$：Separate Memory + Additive Update → Better Gradients Flow
+Parameter Count：$4H(I+H+1) + O(H + 1)$
 
+##### GRU
 
+Reset Gate：\(r_t=\sigma(W_r[x_t;h_{t-1}]+b_r)\) → control how much History to Reuse
+Update Gate：\(z_t=\sigma(W_z[x_t;h_{t-1}]+b_z)\) → control how much New Candidate to Adopt
+Candidate Hidden State：\(\tilde h_t=\tanh(W_xx_t+r_t\odot(W_hh_{t-1})+b_h)\) → compute the New Candidate
+Hidden State Update：\[ h_t=(1-z_t)\odot h_{t-1}+z_t\odot\tilde h_t \]→ produce the Representation
+\(\left.\frac{\partial h_t}{\partial h_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(z_t)\to\left.\frac{\partial h_T}{\partial h_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(z_k)\)：Unified Memory + Additive Update → Better Gradient Flow
+Parameter Count：$3H(I+H+1) + O(H + 1)$
 
+##### Autoregressive Generation
 
+$P(x_{1:T})=\prod_{t=1}^{T}P(x_t\mid x_{<t}) \approx \prod_{t=1}^{T}P_\theta(x_t\mid h_{t-1})=\prod_{t=1}^{T}p_{t-1}[x_t]$
+
+\[ L=-\log P(x_{1:T})=-\sum_{t=1}^{T}\log P(x_t\mid x_{<t})\approx-\sum_{t=1}^{T}\log P_\theta(x_t\mid h_{t-1})=-\sum_{t=1}^{T}\log p_{t-1}[x_t] \]
+
+##### Seq2Seq
+
+Encoder：\[ v=\operatorname{RNN}(x_1,\ldots,x_T)=h_T^{\mathrm{enc}} \]
+Decoder：\[ h_0^{\mathrm{dec}}=v=h_T^{\mathrm{enc}}\]，\[ P_\theta(y_{1:T'}\mid x_{1:T})=\prod_{t=1}^{T'}P_\theta(y_t\mid v,y_{<t})=\prod_{t=1}^{T'}P_\theta(y_t\mid h_t^{\mathrm{dec}})=\prod_{t=1}^{T'}p_t[y_t] \]
 
