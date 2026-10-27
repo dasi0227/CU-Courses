@@ -1,0 +1,1332 @@
+{
+  "source": "cheetsheet.md",
+  "source_sha256": "c0637b26626b57144fcb8ae73730c26e55f3a95c9881e5d214df0c734c12a7ca",
+  "pages": 2,
+  "font_size_pt": 7.7,
+  "page_2_font_size_pt": 7.2,
+  "page_1_leading_pt": 9,
+  "page_2_leading_pt": 9,
+  "page_1_paragraph_spacing_pt": 3,
+  "page_2_paragraph_spacing_pt": 3,
+  "source_nonblank_lines": 167,
+  "covered_nonblank_lines": 167,
+  "module_count": 4,
+  "section_count": 34,
+  "formula_count": 123,
+  "rendered_formula_count": 123,
+  "formula_sequence_matches": true,
+  "missing_prose_word_occurrences": {},
+  "missing_section_headings": [],
+  "latex_warnings": [],
+  "out_of_bounds_chars": [],
+  "source_blocks": [
+    {
+      "lines": [
+        1
+      ],
+      "source": "#### NN",
+      "kind": "module",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        3
+      ],
+      "source": "##### Fully Connected Layer",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        5
+      ],
+      "source": "Forward Propagation：\\[ z=Wx+b \\] → \\[ z_i=\\sum_jW_{ij}x_j+b_i \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        6
+      ],
+      "source": "Local Derivative：\\[ g_i=\\frac{\\partial L}{\\partial z_i} \\] → \\[ \\frac{\\partial L}{\\partial W_{ij}}=g_ix_j \\quad \\frac{\\partial L}{\\partial x_j}=\\sum_i g_iW_{ij} \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        8
+      ],
+      "source": "##### Softmax + Cross-Entropy",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        10,
+        11,
+        12
+      ],
+      "source": "$p_i=\\frac{e^{z_i}}{\\sum_{k=1}^{C}e^{z_k}},\\quad L=-\\sum_{k=1}^{C}t_k\\log p_k=-\\log p_c,\\quad \\frac{\\partial L}{\\partial z_i}=p_i-t_i$",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        14
+      ],
+      "source": "##### Sigmoid + Binary Cross-Entropy",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        16,
+        17,
+        18
+      ],
+      "source": "$p=\\frac{1}{1+e^{-z}},\\quad L=-[t\\log p+(1-t)\\log(1-p)],\\quad \\frac{\\partial L}{\\partial z}=p-t$",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        20
+      ],
+      "source": "##### Activation Functions",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        22
+      ],
+      "source": "| Activation | Function                                          | Derivative                                    | Advantages            | Disadvantages           |",
+      "kind": "table_header",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        23
+      ],
+      "source": "| ---------- | ------------------------------------------------- | --------------------------------------------- | --------------------- | ----------------------- |",
+      "kind": "table_separator",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        24
+      ],
+      "source": "| Sigmoid    | \\(\\frac{1}{1+e^{-z}}\\)                            | \\(f(z)(1-f(z))\\)                              | Binary Classification | Vanishing Gradients     |",
+      "kind": "table_row",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        25
+      ],
+      "source": "| Tanh       | \\(\\frac{e^z-e^{-z}}{e^z+e^{-z}}\\)                 | \\(1-f(z)^2\\)                                  | Zero-Centered         | Vanishing Gradients     |",
+      "kind": "table_row",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        26
+      ],
+      "source": "| ReLU       | \\(\\max(0,z)\\)                                     | \\(\\begin{cases}1&z>0\\\\0&z<0\\end{cases}\\)      | Simple                | Dying ReLU              |",
+      "kind": "table_row",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        27
+      ],
+      "source": "| Leaky ReLU | \\(\\begin{cases}z&z\\ge0\\\\\\alpha z&z<0\\end{cases}\\) | \\(\\begin{cases}1&z>0\\\\\\alpha&z<0\\end{cases}\\) | Preserve Gradients    | Hyperparameter $\\alpha$ |",
+      "kind": "table_row",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        29
+      ],
+      "source": "##### Multi-Layer Perceptron",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        31
+      ],
+      "source": "MLP：\\[ z^{(l)}=W^{(l)}h^{(l-1)}+b^{(l)},\\quad h^{(l)}=\\phi_l(z^{(l)})\\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        32
+      ],
+      "source": "Activation → Introduce Nonlinearity；Linear Function → Classification Logits",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        33
+      ],
+      "source": "Multi-Layer → Improve Representation Efficiency；Perceptron → Final Linear Classification",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        35
+      ],
+      "source": "##### Regression Losses",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        37
+      ],
+      "source": "\\[ L_1=\\frac{1}{N}\\sum_{i=1}^{N}|y_i-\\hat y_i| \\] → \\[ \\frac{\\partial L_1}{\\partial \\hat y_i} =\\frac{1}{N}\\operatorname{sign}(\\hat y_i-y_i) \\] → robust to outliers",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        38
+      ],
+      "source": "\\[ L_2=\\frac{1}{N}\\sum_{i=1}^{N}(y_i-\\hat y_i)^2 \\] → \\[ \\frac{\\partial L_2}{\\partial \\hat y_i} =\\frac{2}{N}(\\hat y_i-y_i) \\] → sensitive to outliers",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        40
+      ],
+      "source": "##### Batch Normalization",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        42
+      ],
+      "source": "Mean：\\[ \\mu_j=\\frac1N\\sum_i x_{ij} \\], Variance：\\[ v_j=\\frac1N\\sum_i(x_{ij}-\\mu_j)^2 \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        43
+      ],
+      "source": "Standardization：\\[ \\bar x_{ij}=\\frac{x_{ij}-\\mu_j}{\\sqrt{v_j+\\epsilon}} \\]；Affine Transform：$y_{ij}=\\gamma_j\\bar x_{ij}+\\beta_j$",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        44
+      ],
+      "source": "Normalize Intermediate Features → Stabilize Gradient Scales → Larger Learning Rates",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        46
+      ],
+      "source": "##### Dropout",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        48
+      ],
+      "source": "Ordinary Dropout：\\[ y_i^{\\mathrm{train}}=m_iz_i, \\quad y_i^{\\mathrm{test}}=qz_i \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        49
+      ],
+      "source": "Keep Probability $q$；Random Mask \\[ m_i\\sim\\operatorname{Bernoulli}(q) \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        50
+      ],
+      "source": "Deactivate Neurons → Reduce Co-Adaptation → Mitigate Overfitting / Better Generalization",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        52
+      ],
+      "source": "##### AutoEncoder",
+      "kind": "section",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        54
+      ],
+      "source": "Reconstruction Loss：\\[ h=f_\\theta(x),\\quad \\tilde x=g_\\phi(h), \\quad J=\\frac1{2N}\\sum_{i=1}^{N}\\left\\|x^{(i)}-\\tilde x^{(i)}\\right\\|_2^2 \\]",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        55
+      ],
+      "source": "Low-Dimensional Bottleneck → Learn Latent Representation",
+      "kind": "body",
+      "module": "NN"
+    },
+    {
+      "lines": [
+        57
+      ],
+      "source": "#### Optimization",
+      "kind": "module",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        59
+      ],
+      "source": "##### Mini-Batch SGD",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        61
+      ],
+      "source": "Loss Function：$J_{\\mathcal{B}_t}(\\theta) = \\frac{1}{|\\mathcal{B}_t|}\\sum_{i\\in\\mathcal{B}_t} \\ell_i(\\theta)$",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        62
+      ],
+      "source": "Mini-batch Gradient：\\[ g_t=\\frac{1}{B_t}\\sum_{i\\in\\mathcal B_t}\\nabla\\ell_i(\\theta_t),\\quad B_t=|\\mathcal B_t| \\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        63
+      ],
+      "source": "Gradient Descent：\\[ \\theta_{t+1}=\\theta_t-\\eta_tg_t,\\quad g_t=\\nabla J_{\\mathcal B_t}(\\theta_t) \\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        64
+      ],
+      "source": "Taylor Expansion：$J_{\\mathcal{B}_t}(\\theta_t - \\eta_t g_t) \\approx J_{\\mathcal{B}_t}(\\theta_t) - \\eta_t\\, g_t^\\top g_t = J_{\\mathcal{B}_t}(\\theta_t) - \\eta_t\\|g_t\\|_2^2$",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        65
+      ],
+      "source": "Smaller $B_t$ → High Gradient Variance → Noisy Updates → Improve Generalization",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        66
+      ],
+      "source": "Larger $B_t$ → High Memory Usage → Fewer Updates per Epoch → Better Stability",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        67
+      ],
+      "source": "Smaller $\\eta_t$ → Slow Convergence → More Epochs",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        68
+      ],
+      "source": "Larger $\\eta_t$ → Repeated Overshooting → Oscillation / Divergence",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        70
+      ],
+      "source": "##### Momentum",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        72
+      ],
+      "source": "Exponential Moving Average：$v_t=\\mu v_{t-1}+(1-\\mu)g_t\\ \\quad \\theta_{t+1}=\\theta_t-\\eta_tv_t$",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        73
+      ],
+      "source": "Accumulate Past Gradients → Reinforce Consistent / Reduce Oscillation → Convergence",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        75
+      ],
+      "source": "##### L2 Regularization",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        77
+      ],
+      "source": "Regularization Term：\\[ J_{\\mathrm{reg}}(\\theta) =J_{\\mathrm{data}}(\\theta)+\\frac{\\lambda}{2}\\|\\theta\\|_2^2 \\quad \\nabla_\\theta\\frac{\\lambda}{2}\\|\\theta\\|_2^2=\\lambda\\theta\\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        78
+      ],
+      "source": "Shrinkage Factor：\\[\\theta_{t+1}=\\theta_t-\\eta(g_t+\\lambda\\theta_t)=(1-\\eta\\lambda)\\theta_t-\\eta g_t\\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        79
+      ],
+      "source": "Weight Decay → Penalize Large Weights → Reduce Overfitting → Improve Generalization",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        81
+      ],
+      "source": "##### Resilient Propagation",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        83
+      ],
+      "source": "Rprop：\\[ \\begin{aligned} \\eta_{t,i} &= \\begin{cases} \\min(\\alpha\\eta_{t-1,i},\\eta_{\\max}), &g_{t,i}g_{t-1,i}>0,\\,\\alpha>1\\\\ \\max(\\beta\\eta_{t-1,i},\\eta_{\\min}), &g_{t,i}g_{t-1,i}<0,\\,0<\\beta<1\\\\ \\eta_{t-1,i}, &g_{t,i}g_{t-1,i}=0\\end{cases} \\\\ \\theta_{t+1,i} &= \\theta_{t,i}-\\eta_{t,i}\\operatorname{sign}(g_{t,i}) \\end{aligned} \\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        84
+      ],
+      "source": "Consistent Signs → Increase Step Size → Faster Convergence",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        85
+      ],
+      "source": "Opposite Signs → Decrease Step Size → Reduce Oscillation",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        87
+      ],
+      "source": "##### Adaptive Learning Rate",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        89
+      ],
+      "source": "AdaGrad：\\[ s_{t,i}=s_{t-1,i}+g_{t,i}^2 \\quad \\theta_{t+1,i}=\\theta_{t,i}-\\frac{\\eta}{\\sqrt{s_{t,i}}+\\epsilon}g_{t,i}\\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        90
+      ],
+      "source": "RMSProp：\\[ s_{t,i}=\\rho s_{t-1,i}+(1-\\rho)g_{t,i}^2 \\quad \\theta_{t+1,i}=\\theta_{t,i}-\\frac{\\eta}{\\sqrt{s_{t,i}}+\\epsilon}g_{t,i}\\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        91
+      ],
+      "source": "Measure Gradient Magnitudes → Adapt Learning Rates → Reduce Oscillation",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        93
+      ],
+      "source": "##### Adaptive Moment Estimation",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        95
+      ],
+      "source": "First-Moment Estimate：\\[ m_t=\\beta_1m_{t-1}+(1-\\beta_1)g_t \\] → Determine Update Direction",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        96
+      ],
+      "source": "Second Raw-Moment Estimate：\\[ v_t=\\beta_2v_{t-1}+(1-\\beta_2)g_t^2 \\] → Adjust Update Step Size",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        97
+      ],
+      "source": "Bias Correction：\\[ \\hat m_t=m_t/(1-\\beta_1^t) \\quad \\hat v_t=v_t/(1-\\beta_2^t)\\] → Correct Zero Initialization",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        98
+      ],
+      "source": "Adam：$\\theta_{t+1}=\\theta_t-\\eta\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}$ → Adaptive Moment Estimation",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        99
+      ],
+      "source": "AdamW：$\\theta_{t+1}=(1-\\eta\\lambda)\\theta_t-\\eta\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}$ → Decoupled Weight Decay",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        101
+      ],
+      "source": "##### Gradients Problems",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        103
+      ],
+      "source": "Vanishing / Exploding Gradients → Repeated Multiplication of Local Derivatives",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        104
+      ],
+      "source": "Gradient Clipping：$g_{\\text{clip}}=g\\cdot\\min\\left(1,\\frac{c}{\\|g\\|_2}\\right)$ → Bounded Gradient Norm",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        106
+      ],
+      "source": "##### Weight Initialization",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        108
+      ],
+      "source": "Xavier / Glorot：$W\\sim\\mathcal N\\left(0,\\frac{2}{n_{\\text{in}}+n_{\\text{out}}}\\right) \\quad W\\sim U\\left(-\\sqrt{\\frac{6}{n_{\\text{in}}+n_{\\text{out}}}},\\sqrt{\\frac{6}{n_{\\text{in}}+n_{\\text{out}}}}\\right)$ → sigmoid、tanh",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        109
+      ],
+      "source": "Kaiming / He：$W\\sim\\mathcal N\\left(0,\\frac{2}{n_{\\text{in}}}\\right) \\quad W\\sim U\\left(-\\sqrt{\\frac{6}{n_{\\text{in}}}},\\sqrt{\\frac{6}{n_{\\text{in}}}}\\right)$ → relu",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        110
+      ],
+      "source": "Break Neuron Symmetry + Stabilize Signal Scale → Reduce Vanishing / Exploding",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        112
+      ],
+      "source": "##### Data Augmentation",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        114
+      ],
+      "source": "Rotation、Flipping、Cropping、Scaling、Jittering、Noise、Erasing",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        116
+      ],
+      "source": "##### Learning Rate Schedules",
+      "kind": "section",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        118
+      ],
+      "source": "Inverse-Time：\\[\\eta_t=\\frac{\\eta_0}{1+dt}\\]、Step：\\[ \\eta_t=\\eta_0\\gamma^{\\lfloor t/K\\rfloor} \\]、Exponential：\\[ \\eta_t=\\eta_0e^{-kt} \\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        119
+      ],
+      "source": "Cosine Annealing：\\[ \\eta_t=\\eta_{\\min}+\\frac12(\\eta_{\\max}-\\eta_{\\min}) \\left(1+\\cos\\frac{\\pi t}{T}\\right) \\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        120
+      ],
+      "source": "Warmup：\\[ \\eta_t=\\eta_{\\mathrm{max}}\\frac{t}{T_w}\\]",
+      "kind": "body",
+      "module": "Optimization"
+    },
+    {
+      "lines": [
+        122
+      ],
+      "source": "#### CNN",
+      "kind": "module",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        124
+      ],
+      "source": "##### Advantages",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        126
+      ],
+      "source": "Local Connectivity：Sparse Connections → Lower Computation / Local Feature Extraction",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        127
+      ],
+      "source": "Weight Sharing：Reuse Filters → Fewer Parameters / Location-Independent Feature Detection",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        128
+      ],
+      "source": "Translation Equivariance：\\[ f(T_\\Delta X)=T_\\Delta f(X) \\] → Input Shifts, Feature Map Shifts Accordingly",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        129
+      ],
+      "source": "Translation Invariance：\\[ f(T_\\Delta X)=f(X) \\] → Input Shifts, Classification Remains Unchanged",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        131
+      ],
+      "source": "##### Forward Propagation",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        133
+      ],
+      "source": "Feature Map：\\[ y_{i,j,o} = b_o+ \\sum_{c=1}^{C_{\\mathrm{in}}} \\sum_{u=0}^{k_h-1} \\sum_{v=0}^{k_w-1} w_{o,c,u,v}\\, x_{is_h-p_h+ud_h,\\;js_w-p_w+vd_w,\\;c} \\]",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        134
+      ],
+      "source": "Kernel Size：$K_{e} = D(K-1) + 1$，Max Index：$i_{max} + K - 1 \\leq L_{in} + 2p -1$",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        135
+      ],
+      "source": "Output Size：\\[ L_{\\mathrm{out}} = \\left\\lfloor \\frac{L_{\\mathrm{in}}+2P-K_e}{S} \\right\\rfloor+1 \\]",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        136
+      ],
+      "source": "Parameters=\\[\\left(K_hK_wC_{in}+1\\right)C_{out} \\], MACs=\\[ H_{\\text{out}}W_{\\text{out}}C_{\\text{out}}K_hK_wC_{\\text{in}} \\]",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        137
+      ],
+      "source": "Grouped：$C'_\\text{in} = C_\\text{in} / G$, Depthwise：$G = C_\\text{in}$",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        139
+      ],
+      "source": "##### Backward Propagation",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        141
+      ],
+      "source": "Given $s=1, p=0, d=1, c_{in}=1, c_{out}=1$",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        142
+      ],
+      "source": "1D：\\(y_i=\\sum_{k=0}^{K-1}w_kx_{i+k}+b \\quad \\delta_i=\\frac{\\partial J}{\\partial y_i}\\)",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        143
+      ],
+      "source": "\\(\\frac{\\partial J}{\\partial w_k}=\\sum_i\\delta_i x_{i+k} \\quad \\frac{\\partial J}{\\partial b}=\\sum_i\\delta_i \\quad \\frac{\\partial J}{\\partial x_a}=\\sum_i\\delta_iw_{a-i}\\)",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        144
+      ],
+      "source": "2D：\\(y_{i,j}=\\sum_{u,v}w_{u,v}x_{i+u,j+v}+b \\quad \\delta_{i,j}=\\frac{\\partial J}{\\partial y_{i,j}}\\)",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        145
+      ],
+      "source": "\\(\\frac{\\partial J}{\\partial w_{u,v}}=\\sum_{i,j}\\delta_{i,j}x_{i+u,j+v} \\quad \\frac{\\partial J}{\\partial b}=\\sum_{i,j}\\delta_{i,j} \\quad \\frac{\\partial J}{\\partial x_{a,b}}=\\sum_{i,j}\\delta_{i,j}w_{a-i,b-j}\\)",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        147
+      ],
+      "source": "##### Receptive Field",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        149
+      ],
+      "source": "\\[ r_0=1 \\quad j_0=1 \\quad j_l=s_lj_{l-1} \\quad r_l=r_{l-1}+(k_l-1)d_lj_{l-1} \\]",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        150
+      ],
+      "source": "$r_L=1+\\sum_{l=1}^{L}(k_l-1)d_l\\prod_{m=1}^{l-1}s_m$",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        152
+      ],
+      "source": "##### Pooling",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        154
+      ],
+      "source": "| Pooling | Formula | Advantages |",
+      "kind": "table_header",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        155
+      ],
+      "source": "| --- | --- | --- |",
+      "kind": "table_separator",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        156
+      ],
+      "source": "| Max | \\(y_{u,v,c}=\\max_{(i,j)\\in\\Omega_{u,v}}x_{i,j,c}\\) | Salient Features → Improve Robustness |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        157
+      ],
+      "source": "| Average | \\(y_{u,v,c}=\\frac{1}{\\lvert\\Omega_{u,v}\\rvert}\\sum_{(i,j)\\in\\Omega_{u,v}}x_{i,j,c}\\) | Smooth Features → Reduce Noise |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        158
+      ],
+      "source": "| Global Average | \\(y_c=\\frac{1}{HW}\\sum_{i=1}^{H}\\sum_{j=1}^{W}x_{i,j,c}\\) | Aggregate Features → Reduce Parameters |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        160
+      ],
+      "source": "##### BatchNorm / Dropout",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        162
+      ],
+      "source": "\\[ \\mu_c=\\frac1M\\sum_{n,h,w}x_{n,h,w,c} \\]，\\[ v_c=\\frac1M\\sum_{n,h,w}(x_{n,h,w,c}-\\mu_c)^2 \\]",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        163
+      ],
+      "source": "$y_{n,h,w,c}=\\gamma_c\\frac{x_{n,h,w,c}-\\mu_c}{\\sqrt{v_c+\\epsilon}}+\\beta_c$，$y_{n,h,w,c}=\\frac{m_{n,c}}{1-p}x_{n,h,w,c}$",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        165
+      ],
+      "source": "##### Mask-Aware Convolutions",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        167
+      ],
+      "source": "Partial：\\(y_{i,j}=\\begin{cases}\\frac{K}{N_{i,j}}\\operatorname{Conv}_{w}(x\\odot m)_{i,j}+b & N_{i,j}>0\\\\ 0 & N_{i,j}=0\\end{cases}\\) → Valid Inputs Only",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        168
+      ],
+      "source": "Submanifold Sparse：\\(y_{i,j}=\\begin{cases}\\operatorname{Conv}_{w}(x\\odot m)_{i,j}+b & m_{i,j}=1\\\\ 0 & m_{i,j}=0\\end{cases}\\) → Active Inputs Only",
+      "kind": "body",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        169
+      ],
+      "source": "##### Modern Convolutions",
+      "kind": "section",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        171
+      ],
+      "source": "| Model | Key Idea | Advantages |",
+      "kind": "table_header",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        172
+      ],
+      "source": "| --- | --- | --- |",
+      "kind": "table_separator",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        173
+      ],
+      "source": "| VGG | Stacked Small Convolutional Kernels | Expand Receptive Field Using Less Parameters |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        174
+      ],
+      "source": "| NiN | Pointwise Convolution for Channel Mixing | Fuse Features Across Channels Instead of Fully Connected Layers |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        175
+      ],
+      "source": "| GoogLeNet | Multi-Scale Convolutions | Concatenate Feature Map to Capture Multi-Scale Features |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        176
+      ],
+      "source": "| ResNet | Residual Skip Connections | Improve Gradient Flow & Enable Deeper Networks |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        177
+      ],
+      "source": "| DenseNet | Dense Connections | Enhance Feature Reuse and Improve Gradient Flow |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        178
+      ],
+      "source": "| ResNeXt | Grouped Convolutions | Improve Representation with Efficient Computation |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        179
+      ],
+      "source": "| MobileNet | Depthwise Separable Convolutions | Reduce Parameters and Reduce Computation |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        180
+      ],
+      "source": "| EfficientNet | Compound Scaling | Improve Accuracy–Efficiency Trade-off |",
+      "kind": "table_row",
+      "module": "CNN"
+    },
+    {
+      "lines": [
+        182
+      ],
+      "source": "#### RNN",
+      "kind": "module",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        184
+      ],
+      "source": "##### Sequence Probability Factorization",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        186
+      ],
+      "source": "Probability Chain Rule：$P(x_{1:T})=P(x_1)\\prod_{t=2}^{T}P(x_t\\mid x_{1:t-1})$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        187
+      ],
+      "source": "First-Order Markov Assumption：\\[ P(x_{1:T})=P(x_1)\\prod_{t=2}^{T}P(x_t\\mid x_{t-1}) \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        188
+      ],
+      "source": "Second-Order Markov Assumption：\\[ P(x_{1:T})=P(x_1,x_2)\\prod_{t=3}^{T}P(x_t\\mid x_{t-2},x_{t-1}) \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        189
+      ],
+      "source": "Hidden Markov Model：$P(x_{1:T},h_{1:T}\\mid\\theta)=P(h_1)\\prod_{t=2}^{T}P(h_t\\mid h_{t-1})\\prod_{t=1}^{T}P(x_t\\mid h_t)$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        190
+      ],
+      "source": "Transition Distribution：\\[ P(h_t\\mid h_{1:t-1})=P(h_t\\mid h_{t-1}) \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        191
+      ],
+      "source": "Emission Distribution：\\[ P(x_t\\mid h_{1:t},x_{1:t-1})=P(x_t\\mid h_t) \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        193
+      ],
+      "source": "##### Vanilla Recurrent Neural Network",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        195
+      ],
+      "source": "Forward Recurrence：$a_t=W_xx_t+W_hh_{t-1}+b_h$，\\[ h_t=\\tanh(a_t) \\]，\\[ z_t=W_zh_t+b_z \\]，\\[ p_t=\\operatorname{softmax}(z_t) \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        196
+      ],
+      "source": "Parameter Count：$H(I+H+1)+O(H+1)$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        197
+      ],
+      "source": "All RNN parameter counts assume one unidirectional layer, one combined bias per gate, and the output layer; $I,H,O$ are input, hidden and output dimensions.",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        199
+      ],
+      "source": "##### Backward Propagation Through Time",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        201
+      ],
+      "source": "\\[ \\ell_t=-\\sum_{c=1}^{C}y_{t,c}\\log p_{t,c} \\]，$L=\\sum_{t=1}^{T}\\ell_t$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        203
+      ],
+      "source": "\\[ \\delta_t=\\frac{\\partial L}{\\partial a_t}=\\left(\\frac{\\partial h_t}{\\partial a_t}\\right)^\\top\\frac{\\partial L}{\\partial h_t} \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        204
+      ],
+      "source": "\\[ \\frac{\\partial L}{\\partial h_t}=\\left(\\frac{\\partial z_t}{\\partial h_t}\\right)^\\top\\frac{\\partial L}{\\partial z_t}+\\left(\\frac{\\partial a_{t+1}}{\\partial h_t}\\right)^\\top\\frac{\\partial L}{\\partial a_{t+1}} \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        205
+      ],
+      "source": "\\[ \\delta_t=\\left(W_z^\\top(p_t-y_t)+W_h^\\top\\delta_{t+1}\\right)\\odot(1-h_t^2),\\quad\\delta_{T+1}=0 \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        207
+      ],
+      "source": "\\[ \\nabla_{W_z}L=\\sum_{t=1}^{T}(p_t-y_t)h_t^\\top\\]，\\[ \\nabla_{W_x}L=\\sum_{t=1}^{T}\\delta_tx_t^\\top \\]，$\\nabla_{W_h}L=\\sum_{t=1}^{T}\\delta_th_{t-1}^\\top$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        209
+      ],
+      "source": "\\[\\nabla_{b_z}L=\\sum_{t=1}^{T}(p_t-y_t) \\]，$\\nabla_{b_h}L=\\sum_{t=1}^{T}\\delta_t$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        211
+      ],
+      "source": "$J_t=\\frac{\\partial h_t}{\\partial h_{t-1}} \\to \\frac{\\partial h_T}{\\partial h_t}=J_TJ_{T-1}\\cdots J_{t+1}$：Repeated Jacobian Multiplication → Vanishing / Exploding Gradients",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        213
+      ],
+      "source": "##### Long Short-Term Memory",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        215
+      ],
+      "source": "Forget Gate：\\[ f_t=\\sigma(W_f[x_t;h_{t-1}]+b_f) \\] → control how much Old Memory to Retain",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        216
+      ],
+      "source": "Input Gate：\\[ i_t=\\sigma(W_i[x_t;h_{t-1}]+b_i) \\] → control how much New Information to Write",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        217
+      ],
+      "source": "Output Gate：\\[ o_t=\\sigma(W_o[x_t;h_{t-1}]+b_o) \\] → control how much New Memory to Expose",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        218
+      ],
+      "source": "Candidate Cell State：\\[ \\tilde c_t=\\tanh(W_c[x_t;h_{t-1}]+b_c) \\] → compute the New Information",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        219
+      ],
+      "source": "Cell State Update：\\[ c_t=f_t\\odot c_{t-1}+i_t\\odot\\tilde c_t \\] → compute the New Memory",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        220
+      ],
+      "source": "Hidden State：\\[ h_t=o_t\\odot\\tanh(c_t) \\] → produce the Representation",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        221
+      ],
+      "source": "$\\left.\\frac{\\partial c_t}{\\partial c_{t-1}}\\right|_{\\mathrm{direct}}=\\operatorname{diag}(f_t) \\to \\left.\\frac{\\partial c_T}{\\partial c_t}\\right|_{\\mathrm{direct}}=\\prod_{k=t+1}^{T}\\operatorname{diag}(f_k)$：Separate Memory + Additive Update → Better Gradients Flow",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        222
+      ],
+      "source": "Parameter Count：$4H(I+H+1) + O(H + 1)$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        224
+      ],
+      "source": "##### GRU",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        226
+      ],
+      "source": "Reset Gate：\\(r_t=\\sigma(W_r[x_t;h_{t-1}]+b_r)\\) → control how much History to Reuse",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        227
+      ],
+      "source": "Update Gate：\\(z_t=\\sigma(W_z[x_t;h_{t-1}]+b_z)\\) → control how much Old Memory to Retain",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        228
+      ],
+      "source": "Candidate Hidden State：\\(\\tilde h_t=\\tanh(W_xx_t+r_t\\odot(W_hh_{t-1})+b_h)\\) → compute the New Candidate",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        229
+      ],
+      "source": "Hidden State Update：\\[ h_t=z_t\\odot h_{t-1}+(1-z_t)\\odot\\tilde h_t \\] → produce the Representation",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        230
+      ],
+      "source": "\\(\\left.\\frac{\\partial h_t}{\\partial h_{t-1}}\\right|_{\\mathrm{direct}}=\\operatorname{diag}(z_t)\\to\\left.\\frac{\\partial h_T}{\\partial h_t}\\right|_{\\mathrm{direct}}=\\prod_{k=t+1}^{T}\\operatorname{diag}(z_k)\\)：Unified Memory + Additive Update → Better Gradient Flow",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        231
+      ],
+      "source": "Parameter Count：$3H(I+H+1) + O(H + 1)$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        233
+      ],
+      "source": "##### Autoregressive Generation",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        235
+      ],
+      "source": "$P(x_{1:T})=\\prod_{t=1}^{T}P(x_t\\mid x_{<t}) \\approx \\prod_{t=1}^{T}P_\\theta(x_t\\mid h_{t-1})=\\prod_{t=1}^{T}p_{t-1}[x_t]$",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        237
+      ],
+      "source": "\\[ L=-\\log P(x_{1:T})=-\\sum_{t=1}^{T}\\log P(x_t\\mid x_{<t})\\approx-\\sum_{t=1}^{T}\\log P_\\theta(x_t\\mid h_{t-1})=-\\sum_{t=1}^{T}\\log p_{t-1}[x_t] \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        239
+      ],
+      "source": "##### Seq2Seq",
+      "kind": "section",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        241
+      ],
+      "source": "Encoder：\\[ v=\\operatorname{RNN}(x_1,\\ldots,x_T)=h_T^{\\mathrm{enc}} \\]",
+      "kind": "body",
+      "module": "RNN"
+    },
+    {
+      "lines": [
+        242
+      ],
+      "source": "Decoder：\\[ h_0^{\\mathrm{dec}}=v=h_T^{\\mathrm{enc}}\\]，\\[ P_\\theta(y_{1:T'}\\mid x_{1:T})=\\prod_{t=1}^{T'}P_\\theta(y_t\\mid v,y_{<t})=\\prod_{t=1}^{T'}P_\\theta(y_t\\mid h_t^{\\mathrm{dec}})=\\prod_{t=1}^{T'}p_t[y_t] \\]",
+      "kind": "body",
+      "module": "RNN"
+    }
+  ]
+}

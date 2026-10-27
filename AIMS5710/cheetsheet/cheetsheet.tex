@@ -1,0 +1,202 @@
+\documentclass[a4paper]{article}
+\usepackage[hmargin=2mm,vmargin=8mm,noheadfoot]{geometry}
+\usepackage{amsmath,amssymb,newtxmath}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold]
+\usepackage{multicol,xcolor,titlesec,needspace,array,booktabs,adjustbox}
+\usepackage[unicode,hidelinks,pdfencoding=auto]{hyperref}
+\hypersetup{pdftitle={AIMS5710 Deep Learning Cheatsheet},pdfauthor={}}
+\definecolor{accent}{HTML}{153C52}
+\definecolor{rulecolor}{HTML}{BBC9D1}
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{0.25pt}
+\def\columnseprulecolor{\color{rulecolor}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\multicolsep}{0pt}
+\setlength{\emergencystretch}{1em}
+\newlength{\activationwidth}
+\raggedright
+\pagestyle{empty}
+\titleformat{\subsection}{\sffamily\bfseries\color{accent}\fontsize{8.6}{10}\selectfont}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{5pt}{2pt}
+\newcommand{\module}[1]{\par\needspace{45pt}\addvspace{4pt}\noindent\colorbox{accent}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\color{white}\sffamily\bfseries\fontsize{10}{12}\selectfont #1}}\par\vspace{1pt}}
+\newcommand{\pairednote}[1]{\par\noindent\adjustbox{max width=\linewidth}{\fontsize{7.2}{8.3}\selectfont #1}\par}
+\newcommand{\fitline}[1]{\par\noindent\adjustbox{max width=\linewidth}{#1}\par}
+\newcommand{\pagetwostyle}{\fontsize{7.2}{9}\selectfont\raggedcolumns}
+\newcommand{\bodyfont}{\fontsize{7.7}{9}\selectfont}
+\renewcommand{\small}{\fontsize{7.4}{8.47}\selectfont}
+\renewcommand{\tiny}{\fontsize{7}{8}\selectfont}
+\let\originalsum\sum
+\let\originalprod\prod
+\renewcommand{\sum}{\mathop{\textstyle\originalsum}\nolimits}
+\renewcommand{\prod}{\mathop{\textstyle\originalprod}\nolimits}
+\begin{document}\bodyfont\raggedcolumns
+\begin{multicols}{2}
+\module{NN}
+\subsection*{Fully Connected Layer}
+\noindent Forward Propagation: \(\displaystyle z=Wx+b\) \(\to\) \(\displaystyle z_i=\sum_jW_{ij}x_j+b_i\)\par
+\noindent Local Derivative: \(\displaystyle g_i=\frac{\partial L}{\partial z_i}\) \(\to\) \(\displaystyle \frac{\partial L}{\partial W_{ij}}=g_ix_j \quad \frac{\partial L}{\partial x_j}=\sum_i g_iW_{ij}\)\par
+\subsection*{Softmax + Cross-Entropy}
+\noindent \(\displaystyle p_i=\frac{e^{z_i}}{\sum_{k=1}^{C}e^{z_k}},\quad L=-\sum_{k=1}^{C}t_k\log p_k=-\log p_c,\quad \frac{\partial L}{\partial z_i}=p_i-t_i\)\par
+\subsection*{Sigmoid + Binary Cross-Entropy}
+\noindent \(\displaystyle p=\frac{1}{1+e^{-z}},\quad L=-[t\log p+(1-t)\log(1-p)],\quad \frac{\partial L}{\partial z}=p-t\)\par
+\subsection*{Activation Functions}
+\par\begingroup\fontsize{7}{8.5}\selectfont\setlength{\tabcolsep}{1.7pt}\renewcommand{\arraystretch}{1.55}\setlength{\activationwidth}{\dimexpr\linewidth-8\tabcolsep\relax}\noindent\begin{tabular}{@{}>{\raggedright\arraybackslash}m{.12\activationwidth}>{\centering\arraybackslash}m{.225\activationwidth}>{\centering\arraybackslash}m{.225\activationwidth}>{\raggedright\arraybackslash}m{.215\activationwidth}>{\raggedright\arraybackslash}m{.215\activationwidth}@{}}\toprule\textbf{Activation} & \textbf{Function} & \textbf{Derivative} & \textbf{Advantages} & \textbf{Disadvantages}\\\midrule
+Sigmoid & \(\displaystyle \frac{1}{1+e^{-z}}\) & \(\displaystyle f(z)(1-f(z))\) & Binary Classification & Vanishing Gradients\\\addlinespace[2pt]
+Tanh & \(\displaystyle \frac{e^z-e^{-z}}{e^z+e^{-z}}\) & \(\displaystyle 1-f(z)^2\) & Zero-Centered & Vanishing Gradients\\\addlinespace[2pt]
+ReLU & \(\displaystyle \max(0,z)\) & \(\displaystyle \begin{cases}1&z>0\\0&z<0\end{cases}\) & Simple & Dying ReLU\\\addlinespace[2pt]
+Leaky ReLU & \(\displaystyle \begin{cases}z&z\ge0\\\alpha z&z<0\end{cases}\) & \(\displaystyle \begin{cases}1&z>0\\\alpha&z<0\end{cases}\) & Preserve Gradients & Hyperparameter \(\displaystyle \alpha\)\\\addlinespace[2pt]
+\bottomrule\end{tabular}\par\endgroup
+\subsection*{Multi-Layer Perceptron}
+\noindent MLP: \(\displaystyle z^{(l)}=W^{(l)}h^{(l-1)}+b^{(l)},\quad h^{(l)}=\phi_l(z^{(l)})\)\par
+\pairednote{Activation \(\to\) Introduce Nonlinearity; Linear Function \(\to\) Classification Logits}
+\pairednote{Multi-Layer \(\to\) Improve Representation Efficiency; Perceptron \(\to\) Final Linear Classification}
+\subsection*{Regression Losses}
+\noindent \(\displaystyle L_1=\frac{1}{N}\sum_{i=1}^{N}|y_i-\hat y_i|\) \(\to\) \(\displaystyle \frac{\partial L_1}{\partial \hat y_i} =\frac{1}{N}\operatorname{sign}(\hat y_i-y_i)\) \(\to\) robust to outliers\par
+\noindent \(\displaystyle L_2=\frac{1}{N}\sum_{i=1}^{N}(y_i-\hat y_i)^2\) \(\to\) \(\displaystyle \frac{\partial L_2}{\partial \hat y_i} =\frac{2}{N}(\hat y_i-y_i)\) \(\to\) sensitive to outliers\par
+\subsection*{Batch Normalization}
+\noindent Mean: \(\displaystyle \mu_j=\frac1N\sum_i x_{ij}\), Variance: \(\displaystyle v_j=\frac1N\sum_i(x_{ij}-\mu_j)^2\)\par
+\noindent Standardization: \(\displaystyle \bar x_{ij}=\frac{x_{ij}-\mu_j}{\sqrt{v_j+\epsilon}}\); Affine Transform: \(\displaystyle y_{ij}=\gamma_j\bar x_{ij}+\beta_j\)\par
+\noindent Normalize Intermediate Features \(\to\) Stabilize Gradient Scales \(\to\) Larger Learning Rates\par
+\subsection*{Dropout}
+\noindent Ordinary Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_iz_i, \quad y_i^{\mathrm{test}}=qz_i\)\par
+\noindent Keep Probability \(\displaystyle q\); Random Mask \(\displaystyle m_i\sim\operatorname{Bernoulli}(q)\)\par
+\noindent Deactivate Neurons \(\to\) Reduce Co-Adaptation \(\to\) Mitigate Overfitting / Better Generalization\par
+\subsection*{AutoEncoder}
+\noindent Reconstruction Loss: \(\displaystyle h=f_\theta(x),\quad \tilde x=g_\phi(h), \quad J=\frac1{2N}\sum_{i=1}^{N}\left\|x^{(i)}-\tilde x^{(i)}\right\|_2^2\)\par
+\noindent Low-Dimensional Bottleneck \(\to\) Learn Latent Representation\par
+\columnbreak
+\module{Optimization}
+\subsection*{Mini-Batch SGD}
+\noindent Loss Function: \(\displaystyle J_{\mathcal{B}_t}(\theta) = \frac{1}{|\mathcal{B}_t|}\sum_{i\in\mathcal{B}_t} \ell_i(\theta)\)\par
+\noindent Mini-batch Gradient: \(\displaystyle g_t=\frac{1}{B_t}\sum_{i\in\mathcal B_t}\nabla\ell_i(\theta_t),\quad B_t=|\mathcal B_t|\)\par
+\noindent Gradient Descent: \(\displaystyle \theta_{t+1}=\theta_t-\eta_tg_t,\quad g_t=\nabla J_{\mathcal B_t}(\theta_t)\)\par
+\noindent Taylor Expansion: \(\displaystyle J_{\mathcal{B}_t}(\theta_t - \eta_t g_t) \approx J_{\mathcal{B}_t}(\theta_t) - \eta_t\, g_t^\top g_t = J_{\mathcal{B}_t}(\theta_t) - \eta_t\|g_t\|_2^2\)\par
+\noindent Smaller \(\displaystyle B_t\) \(\to\) High Gradient Variance \(\to\) Noisy Updates \(\to\) Improve Generalization\par
+\noindent Larger \(\displaystyle B_t\) \(\to\) High Memory Usage \(\to\) Fewer Updates per Epoch \(\to\) Better Stability\par
+\noindent Smaller \(\displaystyle \eta_t\) \(\to\) Slow Convergence \(\to\) More Epochs\par
+\noindent Larger \(\displaystyle \eta_t\) \(\to\) Repeated Overshooting \(\to\) Oscillation / Divergence\par
+\subsection*{Momentum}
+\noindent Exponential Moving Average: \(\displaystyle v_t=\mu v_{t-1}+(1-\mu)g_t\ \quad \theta_{t+1}=\theta_t-\eta_tv_t\)\par
+\noindent Accumulate Past Gradients \(\to\) Reinforce Consistent / Reduce Oscillation \(\to\) Convergence\par
+\subsection*{L2 Regularization}
+\noindent Regularization Term: \(\displaystyle J_{\mathrm{reg}}(\theta) =J_{\mathrm{data}}(\theta)+\frac{\lambda}{2}\|\theta\|_2^2 \quad \nabla_\theta\frac{\lambda}{2}\|\theta\|_2^2=\lambda\theta\)\par
+\noindent Shrinkage Factor: \(\displaystyle \theta_{t+1}=\theta_t-\eta(g_t+\lambda\theta_t)=(1-\eta\lambda)\theta_t-\eta g_t\)\par
+\noindent Weight Decay \(\to\) Penalize Large Weights \(\to\) Reduce Overfitting \(\to\) Improve Generalization\par
+\subsection*{Resilient Propagation}
+\fitline{Rprop: \(\displaystyle \begin{aligned} \eta_{t,i} &= \begin{cases} \min(\alpha\eta_{t-1,i},\eta_{\max}), &g_{t,i}g_{t-1,i}>0,\,\alpha>1\\ \max(\beta\eta_{t-1,i},\eta_{\min}), &g_{t,i}g_{t-1,i}<0,\,0<\beta<1\\ \eta_{t-1,i}, &g_{t,i}g_{t-1,i}=0\end{cases} \\ \theta_{t+1,i} &= \theta_{t,i}-\eta_{t,i}\operatorname{sign}(g_{t,i}) \end{aligned}\)}
+\noindent Consistent Signs \(\to\) Increase Step Size \(\to\) Faster Convergence\par
+\noindent Opposite Signs \(\to\) Decrease Step Size \(\to\) Reduce Oscillation\par
+\subsection*{Adaptive Learning Rate}
+\noindent AdaGrad: \(\displaystyle s_{t,i}=s_{t-1,i}+g_{t,i}^2 \quad \theta_{t+1,i}=\theta_{t,i}-\frac{\eta}{\sqrt{s_{t,i}}+\epsilon}g_{t,i}\)\par
+\noindent RMSProp: \(\displaystyle s_{t,i}=\rho s_{t-1,i}+(1-\rho)g_{t,i}^2 \quad \theta_{t+1,i}=\theta_{t,i}-\frac{\eta}{\sqrt{s_{t,i}}+\epsilon}g_{t,i}\)\par
+\noindent Measure Gradient Magnitudes \(\to\) Adapt Learning Rates \(\to\) Reduce Oscillation\par
+\subsection*{Adaptive Moment Estimation}
+\noindent First-Moment Estimate: \(\displaystyle m_t=\beta_1m_{t-1}+(1-\beta_1)g_t\) \(\to\) Determine Update Direction\par
+\noindent Second Raw-Moment Estimate: \(\displaystyle v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2\) \(\to\) Adjust Update Step Size\par
+\noindent Bias Correction: \(\displaystyle \hat m_t=m_t/(1-\beta_1^t) \quad \hat v_t=v_t/(1-\beta_2^t)\) \(\to\) Correct Zero Initialization\par
+\fitline{Adam: \(\displaystyle \theta_{t+1}=\theta_t-\eta\frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon}\) \(\to\) Adaptive Moment Estimation}
+\fitline{AdamW: \(\displaystyle \theta_{t+1}=(1-\eta\lambda)\theta_t-\eta\frac{\hat m_t}{\sqrt{\hat v_t}+\epsilon}\) \(\to\) Decoupled Weight Decay}
+\subsection*{Gradients Problems}
+\noindent Vanishing / Exploding Gradients \(\to\) Repeated Multiplication of Local Derivatives\par
+\noindent Gradient Clipping: \(\displaystyle g_{\text{clip}}=g\cdot\min\left(1,\frac{c}{\|g\|_2}\right)\) \(\to\) Bounded Gradient Norm\par
+\subsection*{Weight Initialization}
+\fitline{Xavier / Glorot: \(\displaystyle W\sim\mathcal N\left(0,\frac{2}{n_{\text{in}}+n_{\text{out}}}\right) \quad W\sim U\left(-\sqrt{\frac{6}{n_{\text{in}}+n_{\text{out}}}},\sqrt{\frac{6}{n_{\text{in}}+n_{\text{out}}}}\right)\) \(\to\) sigmoid, tanh}
+\noindent Kaiming / He: \(\displaystyle W\sim\mathcal N\left(0,\frac{2}{n_{\text{in}}}\right) \quad W\sim U\left(-\sqrt{\frac{6}{n_{\text{in}}}},\sqrt{\frac{6}{n_{\text{in}}}}\right)\) \(\to\) relu\par
+\noindent Break Neuron Symmetry + Stabilize Signal Scale \(\to\) Reduce Vanishing / Exploding\par
+\subsection*{Data Augmentation}
+\noindent Rotation, Flipping, Cropping, Scaling, Jittering, Noise, Erasing\par
+\subsection*{Learning Rate Schedules}
+\noindent Inverse-Time: \(\displaystyle \eta_t=\frac{\eta_0}{1+dt}\), Step: \(\displaystyle \eta_t=\eta_0\gamma^{\lfloor t/K\rfloor}\), Exponential: \(\displaystyle \eta_t=\eta_0e^{-kt}\)\par
+\noindent Cosine Annealing: \(\displaystyle \eta_t=\eta_{\min}+\frac12(\eta_{\max}-\eta_{\min}) \left(1+\cos\frac{\pi t}{T}\right)\)\par
+\noindent Warmup: \(\displaystyle \eta_t=\eta_{\mathrm{max}}\frac{t}{T_w}\)\par
+\end{multicols}\newpage\pagetwostyle\begin{multicols}{2}
+\module{CNN}
+\subsection*{Advantages}
+\noindent Local Connectivity: Sparse Connections \(\to\) Lower Computation / Local Feature Extraction\par
+\noindent Weight Sharing: Reuse Filters \(\to\) Fewer Parameters / Location-Independent Feature Detection\par
+\noindent Translation Equivariance: \(\displaystyle f(T_\Delta X)=T_\Delta f(X)\) \(\to\) Input Shifts, Feature Map Shifts Accordingly\par
+\noindent Translation Invariance: \(\displaystyle f(T_\Delta X)=f(X)\) \(\to\) Input Shifts, Classification Remains Unchanged\par
+\subsection*{Forward Propagation}
+\noindent Feature Map: \(\displaystyle y_{i,j,o} = b_o+ \sum_{c=1}^{C_{\mathrm{in}}} \sum_{u=0}^{k_h-1} \sum_{v=0}^{k_w-1} w_{o,c,u,v}\, x_{is_h-p_h+ud_h,\;js_w-p_w+vd_w,\;c}\)\par
+\noindent Kernel Size: \(\displaystyle K_{e} = D(K-1) + 1\), Max Index: \(\displaystyle i_{max} + K - 1 \leq L_{in} + 2p -1\)\par
+\noindent Output Size: \(\displaystyle L_{\mathrm{out}} = \left\lfloor \frac{L_{\mathrm{in}}+2P-K_e}{S} \right\rfloor+1\)\par
+\noindent Parameters=\(\displaystyle \left(K_hK_wC_{in}+1\right)C_{out}\), MACs=\(\displaystyle H_{\text{out}}W_{\text{out}}C_{\text{out}}K_hK_wC_{\text{in}}\)\par
+\noindent Grouped: \(\displaystyle C'_\text{in} = C_\text{in} / G\), Depthwise: \(\displaystyle G = C_\text{in}\)\par
+\subsection*{Backward Propagation}
+\noindent Given \(\displaystyle s=1, p=0, d=1, c_{in}=1, c_{out}=1\)\par
+\noindent 1D: \(\displaystyle y_i=\sum_{k=0}^{K-1}w_kx_{i+k}+b \quad \delta_i=\frac{\partial J}{\partial y_i}\)\par
+\noindent \(\displaystyle \frac{\partial J}{\partial w_k}=\sum_i\delta_i x_{i+k} \quad \frac{\partial J}{\partial b}=\sum_i\delta_i \quad \frac{\partial J}{\partial x_a}=\sum_i\delta_iw_{a-i}\)\par
+\noindent 2D: \(\displaystyle y_{i,j}=\sum_{u,v}w_{u,v}x_{i+u,j+v}+b \quad \delta_{i,j}=\frac{\partial J}{\partial y_{i,j}}\)\par
+\noindent \(\displaystyle \frac{\partial J}{\partial w_{u,v}}=\sum_{i,j}\delta_{i,j}x_{i+u,j+v} \quad \frac{\partial J}{\partial b}=\sum_{i,j}\delta_{i,j} \quad \frac{\partial J}{\partial x_{a,b}}=\sum_{i,j}\delta_{i,j}w_{a-i,b-j}\)\par
+\subsection*{Receptive Field}
+\noindent \(\displaystyle r_0=1 \quad j_0=1 \quad j_l=s_lj_{l-1} \quad r_l=r_{l-1}+(k_l-1)d_lj_{l-1}\)\par
+\noindent \(\displaystyle r_L=1+\sum_{l=1}^{L}(k_l-1)d_l\prod_{m=1}^{l-1}s_m\)\par
+\subsection*{Pooling}
+\par\begingroup\fontsize{7}{8.5}\selectfont\setlength{\tabcolsep}{1.7pt}\renewcommand{\arraystretch}{1.55}\setlength{\activationwidth}{\dimexpr\linewidth-4\tabcolsep\relax}\noindent\begin{tabular}{@{}>{\raggedright\arraybackslash}m{.16\activationwidth}>{\centering\arraybackslash}m{.41\activationwidth}>{\raggedright\arraybackslash}m{.43\activationwidth}@{}}\toprule\textbf{Pooling} & \textbf{Formula} & \textbf{Advantages}\\\midrule
+Max & \(\displaystyle y_{u,v,c}=\max_{(i,j)\in\Omega_{u,v}}x_{i,j,c}\) & Salient Features \(\to\) Improve Robustness\\\addlinespace[2pt]
+Average & \(\displaystyle y_{u,v,c}=\frac{1}{\lvert\Omega_{u,v}\rvert}\sum_{(i,j)\in\Omega_{u,v}}x_{i,j,c}\) & Smooth Features \(\to\) Reduce Noise\\\addlinespace[2pt]
+Global Average & \(\displaystyle y_c=\frac{1}{HW}\sum_{i=1}^{H}\sum_{j=1}^{W}x_{i,j,c}\) & Aggregate Features \(\to\) Reduce Parameters\\\addlinespace[2pt]
+\bottomrule\end{tabular}\par\endgroup
+\subsection*{BatchNorm / Dropout}
+\noindent \(\displaystyle \mu_c=\frac1M\sum_{n,h,w}x_{n,h,w,c}\), \(\displaystyle v_c=\frac1M\sum_{n,h,w}(x_{n,h,w,c}-\mu_c)^2\)\par
+\noindent \(\displaystyle y_{n,h,w,c}=\gamma_c\frac{x_{n,h,w,c}-\mu_c}{\sqrt{v_c+\epsilon}}+\beta_c\), \(\displaystyle y_{n,h,w,c}=\frac{m_{n,c}}{1-p}x_{n,h,w,c}\)\par
+\subsection*{Mask-Aware Convolutions}
+\noindent Partial: \(\displaystyle y_{i,j}=\begin{cases}\frac{K}{N_{i,j}}\operatorname{Conv}_{w}(x\odot m)_{i,j}+b & N_{i,j}>0\\ 0 & N_{i,j}=0\end{cases}\) \(\to\) Valid Inputs Only\par
+\noindent Submanifold Sparse: \(\displaystyle y_{i,j}=\begin{cases}\operatorname{Conv}_{w}(x\odot m)_{i,j}+b & m_{i,j}=1\\ 0 & m_{i,j}=0\end{cases}\) \(\to\) Active Inputs Only\par
+\subsection*{Modern Convolutions}
+\par\begingroup\fontsize{7}{8.5}\selectfont\setlength{\tabcolsep}{1.7pt}\renewcommand{\arraystretch}{1.3}\setlength{\activationwidth}{\dimexpr\linewidth-4\tabcolsep\relax}\noindent\begin{tabular}{@{}>{\raggedright\arraybackslash}m{.17\activationwidth}>{\raggedright\arraybackslash}m{.36\activationwidth}>{\raggedright\arraybackslash}m{.47\activationwidth}@{}}\toprule\textbf{Model} & \textbf{Key Idea} & \textbf{Advantages}\\\midrule
+VGG & Stacked Small Kernels & Expand Receptive Field with Less Parameters\\\addlinespace[1pt]
+NiN & Pointwise Convolution & Fuse Features Across Channels\\\addlinespace[1pt]
+GoogLeNet & Multi-Scale Convolutions & Concatenate to Capture Multi-Scale Features\\\addlinespace[1pt]
+ResNet & Residual Skip Connections & Enable Deeper Networks\\\addlinespace[1pt]
+DenseNet & Dense Connections & Enhance Feature Reuse\\\addlinespace[1pt]
+ResNeXt & Grouped Convolutions & Improve Representative Efficiency\\\addlinespace[1pt]
+MobileNet & Depthwise Separable Convolutions & Reduce Parameters / Computation\\\addlinespace[1pt]
+EfficientNet & Compound Scaling & Improve Accuracy--Efficiency Trade-off\\\addlinespace[1pt]
+\bottomrule\end{tabular}\par\endgroup
+\columnbreak
+\module{RNN}
+\subsection*{Sequence Probability Factorization}
+\noindent Probability Chain Rule: \(\displaystyle P(x_{1:T})=P(x_1)\prod_{t=2}^{T}P(x_t\mid x_{1:t-1})\)\par
+\noindent First-Order Markov Assumption: \(\displaystyle P(x_{1:T})=P(x_1)\prod_{t=2}^{T}P(x_t\mid x_{t-1})\)\par
+\noindent Second-Order Markov Assumption: \(\displaystyle P(x_{1:T})=P(x_1,x_2)\prod_{t=3}^{T}P(x_t\mid x_{t-2},x_{t-1})\)\par
+\noindent Hidden Markov Model: \(\displaystyle P(x_{1:T},h_{1:T}\mid\theta)=P(h_1)\prod_{t=2}^{T}P(h_t\mid h_{t-1})\prod_{t=1}^{T}P(x_t\mid h_t)\)\par
+\noindent Transition Distribution: \(\displaystyle P(h_t\mid h_{1:t-1})=P(h_t\mid h_{t-1})\)\par
+\noindent Emission Distribution: \(\displaystyle P(x_t\mid h_{1:t},x_{1:t-1})=P(x_t\mid h_t)\)\par
+\subsection*{Vanilla Recurrent Neural Network}
+\noindent \(\displaystyle a_t=W_xx_t+W_hh_{t-1}+b_h\), \(\displaystyle h_t=\tanh(a_t)\), \(\displaystyle z_t=W_zh_t+b_z\), \(\displaystyle p_t=\operatorname{softmax}(z_t)\)\par
+\noindent Parameter Count: \(\displaystyle H(I+H+1)+O(H+1)\)\par
+\subsection*{Backward Propagation Through Time}
+\noindent \(\displaystyle \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c}\), \(\displaystyle L=\sum_{t=1}^{T}\ell_t\)\par
+\noindent \(\displaystyle \delta_t=\frac{\partial L}{\partial a_t}=\left(\frac{\partial h_t}{\partial a_t}\right)^\top\frac{\partial L}{\partial h_t}\)\par
+\noindent \(\displaystyle \frac{\partial L}{\partial h_t}=\left(\frac{\partial z_t}{\partial h_t}\right)^\top\frac{\partial L}{\partial z_t}+\left(\frac{\partial a_{t+1}}{\partial h_t}\right)^\top\frac{\partial L}{\partial a_{t+1}}\)\par
+\noindent \(\displaystyle \delta_t=\left(W_z^\top(p_t-y_t)+W_h^\top\delta_{t+1}\right)\odot(1-h_t^2),\quad\delta_{T+1}=0\)\par
+\noindent \(\displaystyle \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top\), \(\displaystyle \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top\), \(\displaystyle \nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top\)\par
+\noindent \(\displaystyle \nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t)\), \(\displaystyle \nabla_{b_h}L=\sum_{t=1}^{T}\delta_t\)\par
+\noindent \(\displaystyle J_t=\frac{\partial h_t}{\partial h_{t-1}} \to \frac{\partial h_T}{\partial h_t}=J_TJ_{T-1}\cdots J_{t+1}\): Repeated Jacobian Multiplication \(\to\) Vanishing / Exploding Gradients\par
+\subsection*{Long Short-Term Memory}
+\noindent \textbf{Forget Gate}: \(\displaystyle f_t=\sigma(W_f[x_t;h_{t-1}]+b_f)\) \(\to\) control how much Old Memory to Retain\par
+\noindent \textbf{Input Gate}: \(\displaystyle i_t=\sigma(W_i[x_t;h_{t-1}]+b_i)\) \(\to\) control how much New Information to Write\par
+\noindent \textbf{Output Gate}: \(\displaystyle o_t=\sigma(W_o[x_t;h_{t-1}]+b_o)\) \(\to\) control how much New Memory to Expose\par
+\noindent \textbf{Candidate Cell State}: \(\displaystyle \tilde c_t=\tanh(W_c[x_t;h_{t-1}]+b_c)\) \(\to\) compute the New Information\par
+\noindent \textbf{Cell State Update}: \(\displaystyle c_t=f_t\odot c_{t-1}+i_t\odot\tilde c_t\) \(\to\) compute the New Memory\par
+\noindent \textbf{Hidden State}: \(\displaystyle h_t=o_t\odot\tanh(c_t)\) \(\to\) produce the Representation\par
+\noindent \(\displaystyle \left.\frac{\partial c_t}{\partial c_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(f_t) \to \left.\frac{\partial c_T}{\partial c_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(f_k)\): Separate Memory + Additive Update \(\to\) Better Gradients Flow\par
+\noindent Parameter Count: \(\displaystyle 4H(I+H+1) + O(H + 1)\)\par
+\subsection*{GRU}
+\noindent \textbf{Reset Gate}: \(\displaystyle r_t=\sigma(W_r[x_t;h_{t-1}]+b_r)\) \(\to\) control how much History to Reuse\par
+\noindent \textbf{Update Gate}: \(\displaystyle z_t=\sigma(W_z[x_t;h_{t-1}]+b_z)\) \(\to\) control how much Old Memory to Retain\par
+\noindent \textbf{Candidate Hidden State}: \(\displaystyle \tilde h_t=\tanh(W_xx_t+r_t\odot(W_hh_{t-1})+b_h)\) \(\to\) compute the New Candidate\par
+\noindent \textbf{Hidden State Update}: \(\displaystyle h_t=z_t\odot h_{t-1}+(1-z_t)\odot\tilde h_t\) \(\to\) produce the Representation\par
+\noindent \(\displaystyle \left.\frac{\partial h_t}{\partial h_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(z_t)\to\left.\frac{\partial h_T}{\partial h_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(z_k)\): Unified Memory + Additive Update \(\to\) Better Gradient Flow\par
+\noindent Parameter Count: \(\displaystyle 3H(I+H+1) + O(H + 1)\)\par
+\subsection*{Autoregressive Generation}
+\noindent \(\displaystyle P(x_{1:T})=\prod_{t=1}^{T}P(x_t\mid x_{<t}) \approx \prod_{t=1}^{T}P_\theta(x_t\mid h_{t-1})=\prod_{t=1}^{T}p_{t-1}[x_t]\)\par
+\noindent \(\displaystyle L=-\log P(x_{1:T})=-\sum_{t=1}^{T}\log P(x_t\mid x_{<t})\approx-\sum_{t=1}^{T}\log P_\theta(x_t\mid h_{t-1})=-\sum_{t=1}^{T}\log p_{t-1}[x_t]\)\par
+\subsection*{Seq2Seq}
+\noindent Encoder: \(\displaystyle v=\operatorname{RNN}(x_1,\ldots,x_T)=h_T^{\mathrm{enc}}\)\par
+\noindent Decoder: \(\displaystyle h_0^{\mathrm{dec}}=v=h_T^{\mathrm{enc}}\), \(\displaystyle P_\theta(y_{1:T'}\mid x_{1:T})=\prod_{t=1}^{T'}P_\theta(y_t\mid v,y_{<t})=\prod_{t=1}^{T'}P_\theta(y_t\mid h_t^{\mathrm{dec}})=\prod_{t=1}^{T'}p_t[y_t]\)\par
+\end{multicols}\end{document}
