@@ -60,13 +60,18 @@ Leaky ReLU & \(\displaystyle \begin{cases}z&z\ge0\\\alpha z&z<0\end{cases}\) & \
 \noindent Mean: \(\displaystyle \mu_j=\frac1N\sum_i x_{ij}\), Variance: \(\displaystyle v_j=\frac1N\sum_i(x_{ij}-\mu_j)^2\)\par
 \noindent Standardization: \(\displaystyle \bar x_{ij}=\frac{x_{ij}-\mu_j}{\sqrt{v_j+\epsilon}}\); Affine Transform: \(\displaystyle y_{ij}=\gamma_j\bar x_{ij}+\beta_j\)\par
 \noindent Normalize Intermediate Features \(\to\) Stabilize Gradient Scales \(\to\) Larger Learning Rates\par
+\noindent Running Statistics \(\to\) Stable Batch-Independent Inference
 \subsection*{Dropout}
-\noindent Ordinary Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_iz_i, \quad y_i^{\mathrm{test}}=qz_i\)\par
+\noindent Ordinary Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_ix_i, \quad y_i^{\mathrm{test}}=qx_i\)\par
+\noindent Inverted Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_ix_i/q, \quad y_i^{\mathrm{test}}=x_i\)\par
 \noindent Keep Probability \(\displaystyle q\); Random Mask \(\displaystyle m_i\sim\operatorname{Bernoulli}(q)\)\par
 \noindent Deactivate Neurons \(\to\) Reduce Co-Adaptation \(\to\) Mitigate Overfitting / Better Generalization\par
 \subsection*{AutoEncoder}
 \noindent Reconstruction Loss: \(\displaystyle h=f_\theta(x),\quad \tilde x=g_\phi(h), \quad J=\frac1{2N}\sum_{i=1}^{N}\left\|x^{(i)}-\tilde x^{(i)}\right\|_2^2\)\par
 \noindent Low-Dimensional Bottleneck \(\to\) Learn Latent Representation\par
+\subsection*{Backward Propagation}
+Gradient Descent: \(\displaystyle\theta_{t+1}=\theta_t-\eta\nabla L(\theta_t)\)\par
+Newton's Method: \(\displaystyle\theta_{t+1}=\theta_t-\left[\nabla^2 L(\theta_t)\right]^{-1}\nabla L(\theta_t)\)
 \columnbreak
 \module{Optimization}
 \subsection*{Mini-Batch SGD}
