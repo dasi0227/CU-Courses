@@ -170,33 +170,35 @@ EfficientNet & Compound Scaling & Improve Accuracy--Efficiency Trade-off\\\addli
 \noindent \(\displaystyle a_t=W_xx_t+W_hh_{t-1}+b_h\), \(\displaystyle h_t=\tanh(a_t)\), \(\displaystyle z_t=W_zh_t+b_z\), \(\displaystyle p_t=\operatorname{softmax}(z_t)\)\par
 \noindent Parameter Count: \(\displaystyle H(I+H+1)+O(H+1)\)\par
 \subsection*{Backward Propagation Through Time}
-\noindent \(\displaystyle \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c}\), \(\displaystyle L=\sum_{t=1}^{T}\ell_t\)\par
-\noindent \(\displaystyle \delta_t=\frac{\partial L}{\partial a_t}=\left(\frac{\partial h_t}{\partial a_t}\right)^\top\frac{\partial L}{\partial h_t}\)\par
-\noindent \(\displaystyle \frac{\partial L}{\partial h_t}=\left(\frac{\partial z_t}{\partial h_t}\right)^\top\frac{\partial L}{\partial z_t}+\left(\frac{\partial a_{t+1}}{\partial h_t}\right)^\top\frac{\partial L}{\partial a_{t+1}}\)\par
+\noindent \(\displaystyle \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c},\quad L=\sum_{t=1}^{T}\ell_t\)\par
+\fitline{\(\displaystyle \delta_t=\frac{\partial L}{\partial a_t}=\left(\frac{\partial h_t}{\partial a_t}\right)^\top\left[\left(\frac{\partial z_t}{\partial h_t}\right)^\top\frac{\partial L}{\partial z_t}+\left(\frac{\partial a_{t+1}}{\partial h_t}\right)^\top\frac{\partial L}{\partial a_{t+1}}\right]\)}
 \noindent \(\displaystyle \delta_t=\left(W_z^\top(p_t-y_t)+W_h^\top\delta_{t+1}\right)\odot(1-h_t^2),\quad\delta_{T+1}=0\)\par
-\noindent \(\displaystyle \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top\), \(\displaystyle \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top\), \(\displaystyle \nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top\)\par
-\noindent \(\displaystyle \nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t)\), \(\displaystyle \nabla_{b_h}L=\sum_{t=1}^{T}\delta_t\)\par
-\noindent \(\displaystyle J_t=\frac{\partial h_t}{\partial h_{t-1}} \to \frac{\partial h_T}{\partial h_t}=J_TJ_{T-1}\cdots J_{t+1}\): Repeated Jacobian Multiplication \(\to\) Vanishing / Exploding Gradients\par
+\noindent \(\displaystyle \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top,\quad \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top,\quad \nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top\)\par
+\noindent \(\displaystyle \nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t),\quad \nabla_{b_h}L=\sum_{t=1}^{T}\delta_t\)\par
+\noindent \(\displaystyle J_t=\frac{\partial h_t}{\partial h_{t-1}} \to \frac{\partial h_T}{\partial h_t}=J_TJ_{T-1}\cdots J_{t+1}\)\par
+\noindent Repeated Jacobian Multiplication \(\to\) Vanishing / Exploding Gradients\par
 \subsection*{Long Short-Term Memory}
-\noindent \textbf{Forget Gate}: \(\displaystyle f_t=\sigma(W_f[x_t;h_{t-1}]+b_f)\) \(\to\) control how much Old Memory to Retain\par
-\noindent \textbf{Input Gate}: \(\displaystyle i_t=\sigma(W_i[x_t;h_{t-1}]+b_i)\) \(\to\) control how much New Information to Write\par
-\noindent \textbf{Output Gate}: \(\displaystyle o_t=\sigma(W_o[x_t;h_{t-1}]+b_o)\) \(\to\) control how much New Memory to Expose\par
-\noindent \textbf{Candidate Cell State}: \(\displaystyle \tilde c_t=\tanh(W_c[x_t;h_{t-1}]+b_c)\) \(\to\) compute the New Information\par
-\noindent \textbf{Cell State Update}: \(\displaystyle c_t=f_t\odot c_{t-1}+i_t\odot\tilde c_t\) \(\to\) compute the New Memory\par
-\noindent \textbf{Hidden State}: \(\displaystyle h_t=o_t\odot\tanh(c_t)\) \(\to\) produce the Representation\par
-\noindent \(\displaystyle \left.\frac{\partial c_t}{\partial c_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(f_t) \to \left.\frac{\partial c_T}{\partial c_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(f_k)\): Separate Memory + Additive Update \(\to\) Better Gradients Flow\par
+\noindent \textbf{Forget Gate}: \(\displaystyle f_t=\sigma(W_f[x_t;h_{t-1}]+b_f)\) \(\to\) Old Memory to Retain\par
+\noindent \textbf{Input Gate}: \(\displaystyle i_t=\sigma(W_i[x_t;h_{t-1}]+b_i)\) \(\to\) New Info to Write\par
+\noindent \textbf{Output Gate}: \(\displaystyle o_t=\sigma(W_o[x_t;h_{t-1}]+b_o)\) \(\to\) New Memory to Expose\par
+\noindent \textbf{Candidate Cell State}: \(\displaystyle \tilde c_t=\tanh(W_c[x_t;h_{t-1}]+b_c)\) \(\to\) New Info\par
+\noindent \textbf{Cell State Update}: \(\displaystyle c_t=f_t\odot c_{t-1}+i_t\odot\tilde c_t\) \(\to\) New Memory\par
+\noindent \textbf{Hidden State}: \(\displaystyle h_t=o_t\odot\tanh(c_t)\) \(\to\) Representation\par
+\noindent \(\displaystyle \left.\frac{\partial c_t}{\partial c_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(f_t) \to \left.\frac{\partial c_T}{\partial c_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(f_k)\)\par
+\noindent Separate Memory + Additive Update \(\to\) Better Gradients Flow\par
 \noindent Parameter Count: \(\displaystyle 4H(I+H+1) + O(H + 1)\)\par
 \subsection*{GRU}
-\noindent \textbf{Reset Gate}: \(\displaystyle r_t=\sigma(W_r[x_t;h_{t-1}]+b_r)\) \(\to\) control how much History to Reuse\par
-\noindent \textbf{Update Gate}: \(\displaystyle z_t=\sigma(W_z[x_t;h_{t-1}]+b_z)\) \(\to\) control how much Old Memory to Retain\par
-\noindent \textbf{Candidate Hidden State}: \(\displaystyle \tilde h_t=\tanh(W_xx_t+r_t\odot(W_hh_{t-1})+b_h)\) \(\to\) compute the New Candidate\par
-\noindent \textbf{Hidden State Update}: \(\displaystyle h_t=z_t\odot h_{t-1}+(1-z_t)\odot\tilde h_t\) \(\to\) produce the Representation\par
-\noindent \(\displaystyle \left.\frac{\partial h_t}{\partial h_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(z_t)\to\left.\frac{\partial h_T}{\partial h_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(z_k)\): Unified Memory + Additive Update \(\to\) Better Gradient Flow\par
+\noindent \textbf{Reset Gate}: \(\displaystyle r_t=\sigma(W_r[x_t;h_{t-1}]+b_r)\) \(\to\) Old Memory to Reuse\par
+\noindent \textbf{Update Gate}: \(\displaystyle z_t=\sigma(W_z[x_t;h_{t-1}]+b_z)\) \(\to\) Old Memory to Retain\par
+\noindent \textbf{Candidate Hidden State}: \(\displaystyle \tilde h_t=\tanh(W_xx_t+r_t\odot(W_hh_{t-1})+b_h)\) \(\to\) New Info\par
+\noindent \textbf{Hidden State Update}: \(\displaystyle h_t=z_t\odot h_{t-1}+(1-z_t)\odot\tilde h_t\) \(\to\) Representation\par
+\noindent \(\displaystyle \left.\frac{\partial h_t}{\partial h_{t-1}}\right|_{\mathrm{direct}}=\operatorname{diag}(z_t)\to\left.\frac{\partial h_T}{\partial h_t}\right|_{\mathrm{direct}}=\prod_{k=t+1}^{T}\operatorname{diag}(z_k)\)\par
+\noindent Unified Memory + Additive Update \(\to\) Better Gradient Flow\par
 \noindent Parameter Count: \(\displaystyle 3H(I+H+1) + O(H + 1)\)\par
 \subsection*{Autoregressive Generation}
 \noindent \(\displaystyle P(x_{1:T})=\prod_{t=1}^{T}P(x_t\mid x_{<t}) \approx \prod_{t=1}^{T}P_\theta(x_t\mid h_{t-1})=\prod_{t=1}^{T}p_{t-1}[x_t]\)\par
-\noindent \(\displaystyle L=-\log P(x_{1:T})=-\sum_{t=1}^{T}\log P(x_t\mid x_{<t})\approx-\sum_{t=1}^{T}\log P_\theta(x_t\mid h_{t-1})=-\sum_{t=1}^{T}\log p_{t-1}[x_t]\)\par
+\noindent \(\displaystyle L=-\log P(x_{1:T})\approx-\sum_{t=1}^{T}\log P_\theta(x_t\mid h_{t-1})=-\sum_{t=1}^{T}\log p_{t-1}[x_t]\)\par
 \subsection*{Seq2Seq}
-\noindent Encoder: \(\displaystyle v=\operatorname{RNN}(x_1,\ldots,x_T)=h_T^{\mathrm{enc}}\)\par
-\noindent Decoder: \(\displaystyle h_0^{\mathrm{dec}}=v=h_T^{\mathrm{enc}}\), \(\displaystyle P_\theta(y_{1:T'}\mid x_{1:T})=\prod_{t=1}^{T'}P_\theta(y_t\mid v,y_{<t})=\prod_{t=1}^{T'}P_\theta(y_t\mid h_t^{\mathrm{dec}})=\prod_{t=1}^{T'}p_t[y_t]\)\par
+\noindent Encoder: \(\displaystyle v=\operatorname{RNN}(x_1,\ldots,x_T)=h_T^{\mathrm{enc}}=h_0^{\mathrm{dec}}\)\par
+\noindent Decoder: \(\displaystyle P_\theta(y_{1:T'}\mid x_{1:T})=\prod_{t=1}^{T'}P_\theta(y_t\mid v,y_{<t})=\prod_{t=1}^{T'}P_\theta(y_t\mid h_t^{\mathrm{dec}})=\prod_{t=1}^{T'}p_t[y_t]\)\par
 \end{multicols}\end{document}

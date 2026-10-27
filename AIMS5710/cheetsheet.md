@@ -170,13 +170,13 @@ Submanifold Sparse：\(y_{i,j}=\begin{cases}\operatorname{Conv}_{w}(x\odot m)_{i
 
 | Model | Key Idea | Advantages |
 | --- | --- | --- |
-| VGG | Stacked Small Convolutional Kernels | Expand Receptive Field Using Less Parameters |
-| NiN | Pointwise Convolution for Channel Mixing | Fuse Features Across Channels Instead of Fully Connected Layers |
-| GoogLeNet | Multi-Scale Convolutions | Concatenate Feature Map to Capture Multi-Scale Features |
-| ResNet | Residual Skip Connections | Improve Gradient Flow & Enable Deeper Networks |
-| DenseNet | Dense Connections | Enhance Feature Reuse and Improve Gradient Flow |
-| ResNeXt | Grouped Convolutions | Improve Representation with Efficient Computation |
-| MobileNet | Depthwise Separable Convolutions | Reduce Parameters and Reduce Computation |
+| VGG | Stacked Small Kernels | Expand Receptive Field with Less Parameters |
+| NiN | Pointwise Convolution | Fuse Features Across Channels |
+| GoogLeNet | Multi-Scale Convolutions | Concatenate to Capture Multi-Scale Features |
+| ResNet | Residual Skip Connections | Enable Deeper Networks |
+| DenseNet | Dense Connections | Enhance Feature Reuse |
+| ResNeXt | Grouped Convolutions | Improve Representative Efficiency |
+| MobileNet | Depthwise Separable Convolutions | Reduce Parameters / Computation |
 | EfficientNet | Compound Scaling | Improve Accuracy–Efficiency Trade-off |
 
 #### RNN
@@ -192,21 +192,19 @@ Emission Distribution：\[ P(x_t\mid h_{1:t},x_{1:t-1})=P(x_t\mid h_t) \]
 
 ##### Vanilla Recurrent Neural Network
 
-Forward Recurrence：$a_t=W_xx_t+W_hh_{t-1}+b_h$，\[ h_t=\tanh(a_t) \]，\[ z_t=W_zh_t+b_z \]，\[ p_t=\operatorname{softmax}(z_t) \]
+$a_t=W_xx_t+W_hh_{t-1}+b_h$，\[ h_t=\tanh(a_t) \]，\[ z_t=W_zh_t+b_z \]，\[ p_t=\operatorname{softmax}(z_t) \]
 Parameter Count：$H(I+H+1)+O(H+1)$
-All RNN parameter counts assume one unidirectional layer, one combined bias per gate, and the output layer; $I,H,O$ are input, hidden and output dimensions.
 
 ##### Backward Propagation Through Time
 
-\[ \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c} \]，$L=\sum_{t=1}^{T}\ell_t$
+\[ \ell_t=-\sum_{c=1}^{C}y_{t,c}\log p_{t,c},\quad L=\sum_{t=1}^{T}\ell_t \]
 
-\[ \delta_t=\frac{\partial L}{\partial a_t}=\left(\frac{\partial h_t}{\partial a_t}\right)^\top\frac{\partial L}{\partial h_t} \]
-\[ \frac{\partial L}{\partial h_t}=\left(\frac{\partial z_t}{\partial h_t}\right)^\top\frac{\partial L}{\partial z_t}+\left(\frac{\partial a_{t+1}}{\partial h_t}\right)^\top\frac{\partial L}{\partial a_{t+1}} \]
+\[ \delta_t=\frac{\partial L}{\partial a_t}=\left(\frac{\partial h_t}{\partial a_t}\right)^\top\left[\left(\frac{\partial z_t}{\partial h_t}\right)^\top\frac{\partial L}{\partial z_t}+\left(\frac{\partial a_{t+1}}{\partial h_t}\right)^\top\frac{\partial L}{\partial a_{t+1}}\right] \]
 \[ \delta_t=\left(W_z^\top(p_t-y_t)+W_h^\top\delta_{t+1}\right)\odot(1-h_t^2),\quad\delta_{T+1}=0 \]
 
-\[ \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top\]，\[ \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top \]，$\nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top$
+\[ \nabla_{W_z}L=\sum_{t=1}^{T}(p_t-y_t)h_t^\top,\quad \nabla_{W_x}L=\sum_{t=1}^{T}\delta_tx_t^\top,\quad \nabla_{W_h}L=\sum_{t=1}^{T}\delta_th_{t-1}^\top \]
 
-\[\nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t) \]，$\nabla_{b_h}L=\sum_{t=1}^{T}\delta_t$
+\[\nabla_{b_z}L=\sum_{t=1}^{T}(p_t-y_t),\quad \nabla_{b_h}L=\sum_{t=1}^{T}\delta_t \]
 
 $J_t=\frac{\partial h_t}{\partial h_{t-1}} \to \frac{\partial h_T}{\partial h_t}=J_TJ_{T-1}\cdots J_{t+1}$：Repeated Jacobian Multiplication → Vanishing / Exploding Gradients
 
