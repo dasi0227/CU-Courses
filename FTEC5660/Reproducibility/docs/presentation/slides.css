@@ -31,9 +31,10 @@ body.ace-talk{background:var(--bg-soft);font-family:var(--font-sans);letter-spac
 .ace-talk .g4{grid-template-columns:repeat(4,1fr)}
 .ace-talk .bottom-line{font-size:28px;line-height:1.4;margin:20px 0 0;color:var(--text-1)}
 .ace-talk .scope-line{font-size:24px;line-height:1.35;margin:9px 0 0;color:var(--text-1)}
-.ace-talk .cover-grid{height:100%;display:grid;grid-template-columns:1.48fr 1fr;gap:90px;align-items:center;padding-bottom:30px}
+.ace-talk .cover-grid{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-bottom:30px}
 .ace-talk .cover .kicker{margin-bottom:35px}
-.ace-talk .cover-subtitle{font-size:37px;line-height:1.45;margin:0 0 50px}
+.ace-talk .cover .h1{white-space:nowrap}
+.ace-talk .cover-subtitle{font-size:37px;line-height:1.45;margin:0 0 50px;white-space:nowrap}
 .ace-talk .author{display:flex;flex-direction:column;gap:6px;font-size:27px;line-height:1.4}
 .ace-talk .cover-side{padding:32px 0 28px 50px;border-left:1px solid var(--border-strong)}
 .ace-talk .cover-label{font-size:25px;letter-spacing:.02em;margin-bottom:23px}
@@ -47,7 +48,7 @@ body.ace-talk{background:var(--bg-soft);font-family:var(--font-sans);letter-spac
 .ace-talk .node p{font-size:29px;line-height:1.45;color:var(--text-1);margin:0}
 .ace-talk .arr{font-family:var(--font-sans);font-size:45px;line-height:1;color:var(--text-1);flex-shrink:0}
 .ace-talk .line-icon{width:63px;height:63px;margin:0 auto}
-.ace-talk .feedback-loop{display:flex;align-items:center;justify-content:center;gap:22px;padding:19px;margin:2px 0 28px;border-bottom:2px solid var(--border-strong);font-size:31px}
+.ace-talk .feedback-loop{display:flex;align-items:center;justify-content:center;gap:22px;padding:19px;margin:2px 0 28px;border-bottom:0;font-size:31px}
 .ace-talk .feedback-loop span{font-size:55px;line-height:1;color:var(--group-b)}
 .ace-talk .fact-strip{display:flex;align-items:center;justify-content:center;gap:35px;padding:17px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-size:27px;line-height:1.35}
 .ace-talk .fact-strip>span+span{border-left:1px solid var(--border);padding-left:35px}
@@ -131,3 +132,18 @@ html[data-theme="bauhaus"] .node{border-width:2px}
 html[data-theme="bauhaus"] .roles .node{border-top-width:6px}
 html[data-theme="bauhaus"] .group{border:2px solid var(--border);border-top:8px solid var(--tone)}
 html[data-theme="xiaohongshu-white"] .cover-side{border-left:4px solid var(--accent)}
+
+/* Browser review: keep the feedback row unruled and both cost labels on one line. */
+.ace-talk .slide[data-title="How ACE Learns"] .fact-strip{border-top:0;border-bottom:0}
+.ace-talk .slide[data-title="Time and Test Cost"] .split-stats span{max-width:none;white-space:nowrap}
+
+/* Paired reproduction gains and the gap to the paper's offline ACE result. */
+.ace-talk .reproduction-stats{display:grid;grid-template-columns:1fr 1fr;gap:50px}
+.ace-talk .reproduction-stats .result-lead{gap:25px}
+.ace-talk .reproduction-stats .result-lead strong{font-size:68px;white-space:nowrap}
+.ace-talk .reproduction-stats .result-lead small{font-size:31px}
+.ace-talk .reproduction-stats .result-lead span{font-size:30px;white-space:nowrap}
+
+/* Minimal closing page, adapted from the thanks layout. */
+.ace-talk .slide.closing{justify-content:center;align-items:center;text-align:center}
+.ace-talk .closing .h1{font-size:130px;margin:0}
