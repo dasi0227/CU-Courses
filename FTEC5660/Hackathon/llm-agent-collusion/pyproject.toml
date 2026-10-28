@@ -1,0 +1,34 @@
+[project]
+name = "llm-agent-collusion"
+version = "0.2.0"
+description = "Evaluating LLM Agent Collusion in Double Auctions (Agrawal et al. 2025). Hackathon edition."
+requires-python = ">=3.12"
+# Core: OpenRouter traders, TypeSafe Jev oversight, metrics and plots. CPU only.
+dependencies = [
+    "numpy>=1.26",
+    "pydantic>=2.6",
+    "openai>=1.60",
+    "typesafe-sdk>=0.7.5",
+    "python-dotenv>=1.0",
+    "jinja2>=3.1",
+    "tqdm>=4.66",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+# Optional upstream analysis dependencies (bootstrap confidence intervals).
+analysis = ["scipy>=1.11"]
+dev = ["ruff", "pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"src.llm" = ["templates/*.jinja2"]
+
+[tool.ruff]
+line-length = 120
