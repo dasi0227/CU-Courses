@@ -144,6 +144,9 @@ html[data-theme="xiaohongshu-white"] .cover-side{border-left:4px solid var(--acc
 .ace-talk .reproduction-stats .result-lead small{font-size:31px}
 .ace-talk .reproduction-stats .result-lead span{font-size:30px;white-space:nowrap}
 
+/* Leave space between headline metrics and the corresponding chart. */
+.ace-talk .reproduction-stats+.chart,.ace-talk .split-stats+.chart{margin-top:36px}
+
 /* Minimal closing page, adapted from the thanks layout. */
 .ace-talk .slide.closing{justify-content:center;align-items:center;text-align:center}
 .ace-talk .closing .h1{font-size:130px;margin:0}
