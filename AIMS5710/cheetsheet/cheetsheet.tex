@@ -60,7 +60,9 @@ Leaky ReLU & \(\displaystyle \begin{cases}z&z\ge0\\\alpha z&z<0\end{cases}\) & \
 \noindent Mean: \(\displaystyle \mu_j=\frac1N\sum_i x_{ij}\), Variance: \(\displaystyle v_j=\frac1N\sum_i(x_{ij}-\mu_j)^2\)\par
 \noindent Standardization: \(\displaystyle \bar x_{ij}=\frac{x_{ij}-\mu_j}{\sqrt{v_j+\epsilon}}\); Affine Transform: \(\displaystyle y_{ij}=\gamma_j\bar x_{ij}+\beta_j\)\par
 \noindent Normalize Intermediate Features \(\to\) Stabilize Gradient Scales \(\to\) Larger Learning Rates\par
-\noindent Running Statistics \(\to\) Stable Batch-Independent Inference
+\noindent Running Statistics \(\to\) Stable Batch-Independent Inference\par
+\noindent \(\displaystyle g_{ij}=\frac{\partial L}{\partial y_{ij}},\quad \frac{\partial L}{\partial \beta_j}=\sum_i g_{ij},\quad \frac{\partial L}{\partial \gamma_j}=\sum_i g_{ij}\bar x_{ij}\)\par
+\noindent \(\displaystyle \frac{\partial L}{\partial x_{ij}}=\frac{\gamma_j}{\sqrt{v_j+\epsilon}}\left[g_{ij}-\frac1N\sum_k g_{kj}-\frac{\bar x_{ij}}{N}\sum_k g_{kj}\bar x_{kj}\right]\)\par
 \subsection*{Dropout}
 \noindent Ordinary Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_ix_i, \quad y_i^{\mathrm{test}}=qx_i\)\par
 \noindent Inverted Dropout: \(\displaystyle y_i^{\mathrm{train}}=m_ix_i/q, \quad y_i^{\mathrm{test}}=x_i\)\par
@@ -71,7 +73,13 @@ Leaky ReLU & \(\displaystyle \begin{cases}z&z\ge0\\\alpha z&z<0\end{cases}\) & \
 \noindent Low-Dimensional Bottleneck \(\to\) Learn Latent Representation\par
 \subsection*{Backward Propagation}
 Gradient Descent: \(\displaystyle\theta_{t+1}=\theta_t-\eta\nabla L(\theta_t)\)\par
-Newton's Method: \(\displaystyle\theta_{t+1}=\theta_t-\left[\nabla^2 L(\theta_t)\right]^{-1}\nabla L(\theta_t)\)
+Newton's Method: \(\displaystyle\theta_{t+1}=\theta_t-\left[\nabla^2 L(\theta_t)\right]^{-1}\nabla L(\theta_t)\)\par
+\subsection*{Practice: Multiclass NN}
+\noindent \(x=(1,2)^\top,\ W=0_{3\times2},\ b=0_3,\ c=1,\ \eta=0.3\).\\
+\(p=\operatorname{softmax}(Wx+b),\ L=-\log p_1\); find \(p,\nabla L,W',b'\).\par
+\noindent \textbf{Solution:} \(z=0,\ p=(1,1,1)/3,\ g=p-e_1=(-2,1,1)/3\).\\
+\(\nabla_W L=gx^\top,\quad \nabla_b L=g\).\\
+\(W'=[(.2,.4);(-.1,-.2);(-.1,-.2)],\quad b'=(.2,-.1,-.1)^\top\).\par
 \columnbreak
 \module{Optimization}
 \subsection*{Mini-Batch SGD}
@@ -162,6 +170,13 @@ ResNeXt & Grouped Convolutions & Improve Representative Efficiency\\\addlinespac
 MobileNet & Depthwise Separable Convolutions & Reduce Parameters / Computation\\\addlinespace[1pt]
 EfficientNet & Compound Scaling & Improve Accuracy--Efficiency Trade-off\\\addlinespace[1pt]
 \bottomrule\end{tabular}\par\endgroup
+\subsection*{Practice: CNN Backpropagation}
+\noindent \(x=(1,0,2),\ w=(1,1),\ b=0,\ \eta=0.1\).\\
+\(y_i=w_0x_i+w_1x_{i+1}+b\) for \(i=0,1\); \(L=\frac12\sum_i y_i^2\); find gradients and updates.\par
+\noindent \textbf{Solution:} \(y=\delta=(1,2),\ \delta_i=\partial L/\partial y_i\).\\
+\(\nabla_w L=(\delta_0x_0+\delta_1x_1,\delta_0x_1+\delta_1x_2)=(1,4)\).\\
+\(\nabla_x L=(\delta_0w_0,\delta_0w_1+\delta_1w_0,\delta_1w_1)=(1,3,2)\).\\
+\(\partial L/\partial b=\delta_0+\delta_1=3,\quad w'=(.9,.6),\ b'=-.3\).\par
 \columnbreak
 \module{RNN}
 \subsection*{Sequence Probability Factorization}
@@ -206,4 +221,12 @@ EfficientNet & Compound Scaling & Improve Accuracy--Efficiency Trade-off\\\addli
 \subsection*{Seq2Seq}
 \noindent Encoder: \(\displaystyle v=\operatorname{RNN}(x_1,\ldots,x_T)=h_T^{\mathrm{enc}}=h_0^{\mathrm{dec}}\)\par
 \noindent Decoder: \(\displaystyle P_\theta(y_{1:T'}\mid x_{1:T})=\prod_{t=1}^{T'}P_\theta(y_t\mid v,y_{<t})=\prod_{t=1}^{T'}P_\theta(y_t\mid h_t^{\mathrm{dec}})=\prod_{t=1}^{T'}p_t[y_t]\)\par
+\subsection*{Practice: RNN BPTT}
+\noindent \(a_t=wx_t+uh_{t-1}+b,\ h_t=\tanh(a_t),\ h_0=0\).\\
+\((x_1,x_2)=(1,0),\ (w,u,b)=(0,1,0),\ \eta=0.1\).\\
+\(L=\tfrac12(h_2-1)^2,\ \delta_t=\partial L/\partial a_t\); find states, gradients and updates.\par
+\noindent \textbf{Solution:} \(h_1=h_2=0,\ \delta_2=(h_2-1)(1-h_2^2)=-1\).\\
+\(\delta_1=u\delta_2(1-h_1^2)=-1\).\\
+\(\nabla_{w,u,b}L=(\delta_1x_1+\delta_2x_2,\delta_1h_0+\delta_2h_1,\delta_1+\delta_2)=(-1,0,-2)\).\\
+\((w',u',b')=(0.1,1,0.2)\).\par
 \end{multicols}\end{document}
