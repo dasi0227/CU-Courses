@@ -14,7 +14,7 @@ As shown in the figure, ACE follows a multistep cycle of question answering, fee
 2. The Reflector reflects on the answer using the ground truth and the result of the response, producing corrective suggestions and reusable experience.
 3. The Curator combines the reflection with the existing playbook to produce new entries that are ultimately added to the playbook.
 
-![ACE Framework](assets/ace_framework.png)
+![ACE Framework](images/ace_framework.png)
 
 ### 1.2 Agent Roles
 
@@ -88,7 +88,7 @@ As shown in the figure, Group A achieves a mean accuracy of 69.17%, while Group 
 
 In the original paper, the base model achieves 67.5% accuracy on Formula, while offline ACE with training labels achieves 85.5%, an improvement of 18.0 percentage points. The present experiment also observes an increase in accuracy after using the experience playbook, although Group B's mean accuracy is 2.67 percentage points lower than the ACE result reported in the paper. This difference may be related to the model version and data scale: the paper uses DeepSeek-V3.1, whereas this experiment uses DeepSeek-V3.1-Terminus and samples the training and validation sets. Therefore, the experimental conditions are not identical.
 
-![Formula test accuracy in the paper and this experiment](assets/chapter3_reproduction.png)
+![Formula test accuracy in the paper and this experiment](images/reproduction.png)
 
 ### 3.2 Improvement
 
@@ -130,7 +130,7 @@ As shown in the figure, Group C's mean accuracy is 80.50%, 2.33 percentage point
 
 Converted to US dollars using the specified prices, Group B's average model invocation cost per test is approximately $0.9859. For Group C, the DeepSeek and JEV costs are approximately $0.1975 and $0.1779, respectively, for a total of $0.3754. Thus, although fixed top-10 filtering reduces accuracy to some extent, it substantially reduces the overall model invocation cost.
 
-![Accuracy and token usage before and after JEV filtering](assets/chapter3_jev_results.png)
+![Accuracy and token usage before and after JEV filtering](images/jev_results.png)
 
 ## 4. Conclusions
 
@@ -138,15 +138,15 @@ Converted to US dollars using the specified prices, Group B's average model invo
 
 During training, Group B's validation accuracy generally increases as its playbook accumulates experience, but the increase is not monotonic. For example, B/01 drops from 82% at step 40 to 80% at step 60 before improving again; B/03 achieves 82% at both steps 80 and 100. This indicates that accumulating experience generally helps improve validation accuracy, but more experience does not necessarily lead to continuous improvement. A validation set therefore helps select a better-performing playbook.
 
-![Group B validation accuracy and number of playbook entries](assets/report_validation.png)
+![Group B validation accuracy and number of playbook entries](images/report_validation.png)
 
 The mean test accuracies of Groups A, B, and C are 69.17%, 82.83%, and 80.50%, respectively. Group B, which uses the full playbook, improves by 13.67 percentage points over Group A's empty-playbook baseline; Group C, which uses JEV-filtered playbook entries, still exceeds Group A by 11.33 percentage points. These results show that the experience playbook substantially improves test accuracy and that JEV filtering retains most of the performance gain.
 
-![Mean test accuracy of Groups A, B, and C](assets/summary_test_accuracy.png)
+![Mean test accuracy of Groups A, B, and C](images/summary_test_accuracy.png)
 
 For test response efficiency, the mean API invocation times per question for Groups A, B, and C are 11.07, 12.04, and 13.09 seconds, respectively; their mean total model invocation costs per test over the three trials are approximately $0.0803, $0.9859, and $0.3754. Group A is approximately 1 second faster per question than Group B, but its accuracy is 13.67 percentage points lower. Group B is approximately 1 second faster per question than Group C, but its cost is approximately 2.63 times as high. In this experiment, Group C achieves a favorable balance among accuracy, response time, and model invocation cost.
 
-![Response time and model test cost of Groups A, B, and C](assets/summary_response_cost.png)
+![Response time and model test cost of Groups A, B, and C](images/summary_response_cost.png)
 
 ### 4.2 Limitations and Future Work
 
