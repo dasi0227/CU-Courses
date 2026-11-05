@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FashionMNIST ONNX inference</title>
+<style>
+  body { max-width: 680px; margin: 48px auto; padding: 0 24px;
+         font: 16px/1.6 system-ui, sans-serif; color: #202020; }
+  label { display: block; margin: 20px 0; }
+  canvas { width: 160px; height: 160px; image-rendering: pixelated;
+           border: 1px solid #999; background: black; }
+  button { padding: 8px 20px; font: inherit; }
+  output { display: block; margin-top: 16px; white-space: pre-wrap; }
+</style>
+<h1>FashionMNIST classifier</h1>
+<p>Choose your trained ONNX model and a 28×28 grayscale clothing image.
+   Inference runs locally in this browser.</p>
+<label>Trained model <input id="model" type="file" accept=".onnx"></label>
+<label>Image <input id="image" type="file" accept="image/*"></label>
+<canvas id="preview" width="32" height="32" aria-label="Resized input image"></canvas>
+<p><button id="predict" type="button">Predict</button></p>
+<output id="result" aria-live="polite">Select a model and an image.</output>
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/ort.min.js"></script>
+<script>
+const names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'];
+const result = document.getElementById('result');
+const button = document.getElementById('predict');
+let session = null;
+let loadedFile = null;
+
+// Match the 28→32 bilinear resize and uint8 rounding used for grayscale images.
+function preprocess(image) {
+  if (image.width !== 28 || image.height !== 28) {
+    throw new Error('Please select a 28×28 FashionMNIST image.');
+  }
+  const rawCanvas = document.createElement('canvas');
+  rawCanvas.width = 28;
+  rawCanvas.height = 28;
+  const rawContext = rawCanvas.getContext('2d');
+  rawContext.drawImage(image, 0, 0);
+  const rgba = rawContext.getImageData(0, 0, 28, 28).data;
+  const gray = new Uint8Array(28 * 28);
+  for (let i = 0; i < gray.length; i++) {
+    gray[i] = Math.round(0.299 * rgba[4*i] + 0.587 * rgba[4*i+1]
+                         + 0.114 * rgba[4*i+2]);
+  }
+  const values = new Float32Array(32 * 32);
+  const previewContext = document.getElementById('preview').getContext('2d');
+  const preview = previewContext.createImageData(32, 32);
+  for (let y = 0; y < 32; y++) {
+    const sy = Math.max(0, Math.min(27, (y + 0.5) * 28 / 32 - 0.5));
+    const y0 = Math.floor(sy), y1 = Math.min(27, y0 + 1), fy = sy - y0;
+    for (let x = 0; x < 32; x++) {
+      const sx = Math.max(0, Math.min(27, (x + 0.5) * 28 / 32 - 0.5));
+      const x0 = Math.floor(sx), x1 = Math.min(27, x0 + 1), fx = sx - x0;
+      // PIL performs the horizontal and vertical uint8 passes separately.
+      const top = Math.round(gray[y0*28+x0]*(1-fx) + gray[y0*28+x1]*fx);
+      const bottom = Math.round(gray[y1*28+x0]*(1-fx) + gray[y1*28+x1]*fx);
+      const pixel = Math.round(top*(1-fy) + bottom*fy);
+      const i = y*32+x;
+      values[i] = (pixel / 255 - 0.2860405743122101) / 0.3530242443084717;
+      preview.data.set([pixel, pixel, pixel, 255], 4*i);
+    }
+  }
+  previewContext.putImageData(preview, 0, 0);
+  return new ort.Tensor('float32', values, [1, 1, 32, 32]);
+}
+
+button.addEventListener('click', async () => {
+  const modelFile = document.getElementById('model').files[0];
+  const imageFile = document.getElementById('image').files[0];
+  if (!modelFile || !imageFile) {
+    result.textContent = 'Select both a model and an image first.';
+    return;
+  }
+  button.disabled = true;
+  result.textContent = 'Running inference…';
+  try {
+    if (typeof ort === 'undefined') {
+      throw new Error('ONNX Runtime did not load. Check your internet connection.');
+    }
+    ort.env.wasm.numThreads = 1;
+    ort.env.wasm.wasmPaths =
+      'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/';
+    if (loadedFile !== modelFile) {
+      if (session) await session.release();
+      session = null;
+      loadedFile = null;
+      session = await ort.InferenceSession.create(await modelFile.arrayBuffer(),
+                                                  {executionProviders: ['wasm']});
+      loadedFile = modelFile;
+    }
+    const bitmap = await createImageBitmap(imageFile);
+    let input;
+    try { input = preprocess(bitmap); } finally { bitmap.close(); }
+    const outputs = await session.run({input});
+    const scores = outputs.output.data;
+    const label = scores.indexOf(Math.max(...scores));
+    result.textContent = `Prediction: ${names[label]} (class ${label})`;
+  } catch (error) {
+    result.textContent = `Error: ${error.message}`;
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</html>
