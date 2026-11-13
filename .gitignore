@@ -33,11 +33,10 @@
 *.out
 *.synctex.gz
 
-# Python environment, cache, and local homework output
+# Python environment and cache
 .venv/
 __pycache__/
 *.pyc
-results.csv
 
 # Downloaded assignment datasets
 /AIMS5702/HW3/data/
