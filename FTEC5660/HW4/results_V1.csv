@@ -1,0 +1,61 @@
+id,category,question,parsed,parse_score,retrieved,valid,retrieval_hit,answer,correct,expected
+q001,unanswerable,"How much cash and cash equivalents did Northgate Robotic Systems hold at 31 December 2025, in USD millions?",{},0.0,doc_002.html;doc_004.html;doc_011.html;doc_016.html;doc_026.html,True,,NOT_FOUND,True,
+q002,table,"What was Brightwater Software's revenue in FY2025, in USD millions?",{},0.0,doc_013.html;doc_019.html;doc_020.html;doc_021.html,True,True,1574.7,True,
+q003,comparison,Which company had more employees at 31 December 2024: Northgate Payments or Northgate Robotics?,{},0.0,doc_011.html;doc_028.html;doc_038.html;doc_039.html,True,False,NOT_FOUND,False,Northgate Robotics
+q004,comparison,Which company had the higher net income in FY2024: Kestrel Semiconductor or Halcyon Freight?,{},0.0,doc_008.html;doc_016.html;doc_017.html;doc_021.html;doc_033.html,True,False,NOT_FOUND,False,Kestrel Semiconductor
+q005,unanswerable,"What were Halcyon Freight's total assets at 31 December 2022, in USD millions?",{},0.0,doc_003.html;doc_004.html;doc_005.html;doc_008.html;doc_016.html,True,,NOT_FOUND,True,
+q006,unanswerable,"What was Kestrel Semiconductor's operating income in FY2022, in USD millions?",{},0.0,doc_015.html;doc_017.html;doc_019.html;doc_021.html,True,,NOT_FOUND,True,
+q007,fact,What investment rating does Kowloon Peak Securities give Brightwater Energy in its FY2025 results review?,{},0.0,doc_010.html;doc_013.html;doc_019.html;doc_021.html;doc_034.html,True,True,NOT_FOUND,False,Buy
+q008,fact,"On its fourth-quarter earnings call, what revenue growth did Corvane Pharma's management guide for FY2026, in percent?",{},0.0,doc_006.html;doc_007.html;doc_009.html;doc_014.html;doc_033.html,True,True,8.5,True,
+q009,table,"What was Sablewood Retail's revenue in FY2025, in USD millions?",{},0.0,doc_004.html;doc_010.html;doc_012.html;doc_015.html,True,True,2390.3,True,
+q010,fact,Who was Brightwater Software's Chief Executive Officer at the end of FY2025?,{},0.0,doc_016.html;doc_026.html;doc_031.html;doc_032.html;doc_038.html,True,False,NOT_FOUND,False,Yara Castillo
+q011,unanswerable,"What was Halcyon Air Cargo's revenue in FY2024, in USD millions?",{},0.0,doc_010.html;doc_012.html;doc_013.html;doc_017.html;doc_035.html,True,,NOT_FOUND,True,
+q012,table,"How much long-term borrowing did Northgate Robotics report at 31 December 2024, in USD millions?",{},0.0,doc_001.html;doc_002.html;doc_003.html;doc_028.html;doc_038.html,True,False,NOT_FOUND,False,838.4
+q013,comparison,Which company had the higher net income in FY2024: Brightwater Energy or Orchid Bay Hotels?,{},0.0,doc_001.html;doc_002.html;doc_019.html;doc_021.html;doc_037.html,True,False,NOT_FOUND,False,Brightwater Energy
+q014,fact,Who was Halcyon Freight's Chief Financial Officer at the end of FY2025?,{},0.0,doc_016.html;doc_026.html;doc_031.html;doc_032.html;doc_038.html,True,True,Rachel Nyberg,True,
+q015,fact,Which audit firm audited Lumen Harbor Foods' financial statements for FY2025?,{},0.0,doc_011.html;doc_023.html;doc_036.html,True,False,NOT_FOUND,False,Whitlock Byrne
+q016,table,"What was Corvane Pharma's gross profit in FY2024, in USD millions?",{},0.0,doc_010.html;doc_024.html;doc_031.html;doc_033.html,True,False,NOT_FOUND,False,1805.4
+q017,comparison,Which company had more total assets at 31 December 2025: Brightwater Energy or Brightwater Software?,{},0.0,doc_003.html;doc_020.html;doc_027.html;doc_032.html,True,False,NOT_FOUND,False,Brightwater Energy
+q018,fact,"On its Q4 FY2025 earnings call, how large a share repurchase programme did Northgate Payments announce, in USD millions?",{},0.0,doc_011.html;doc_012.html;doc_015.html;doc_019.html,True,False,NOT_FOUND,False,75
+q019,unanswerable,"What were Brightwater Energy's lobbying expenses in FY2025, in USD millions?",{},0.0,doc_003.html;doc_019.html;doc_021.html;doc_032.html,True,,NOT_FOUND,True,
+q020,table,"How much revenue did Brightwater Energy's Midstream segment generate in FY2025, in USD millions?",{},0.0,doc_003.html;doc_019.html;doc_032.html,True,True,716.6,True,
+q021,comparison,Which company held more cash and cash equivalents at 31 December 2024: Northgate Robotics or Northgate Payments?,{},0.0,doc_011.html;doc_028.html;doc_038.html;doc_039.html,True,False,NOT_FOUND,False,Northgate Robotics
+q022,comparison,Which company had more total assets at 31 December 2024: Northgate Payments or Orchid Bay Hotels?,{},0.0,doc_001.html;doc_002.html;doc_012.html;doc_019.html;doc_037.html,True,False,NOT_FOUND,False,Orchid Bay Hotels
+q023,comparison,Which company held more cash and cash equivalents at 31 December 2024: Lumen Harbor Foods or Sablewood Retail?,{},0.0,doc_015.html;doc_023.html;doc_036.html,True,False,NOT_FOUND,False,Sablewood Retail
+q024,table,"How much revenue did Orchid Bay Hotels generate in Asia Pacific in FY2023, in USD millions?",{},0.0,doc_012.html;doc_017.html;doc_019.html;doc_021.html;doc_033.html,True,False,NOT_FOUND,False,316.2
+q025,unanswerable,"How much did Corvane Pharma spend on carbon offset purchases in FY2025, in USD millions?",{},0.0,doc_010.html;doc_024.html;doc_031.html;doc_033.html,True,,NOT_FOUND,True,
+q026,table,"How much long-term borrowing did Halcyon Freight report at 31 December 2023, in USD millions?",{},0.0,doc_001.html;doc_003.html;doc_005.html;doc_008.html;doc_016.html,True,False,NOT_FOUND,False,446.9
+q027,fact,In which city is Halcyon Freight headquartered?,{},0.0,doc_008.html;doc_010.html;doc_016.html,True,True,Memphis,True,
+q028,unanswerable,"What was Northgate Robotics' net cash from operating activities in FY2021, in USD millions?",{},0.0,doc_001.html;doc_003.html;doc_004.html;doc_005.html;doc_008.html,True,,NOT_FOUND,True,
+q029,fact,"What FY2026 revenue does Meridian Equity Research forecast for Sablewood Retail, in USD millions?",{},0.0,doc_010.html;doc_012.html;doc_015.html;doc_017.html;doc_037.html,True,False,NOT_FOUND,False,2605.8
+q030,table,"How much cash and cash equivalents did Brightwater Energy hold at 31 December 2025, in USD millions?",{},0.0,doc_002.html;doc_004.html;doc_011.html;doc_016.html;doc_026.html,True,False,NOT_FOUND,False,363.2
+q031,comparison,Which company had the higher net income in FY2024: Brightwater Software or Brightwater Energy?,{},0.0,doc_003.html;doc_019.html;doc_020.html;doc_027.html;doc_032.html,True,False,NOT_FOUND,False,Brightwater Energy
+q032,unanswerable,"What was Orchid Bay Hotels' revenue in FY2021, in USD millions?",{},0.0,doc_012.html;doc_017.html;doc_019.html;doc_021.html;doc_033.html,True,,NOT_FOUND,True,
+q033,unanswerable,"How much revenue did Northgate Robotics earn from its largest single customer in FY2025, in USD millions?",{},0.0,doc_013.html;doc_015.html;doc_028.html;doc_038.html,True,,NOT_FOUND,True,
+q034,unanswerable,"What were Kestrel Microdevices' total assets at 31 December 2024, in USD millions?",{},0.0,doc_003.html;doc_004.html;doc_005.html;doc_018.html;doc_023.html,True,,NOT_FOUND,True,
+q035,fact,"What 12-month target price does BuyFin Capital set for Kestrel Semiconductor's shares in its FY2025 results review, in USD?",{},0.0,doc_010.html;doc_012.html;doc_013.html;doc_021.html;doc_037.html,True,False,NOT_FOUND,False,61.16
+q036,table,"What was Northgate Payments' operating income in FY2024, in USD millions?",{},0.0,doc_010.html;doc_012.html;doc_019.html;doc_039.html,True,False,NOT_FOUND,False,236.6
+q037,comparison,Which company had the higher operating income in FY2024: Northgate Robotics or Brightwater Software?,{},0.0,doc_013.html;doc_019.html;doc_035.html;doc_037.html,True,False,NOT_FOUND,False,Northgate Robotics
+q038,table,"What was Halcyon Freight's net income in FY2024, in USD millions?",{},0.0,doc_008.html;doc_010.html;doc_012.html;doc_013.html;doc_035.html,True,False,NOT_FOUND,False,173.9
+q039,unanswerable,"What was Halcyon Freight's customer churn rate in FY2025, in percent?",{},0.0,doc_010.html;doc_012.html;doc_013.html;doc_016.html;doc_017.html,True,,NOT_FOUND,True,
+q040,table,"What was the value of Kestrel Semiconductor's inventories at 31 December 2025, in USD millions?",{},0.0,doc_005.html;doc_026.html,True,False,NOT_FOUND,False,162.6
+q041,unanswerable,"How much cash and cash equivalents did Brightwater Mining hold at 31 December 2025, in USD millions?",{},0.0,doc_002.html;doc_004.html;doc_011.html;doc_016.html;doc_026.html,True,,NOT_FOUND,True,
+q042,fact,Who was Brightwater Energy's Chief Financial Officer at the end of FY2024?,{},0.0,doc_016.html;doc_026.html;doc_031.html;doc_032.html;doc_038.html,True,True,William Petrov,True,
+q043,table,"How much revenue did Halcyon Freight's Intermodal segment generate in FY2025, in USD millions?",{},0.0,doc_008.html;doc_016.html;doc_035.html,True,True,586.6,True,
+q044,unanswerable,"What was Orchid Bay Resorts' operating income in FY2024, in USD millions?",{},0.0,doc_001.html;doc_002.html;doc_012.html;doc_017.html;doc_037.html,True,,NOT_FOUND,True,
+q045,table,"How much revenue did Lumen Harbor Foods' Bakery segment generate in FY2024, in USD millions?",{},0.0,doc_013.html;doc_023.html;doc_036.html,True,False,NOT_FOUND,False,634.6
+q046,table,"What was Sablewood Retail's gross profit in FY2023, in USD millions?",{},0.0,doc_010.html;doc_012.html;doc_015.html;doc_017.html;doc_037.html,True,False,NOT_FOUND,False,897.8
+q047,table,"What were Corvane Pharma's total assets at 31 December 2024, in USD millions?",{},0.0,doc_003.html;doc_004.html;doc_005.html;doc_024.html;doc_031.html,True,False,NOT_FOUND,False,2711.4
+q048,fact,Who was Northgate Robotics' Chief Financial Officer at the end of FY2025?,{},0.0,doc_016.html;doc_026.html;doc_031.html;doc_032.html;doc_038.html,True,True,Thomas Kaur,True,
+q049,unanswerable,"What was Brightwater Energy's operating income in FY2022, in USD millions?",{},0.0,doc_001.html;doc_002.html;doc_003.html;doc_019.html,True,,NOT_FOUND,True,
+q050,table,"How much revenue did Brightwater Software generate in Europe, Middle East and Africa in FY2023, in USD millions?",{},0.0,doc_001.html;doc_003.html;doc_005.html;doc_008.html;doc_018.html,True,False,NOT_FOUND,False,493.5
+q051,table,"What were Northgate Robotics' net accounts receivable at 31 December 2025, in USD millions?",{},0.0,doc_002.html;doc_004.html;doc_011.html;doc_016.html;doc_020.html,True,False,NOT_FOUND,False,492.1
+q052,table,"What were Kestrel Semiconductor's total assets at 31 December 2024, in USD millions?",{},0.0,doc_003.html;doc_004.html;doc_005.html;doc_018.html,True,True,3175.5,True,
+q053,comparison,Which company had more employees at 31 December 2024: Brightwater Energy or Corvane Pharma?,{},0.0,doc_003.html;doc_024.html;doc_031.html,True,False,NOT_FOUND,False,Corvane Pharma
+q054,table,"What was the value of Lumen Harbor Foods' inventories at 31 December 2025, in USD millions?",{},0.0,doc_023.html;doc_036.html,True,False,NOT_FOUND,False,297.4
+q055,table,"How much cash and cash equivalents did Sablewood Retail hold at 31 December 2023, in USD millions?",{},0.0,doc_001.html;doc_003.html;doc_005.html;doc_008.html;doc_036.html,True,False,NOT_FOUND,False,456.2
+q056,comparison,Which company held more cash and cash equivalents at 31 December 2025: Kestrel Semiconductor or Lumen Harbor Foods?,{},0.0,doc_015.html;doc_023.html;doc_036.html,True,False,NOT_FOUND,False,Kestrel Semiconductor
+q057,table,"What was Northgate Payments' net cash from operating activities in FY2024, in USD millions?",{},0.0,doc_001.html;doc_003.html;doc_004.html;doc_005.html;doc_008.html,True,False,NOT_FOUND,False,153.8
+q058,comparison,Which company had more total assets at 31 December 2025: Halcyon Freight or Corvane Pharma?,{},0.0,doc_008.html;doc_010.html;doc_016.html;doc_031.html;doc_033.html,True,False,NOT_FOUND,False,Corvane Pharma
+q059,fact,Who was Corvane Pharma's Chief Financial Officer at the end of FY2024?,{},0.0,doc_016.html;doc_026.html;doc_031.html;doc_032.html;doc_038.html,True,True,William Lambert,True,
+q060,table,"What was Kestrel Semiconductor's total equity at 31 December 2024, in USD millions?",{},0.0,doc_001.html;doc_002.html;doc_005.html;doc_011.html;doc_039.html,True,False,NOT_FOUND,False,2083.1

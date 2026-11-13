@@ -1,0 +1,259 @@
+{
+  "variants": {
+    "B0": {
+      "correct": 27,
+      "total": 60,
+      "answer_accuracy": 0.45,
+      "retrieval_hits": 16,
+      "answerable_count": 46,
+      "recall_at_5": 0.34782608695652173,
+      "answerable_kept_count": 46,
+      "answerable_kept": 1.0,
+      "unanswerable_rejected_count": 0,
+      "unanswerable_count": 14,
+      "unanswerable_rejected": 0.0,
+      "query_parse_accuracy": 0.0,
+      "chunk_count": 227,
+      "points": {
+        "1.1": 0.0,
+        "1.2": 7.0,
+        "2.1": 5.0,
+        "2.2": 0.0,
+        "2.3": 0.0,
+        "3": 0,
+        "4": 9.0
+      },
+      "automatic_points": 21.0,
+      "categories": {
+        "fact": {
+          "correct": 9,
+          "total": 12
+        },
+        "table": {
+          "correct": 4,
+          "total": 22
+        },
+        "comparison": {
+          "correct": 2,
+          "total": 12
+        },
+        "unanswerable": {
+          "correct": 12,
+          "total": 14
+        }
+      }
+    },
+    "V1": {
+      "correct": 25,
+      "total": 60,
+      "answer_accuracy": 0.4166666666666667,
+      "retrieval_hits": 12,
+      "answerable_count": 46,
+      "recall_at_5": 0.2608695652173913,
+      "answerable_kept_count": 46,
+      "answerable_kept": 1.0,
+      "unanswerable_rejected_count": 0,
+      "unanswerable_count": 14,
+      "unanswerable_rejected": 0.0,
+      "query_parse_accuracy": 0.0,
+      "chunk_count": 865,
+      "points": {
+        "1.1": 8.0,
+        "1.2": 7.0,
+        "2.1": 5.0,
+        "2.2": 0.0,
+        "2.3": 0.0,
+        "3": 0,
+        "4": 8.333333333333334
+      },
+      "automatic_points": 28.333333333333336,
+      "categories": {
+        "fact": {
+          "correct": 6,
+          "total": 12
+        },
+        "table": {
+          "correct": 5,
+          "total": 22
+        },
+        "comparison": {
+          "correct": 0,
+          "total": 12
+        },
+        "unanswerable": {
+          "correct": 14,
+          "total": 14
+        }
+      }
+    },
+    "V2": {
+      "correct": 52,
+      "total": 60,
+      "answer_accuracy": 0.8666666666666667,
+      "retrieval_hits": 40,
+      "answerable_count": 46,
+      "recall_at_5": 0.8695652173913043,
+      "answerable_kept_count": 46,
+      "answerable_kept": 1.0,
+      "unanswerable_rejected_count": 0,
+      "unanswerable_count": 14,
+      "unanswerable_rejected": 0.0,
+      "query_parse_accuracy": 0.0,
+      "chunk_count": 865,
+      "points": {
+        "1.1": 8.0,
+        "1.2": 7.0,
+        "2.1": 5.0,
+        "2.2": 0.0,
+        "2.3": 13.85869565217391,
+        "3": 0,
+        "4": 17.333333333333336
+      },
+      "automatic_points": 51.19202898550725,
+      "categories": {
+        "fact": {
+          "correct": 9,
+          "total": 12
+        },
+        "table": {
+          "correct": 19,
+          "total": 22
+        },
+        "comparison": {
+          "correct": 11,
+          "total": 12
+        },
+        "unanswerable": {
+          "correct": 13,
+          "total": 14
+        }
+      }
+    },
+    "V3": {
+      "correct": 42,
+      "total": 60,
+      "answer_accuracy": 0.7,
+      "retrieval_hits": 28,
+      "answerable_count": 46,
+      "recall_at_5": 0.6086956521739131,
+      "answerable_kept_count": 46,
+      "answerable_kept": 1.0,
+      "unanswerable_rejected_count": 5,
+      "unanswerable_count": 14,
+      "unanswerable_rejected": 0.35714285714285715,
+      "query_parse_accuracy": 1.0,
+      "chunk_count": 865,
+      "points": {
+        "1.1": 8.0,
+        "1.2": 7.0,
+        "2.1": 5.0,
+        "2.2": 10.0,
+        "2.3": 4.07608695652174,
+        "3": 3.571428571428572,
+        "4": 14.0
+      },
+      "automatic_points": 51.64751552795031,
+      "categories": {
+        "fact": {
+          "correct": 12,
+          "total": 12
+        },
+        "table": {
+          "correct": 16,
+          "total": 22
+        },
+        "comparison": {
+          "correct": 0,
+          "total": 12
+        },
+        "unanswerable": {
+          "correct": 14,
+          "total": 14
+        }
+      }
+    },
+    "V4": {
+      "correct": 56,
+      "total": 60,
+      "answer_accuracy": 0.9333333333333333,
+      "retrieval_hits": 42,
+      "answerable_count": 46,
+      "recall_at_5": 0.9130434782608695,
+      "answerable_kept_count": 44,
+      "answerable_kept": 0.9565217391304348,
+      "unanswerable_rejected_count": 14,
+      "unanswerable_count": 14,
+      "unanswerable_rejected": 1.0,
+      "query_parse_accuracy": 1.0,
+      "chunk_count": 865,
+      "points": {
+        "1.1": 8.0,
+        "1.2": 7.0,
+        "2.1": 4.782608695652174,
+        "2.2": 10.0,
+        "2.3": 15.0,
+        "3": 9.565217391304348,
+        "4": 18.666666666666668
+      },
+      "automatic_points": 73.01449275362319,
+      "categories": {
+        "fact": {
+          "correct": 12,
+          "total": 12
+        },
+        "table": {
+          "correct": 20,
+          "total": 22
+        },
+        "comparison": {
+          "correct": 10,
+          "total": 12
+        },
+        "unanswerable": {
+          "correct": 14,
+          "total": 14
+        }
+      }
+    }
+  },
+  "v4_candidate_audit": {
+    "complete_evidence_hits": 42,
+    "answerable_count": 46,
+    "missing_question_ids": [
+      "q013",
+      "q022",
+      "q040",
+      "q054"
+    ]
+  },
+  "v4_errors": [
+    {
+      "id": "q013",
+      "question": "Which company had the higher net income in FY2024: Brightwater Energy or Orchid Bay Hotels?",
+      "answer": "NOT_FOUND",
+      "expected": "Brightwater Energy",
+      "retrieved_sources": "doc_001.html;doc_003.html"
+    },
+    {
+      "id": "q022",
+      "question": "Which company had more total assets at 31 December 2024: Northgate Payments or Orchid Bay Hotels?",
+      "answer": "NOT_FOUND",
+      "expected": "Orchid Bay Hotels",
+      "retrieved_sources": "doc_001.html;doc_039.html"
+    },
+    {
+      "id": "q040",
+      "question": "What was the value of Kestrel Semiconductor's inventories at 31 December 2025, in USD millions?",
+      "answer": "NOT_FOUND",
+      "expected": "162.6",
+      "retrieved_sources": ""
+    },
+    {
+      "id": "q054",
+      "question": "What was the value of Lumen Harbor Foods' inventories at 31 December 2025, in USD millions?",
+      "answer": "NOT_FOUND",
+      "expected": "297.4",
+      "retrieved_sources": ""
+    }
+  ]
+}

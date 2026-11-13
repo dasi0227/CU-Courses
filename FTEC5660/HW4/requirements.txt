@@ -6,3 +6,4 @@ beautifulsoup4
 lxml
 rank-bm25
 python-dotenv
+matplotlib
